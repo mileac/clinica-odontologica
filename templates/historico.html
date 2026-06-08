@@ -1,0 +1,36 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Histórico - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Histórico: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Histórico de Atendimentos</h5>
+    </div>
+    <div class="card-body">
+        {% if historicos %}
+        <div class="timeline">
+            {% for h in historicos %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h6>
+                            <span class="badge bg-{{ 'primary' if h.acao == 'Cadastro' else 'success' if h.acao == 'Tratamento' else 'warning' }}">
+                                {{ h.acao }}
+                            </span>
+                        </h6>
+                        <small class="text-muted">{{ h.data.strftime('%d/%m/%Y %H:%M') }}</small>
+                    </div>
+                    <p class="mb-0">{{ h.descricao }}</p>
+                    <small class="text-muted">Profissional: {{ h.profissional }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center">Nenhum histórico encontrado</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

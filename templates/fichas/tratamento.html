@@ -1,0 +1,193 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Tratamentos - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Ficha de Tratamento: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<!-- Formulário de novo tratamento -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Novo Tratamento</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Data *</label>
+                    <input type="date" class="form-control" name="data" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Dente</label>
+                    <select class="form-select" name="dente">
+                        <option value="">Selecione...</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Procedimento *</label>
+                    <input type="text" class="form-control" name="procedimento"
+                           placeholder="Ex: Restauração, Limpeza..." required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Valor (R$) *</label>
+                    <input type="number" step="0.01" class="form-control" name="valor"
+                           placeholder="0.00" required>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Valor Pago (R$)</label>
+                    <input type="number" step="0.01" class="form-control" name="valor_pago"
+                           value="0.00">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-control" name="descricao" rows="2"
+                              placeholder="Descreva o procedimento realizado..."></textarea>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Forma de Pagamento</label>
+                    <select class="form-select" name="forma_pagamento">
+                        <option value="">Selecione...</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="PIX">PIX</option>
+                        <option value="Transferência">Transferência</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" name="observacoes" rows="1"
+                          placeholder="Observações adicionais..."></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Registrar Tratamento
+                </button>
+                <a href="/pacientes/{{ paciente.id }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Lista de tratamentos realizados -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Tratamentos Realizados</h5>
+    </div>
+    <div class="card-body">
+        {% if tratamentos %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Data</th>
+                        <th>Dente</th>
+                        <th>Procedimento</th>
+                        <th>Valor</th>
+                        <th>Pago</th>
+                        <th>Saldo</th>
+                        <th>Status</th>
+                        <th>Pagamento</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tratamento in tratamentos %}
+                    <tr>
+                        <td>{{ tratamento.data.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ tratamento.dente or '-' }}</td>
+                        <td>{{ tratamento.procedimento }}</td>
+                        <td>R$ {{ "%.2f"|format(tratamento.valor) }}</td>
+                        <td>R$ {{ "%.2f"|format(tratamento.valor_pago) }}</td>
+                        <td>R$ {{ "%.2f"|format(tratamento.saldo_restante) }}</td>
+                        <td>
+                            {% if tratamento.status_pagamento == 'Pago' %}
+                            <span class="badge bg-success">Pago</span>
+                            {% elif tratamento.status_pagamento == 'Parcial' %}
+                            <span class="badge bg-warning">Parcial</span>
+                            {% else %}
+                            <span class="badge bg-danger">Pendente</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ tratamento.forma_pagamento or '-' }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/tratamento/editar/{{ tratamento.id }}"
+                                   class="btn btn-sm btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button onclick="excluirTratamento({{ tratamento.id }})"
+                                        class="btn btn-sm btn-danger" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="table-active fw-bold">
+                    <tr>
+                        <td colspan="3">TOTAIS</td>
+                        <td>R$ {{ "%.2f"|format(tratamentos|sum(attribute='valor')) }}</td>
+                        <td>R$ {{ "%.2f"|format(tratamentos|sum(attribute='valor_pago')) }}</td>
+                        <td colspan="4"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-4">
+            <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+            <p class="text-muted mt-2">Nenhum tratamento registrado ainda</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function excluirTratamento(id) {
+    if (confirm('Tem certeza que deseja excluir este tratamento? Esta ação não pode ser desfeita.')) {
+        window.location.href = '/tratamento/excluir/' + id;
+    }
+}
+</script>
+{% endblock %}

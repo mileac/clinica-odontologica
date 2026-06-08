@@ -1,0 +1,245 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Relatorios - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Central de Relatorios{% endblock %}
+
+{% block content %}
+<!-- Abas -->
+<ul class="nav nav-tabs mb-3" id="tabRelatorios">
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#tabGeral">
+            <i class="bi bi-building"></i> Geral
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#tabDentista">
+            <i class="bi bi-person-badge"></i> Por Dentista
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#tabPacientes">
+            <i class="bi bi-people"></i> Pacientes
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <!-- ABA GERAL -->
+    <div class="tab-pane fade show active" id="tabGeral">
+        <!-- Filtros -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label class="form-label">Periodo</label>
+                        <select class="form-select" id="periodo" onchange="atualizarPeriodo()">
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Ultimos 7 dias</option>
+                            <option value="mes" selected>Este mes</option>
+                            <option value="ano">Este ano</option>
+                            <option value="personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2" id="divInicio" style="display:none;">
+                        <label class="form-label">Data Inicio</label>
+                        <input type="date" class="form-control" id="data_inicio">
+                    </div>
+                    <div class="col-md-2" id="divFim" style="display:none;">
+                        <label class="form-label">Data Fim</label>
+                        <input type="date" class="form-control" id="data_fim">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button class="btn btn-primary w-100" onclick="carregarGeral()">
+                            <i class="bi bi-search"></i> Atualizar
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button class="btn btn-success w-100" onclick="exportarExcel()">
+                            <i class="bi bi-file-earmark-excel"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="row mb-3">
+            <div class="col-md-2"><div class="card bg-primary text-white"><div class="card-body text-center"><h6>Faturado</h6><h4 id="cardFaturado">-</h4></div></div></div>
+            <div class="col-md-2"><div class="card bg-success text-white"><div class="card-body text-center"><h6>Recebido</h6><h4 id="cardRecebido">-</h4></div></div></div>
+            <div class="col-md-2"><div class="card bg-danger text-white"><div class="card-body text-center"><h6>Pendente</h6><h4 id="cardPendente">-</h4></div></div></div>
+            <div class="col-md-2"><div class="card bg-info text-white"><div class="card-body text-center"><h6>Atendimentos</h6><h4 id="cardAtendimentos">-</h4></div></div></div>
+            <div class="col-md-2"><div class="card bg-warning text-white"><div class="card-body text-center"><h6>Pacientes</h6><h4 id="cardPacientes">-</h4></div></div></div>
+            <div class="col-md-2"><div class="card bg-secondary text-white"><div class="card-body text-center"><h6>Ticket Medio</h6><h4 id="cardTicket">-</h4></div></div></div>
+        </div>
+
+        <!-- Graficos -->
+        <div class="row mb-3">
+            <div class="col-md-8"><div class="card"><div class="card-header"><h6>Faturamento Mensal</h6></div><div class="card-body"><canvas id="graficoMensal" height="200"></canvas></div></div></div>
+            <div class="col-md-4"><div class="card"><div class="card-header"><h6>Procedimentos</h6></div><div class="card-body"><canvas id="graficoProcedimentos" height="200"></canvas></div></div></div>
+        </div>
+
+        <!-- Tabela Profissionais -->
+        <div class="card"><div class="card-header"><h6>Produtividade por Profissional</h6></div><div class="card-body"><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Profissional</th><th>Qtd</th><th>Produzido</th><th>Recebido</th></tr></thead><tbody id="tabelaProfissionais"></tbody></table></div></div></div>
+    </div>
+
+    <!-- ABA POR DENTISTA -->
+    <div class="tab-pane fade" id="tabDentista">
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Dentista</label>
+                <select class="form-select" id="selectDentista" onchange="carregarDentista()">
+                    <option value="">Selecione...</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Data Inicio</label>
+                <input type="date" class="form-control" id="dt_inicio" onchange="carregarDentista()">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Data Fim</label>
+                <input type="date" class="form-control" id="dt_fim" onchange="carregarDentista()">
+            </div>
+        </div>
+
+        <div id="resultadoDentista">
+            <div class="text-center py-4 text-muted">Selecione um dentista para ver o relatorio</div>
+        </div>
+    </div>
+
+    <!-- ABA PACIENTES -->
+    <div class="tab-pane fade" id="tabPacientes">
+        <div class="card"><div class="card-body"><div id="resumoPacientes">Carregando...</div></div></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let graficoMensal, graficoProcedimentos;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        carregarGeral();
+        carregarDentistas();
+        carregarPacientes();
+    });
+
+    function atualizarPeriodo() {
+        const p = document.getElementById('periodo').value;
+        document.getElementById('divInicio').style.display = p === 'personalizado' ? 'block' : 'none';
+        document.getElementById('divFim').style.display = p === 'personalizado' ? 'block' : 'none';
+        if (p !== 'personalizado') carregarGeral();
+    }
+
+    function getParams() {
+        const p = document.getElementById('periodo').value;
+        let params = `periodo=${p}`;
+        if (p === 'personalizado') params += `&data_inicio=${document.getElementById('data_inicio').value}&data_fim=${document.getElementById('data_fim').value}`;
+        return params;
+    }
+
+    function carregarGeral() {
+        fetch('/api/relatorio/financeiro?' + getParams())
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('cardFaturado').textContent = 'R$ ' + d.total_faturado.toFixed(0);
+                document.getElementById('cardRecebido').textContent = 'R$ ' + d.total_recebido.toFixed(0);
+                document.getElementById('cardPendente').textContent = 'R$ ' + d.total_pendente.toFixed(0);
+                document.getElementById('cardAtendimentos').textContent = d.total_tratamentos;
+                document.getElementById('cardPacientes').textContent = d.total_pacientes_atendidos;
+                document.getElementById('cardTicket').textContent = 'R$ ' + d.ticket_medio.toFixed(0);
+
+                const ctx1 = document.getElementById('graficoMensal').getContext('2d');
+                if (graficoMensal) graficoMensal.destroy();
+                graficoMensal = new Chart(ctx1, {
+                    type: 'bar', data: {
+                        labels: d.grafico_meses.labels, datasets: [
+                            { label: 'Faturado', data: d.grafico_meses.faturado, backgroundColor: 'rgba(102,126,234,0.8)', borderRadius: 5 },
+                            { label: 'Recebido', data: d.grafico_meses.recebido, backgroundColor: 'rgba(76,175,80,0.8)', borderRadius: 5 }
+                        ]
+                    }, options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + v } } } }
+                });
+
+                const ctx2 = document.getElementById('graficoProcedimentos').getContext('2d');
+                if (graficoProcedimentos) graficoProcedimentos.destroy();
+                graficoProcedimentos = new Chart(ctx2, {
+                    type: 'doughnut', data: { labels: d.procedimentos.map(p => p.nome), datasets: [{ data: d.procedimentos.map(p => p.qtd), backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#00BCD4', '#8BC34A'] }] }, options: { responsive: true }
+                });
+
+                let html = '';
+                d.profissionais.forEach(p => html += `<tr><td>${p.nome}</td><td>${p.qtd}</td><td>R$ ${p.total.toFixed(2)}</td><td>R$ ${p.recebido.toFixed(2)}</td></tr>`);
+                document.getElementById('tabelaProfissionais').innerHTML = html || '<tr><td colspan="4" class="text-center">Sem dados</td></tr>';
+            });
+    }
+
+    function carregarDentistas() {
+        fetch('/api/profissionais')
+            .then(r => r.json())
+            .then(data => {
+                const select = document.getElementById('selectDentista');
+                select.innerHTML = '<option value="">Selecione...</option>';
+                data.filter(p => p.cargo === 'Dentista' || p.cargo === 'Admin').forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.nome}</option>`;
+                });
+            });
+    }
+
+    function carregarDentista() {
+        const id = document.getElementById('selectDentista').value;
+        if (!id) return;
+
+        let params = '';
+        const dt1 = document.getElementById('dt_inicio').value;
+        const dt2 = document.getElementById('dt_fim').value;
+        if (dt1) params += `data_inicio=${dt1}&`;
+        if (dt2) params += `data_fim=${dt2}&`;
+
+        fetch(`/api/relatorio/dentista/${id}?${params}`)
+            .then(r => r.json())
+            .then(d => {
+                let html = `
+                <div class="card mb-3"><div class="card-header bg-primary text-white"><h6>${d.profissional.nome} - Comissao: ${d.profissional.comissao_percentual}%</h6></div></div>
+                <div class="row mb-3">
+                    <div class="col-md-3"><div class="card bg-info text-white"><div class="card-body text-center"><h6>Produzido</h6><h4>R$ ${d.total_produzido.toFixed(2)}</h4></div></div></div>
+                    <div class="col-md-3"><div class="card bg-success text-white"><div class="card-body text-center"><h6>Recebido</h6><h4>R$ ${d.total_recebido.toFixed(2)}</h4></div></div></div>
+                    <div class="col-md-3"><div class="card bg-warning text-white"><div class="card-body text-center"><h6>Comissao a Pagar</h6><h4>R$ ${d.comissao_valor.toFixed(2)}</h4></div></div></div>
+                    <div class="col-md-3"><div class="card bg-primary text-white"><div class="card-body text-center"><h6>Atendimentos</h6><h4>${d.total_tratamentos}</h4></div></div></div>
+                </div>
+                <div class="card"><div class="card-header"><h6>Detalhamento</h6></div>
+                <div class="card-body"><div class="table-responsive"><table class="table table-sm table-hover">
+                <thead><tr><th>Data</th><th>Paciente</th><th>Procedimento</th><th>Dente</th><th>Valor</th><th>Pago</th><th>Status</th></tr></thead><tbody>`;
+
+                d.tratamentos.forEach(t => {
+                    html += `<tr><td>${t.data}</td><td>${t.paciente}</td><td>${t.procedimento}</td><td>${t.dente}</td><td>R$ ${t.valor.toFixed(2)}</td><td>R$ ${t.valor_pago.toFixed(2)}</td><td><span class="badge bg-${t.status === 'Pago' ? 'success' : t.status === 'Parcial' ? 'warning' : 'danger'}">${t.status}</span></td></tr>`;
+                });
+
+                html += `</tbody><tfoot class="fw-bold"><tr><td colspan="4">TOTAL</td><td>R$ ${d.total_produzido.toFixed(2)}</td><td>R$ ${d.total_recebido.toFixed(2)}</td><td></td></tr></tfoot></table></div></div></div>`;
+
+                if (d.profissional.comissao_percentual > 0) {
+                    html += `<div class="alert alert-success mt-3"><strong>Valor a repassar:</strong> R$ ${d.comissao_valor.toFixed(2)} (${d.profissional.comissao_percentual}% sobre R$ ${d.total_recebido.toFixed(2)} recebido)</div>`;
+                }
+
+                document.getElementById('resultadoDentista').innerHTML = html;
+            });
+    }
+
+    function carregarPacientes() {
+        fetch('/api/relatorio/pacientes')
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('resumoPacientes').innerHTML = `
+                <p><strong>Total Ativos:</strong> ${d.total_ativos} | <strong>Inativos:</strong> ${d.total_inativos} | <strong>Total:</strong> ${d.total_geral}</p>
+                <p><strong>Faixas Etarias:</strong> 0-12: ${d.faixas_etarias['0-12']} | 13-18: ${d.faixas_etarias['13-18']} | 19-30: ${d.faixas_etarias['19-30']} | 31-45: ${d.faixas_etarias['31-45']} | 46-60: ${d.faixas_etarias['46-60']} | 60+: ${d.faixas_etarias['60+']}</p>`;
+            });
+    }
+
+    function exportarExcel() {
+        const p = document.getElementById('periodo').value;
+        let params = `tipo=financeiro&periodo=${p}`;
+        if (p === 'personalizado') params += `&data_inicio=${document.getElementById('data_inicio').value}&data_fim=${document.getElementById('data_fim').value}`;
+        window.open('/api/relatorio/exportar?' + params, '_blank');
+    }
+</script>
+{% endblock %}

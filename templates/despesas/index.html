@@ -1,0 +1,301 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Controle de Despesas - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Controle de Despesas{% endblock %}
+
+{% block content %}
+<!-- Cards Resumo -->
+<div class="row mb-3" id="cardsResumo">
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body text-center">
+                <h6><i class="bi bi-arrow-up-circle"></i> Entradas do Mês</h6>
+                <h3 id="cardEntradas">R$ 0,00</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body text-center">
+                <h6><i class="bi bi-arrow-down-circle"></i> Saídas do Mês</h6>
+                <h3 id="cardSaidas">R$ 0,00</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-primary text-white" id="cardLucro">
+            <div class="card-body text-center">
+                <h6><i class="bi bi-graph-up"></i> Lucro Líquido</h6>
+                <h3 id="cardLucroValor">R$ 0,00</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráficos -->
+<div class="row mb-3">
+    <div class="col-md-8">
+        <div class="card"><div class="card-header"><h6><i class="bi bi-bar-chart"></i> Entradas vs Saídas</h6></div><div class="card-body"><canvas id="graficoEntradasSaidas" height="200"></canvas></div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card"><div class="card-header"><h6><i class="bi bi-pie-chart"></i> Despesas por Categoria</h6></div><div class="card-body"><canvas id="graficoCategorias" height="200"></canvas></div></div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Formulário -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header"><h6><i class="bi bi-plus-circle"></i> Nova Despesa</h6></div>
+            <div class="card-body">
+                <form method="POST" action="/despesas/nova" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <label class="form-label small">Data *</label>
+                        <input type="date" class="form-control form-control-sm" name="data" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Categoria</label>
+                        <select class="form-select form-select-sm" name="categoria_id">
+                            <option value="">Selecione...</option>
+                            {% for cat in categorias %}
+                            <option value="{{ cat.id }}">{{ cat.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Descrição *</label>
+                        <input type="text" class="form-control form-control-sm" name="descricao" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Valor (R$) *</label>
+                        <input type="number" step="0.01" class="form-control form-control-sm" name="valor" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Comprovante</label>
+                        <input type="file" class="form-control form-control-sm" name="comprovante" accept="image/*,.pdf">
+                    </div>
+                    <div class="form-check form-check-inline mb-2">
+                        <input class="form-check-input" type="checkbox" name="recorrente" id="recorrente">
+                        <label class="form-check-label small" for="recorrente">Despesa fixa mensal</label>
+                    </div>
+                    <div class="form-check form-check-inline mb-2">
+                        <input class="form-check-input" type="checkbox" name="pago" id="pago" checked>
+                        <label class="form-check-label small" for="pago">Pago</label>
+                    </div>
+                    <div class="mb-2">
+                        <textarea class="form-control form-control-sm" name="observacoes" rows="2" placeholder="Observações..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">
+                        <i class="bi bi-save"></i> Registrar Despesa
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Despesas -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"><i class="bi bi-list-ul"></i> Despesas do Mês</h6>
+                <div class="d-flex gap-2">
+                    <input type="month" class="form-control form-control-sm" id="filtroMes" onchange="carregarDespesas()" style="width:150px;">
+                    <select class="form-select form-select-sm" id="filtroCategoria" onchange="carregarDespesas()" style="width:150px;">
+                        <option value="">Todas categorias</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat.id }}">{{ cat.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaDespesas"></tbody>
+                        <tfoot><tr class="fw-bold"><td colspan="3">TOTAL</td><td id="totalDespesas">-</td><td colspan="2"></td></tr></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Edição -->
+<div class="modal fade" id="modalEditarDespesa" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h6 class="modal-title"><i class="bi bi-pencil"></i> Editar Despesa</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarDespesa" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="edit_id">
+                    <div class="mb-2">
+                        <label class="form-label small">Data *</label>
+                        <input type="date" class="form-control form-control-sm" name="data" id="edit_data" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Categoria</label>
+                        <select class="form-select form-select-sm" name="categoria_id" id="edit_categoria">
+                            <option value="">Selecione...</option>
+                            {% for cat in categorias %}
+                            <option value="{{ cat.id }}">{{ cat.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Descrição *</label>
+                        <input type="text" class="form-control form-control-sm" name="descricao" id="edit_descricao" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Valor (R$) *</label>
+                        <input type="number" step="0.01" class="form-control form-control-sm" name="valor" id="edit_valor" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Comprovante (se alterar)</label>
+                        <input type="file" class="form-control form-control-sm" name="comprovante" accept="image/*,.pdf">
+                    </div>
+                    <div class="form-check form-check-inline mb-2">
+                        <input class="form-check-input" type="checkbox" name="recorrente" id="edit_recorrente">
+                        <label class="form-check-label small">Despesa fixa mensal</label>
+                    </div>
+                    <div class="form-check form-check-inline mb-2">
+                        <input class="form-check-input" type="checkbox" name="pago" id="edit_pago">
+                        <label class="form-check-label small">Pago</label>
+                    </div>
+                    <div class="mb-2">
+                        <textarea class="form-control form-control-sm" name="observacoes" id="edit_observacoes" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="salvarEdicao()">
+                    <i class="bi bi-save"></i> Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let graficoES, graficoCat;
+    let dadosDespesas = [];
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('filtroMes').value = new Date().toISOString().slice(0, 7);
+        carregarTudo();
+    });
+
+    function carregarTudo() {
+        carregarResumo();
+        carregarDespesas();
+    }
+
+    function carregarResumo() {
+        fetch('/api/despesas/resumo')
+            .then(r => r.json())
+            .then(d => {
+                document.getElementById('cardEntradas').textContent = 'R$ ' + d.total_entradas.toFixed(2).replace('.', ',');
+                document.getElementById('cardSaidas').textContent = 'R$ ' + d.total_despesas.toFixed(2).replace('.', ',');
+                document.getElementById('cardLucroValor').textContent = 'R$ ' + d.lucro.toFixed(2).replace('.', ',');
+
+                const cardLucro = document.getElementById('cardLucro');
+                cardLucro.className = 'card ' + (d.lucro >= 0 ? 'bg-primary' : 'bg-danger') + ' text-white';
+
+                // Gráfico Entradas vs Saídas
+                const ctx1 = document.getElementById('graficoEntradasSaidas').getContext('2d');
+                if (graficoES) graficoES.destroy();
+                graficoES = new Chart(ctx1, {
+                    type: 'bar', data: {
+                        labels: d.grafico_meses.labels, datasets: [
+                            { label: 'Entradas', data: d.grafico_meses.entradas, backgroundColor: 'rgba(76,175,80,0.8)', borderRadius: 5 },
+                            { label: 'Saídas', data: d.grafico_meses.saidas, backgroundColor: 'rgba(244,67,54,0.8)', borderRadius: 5 }
+                        ]
+                    }, options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + v } } } }
+                });
+
+                // Gráfico Categorias
+                const ctx2 = document.getElementById('graficoCategorias').getContext('2d');
+                if (graficoCat) graficoCat.destroy();
+                graficoCat = new Chart(ctx2, {
+                    type: 'doughnut', data: { labels: d.despesas_categoria.map(c => c.nome), datasets: [{ data: d.despesas_categoria.map(c => c.total), backgroundColor: d.despesas_categoria.map(c => c.cor) }] }, options: { responsive: true }
+                });
+            });
+    }
+
+    function carregarDespesas() {
+        const mes = document.getElementById('filtroMes').value;
+        const cat = document.getElementById('filtroCategoria').value;
+        let url = '/api/despesas?';
+        if (mes) url += 'mes=' + mes + '&';
+        if (cat) url += 'categoria_id=' + cat;
+
+        fetch(url)
+            .then(r => r.json())
+            .then(data => {
+                dadosDespesas = data;
+                let html = '';
+                let total = 0;
+                data.forEach(d => {
+                    total += d.valor;
+                    html += `<tr>
+                    <td>${d.data}</td>
+                    <td>${d.descricao}${d.recorrente ? ' <span class="badge bg-info">Fixo</span>' : ''}</td>
+                    <td><span class="badge" style="background:${d.categoria_cor}">${d.categoria}</span></td>
+                    <td>R$ ${d.valor.toFixed(2).replace('.', ',')}</td>
+                    <td><span class="badge bg-${d.pago ? 'success' : 'warning'}">${d.pago ? 'Pago' : 'Pendente'}</span></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-warning" onclick="editarDespesa(${d.id})" title="Editar"><i class="bi bi-pencil"></i></button>
+                            <a href="/despesas/excluir/${d.id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Excluir esta despesa?')" title="Excluir"><i class="bi bi-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>`;
+                });
+                document.getElementById('tabelaDespesas').innerHTML = html || '<tr><td colspan="6" class="text-center">Nenhuma despesa registrada</td></tr>';
+                document.getElementById('totalDespesas').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+            });
+    }
+
+    function editarDespesa(id) {
+        const despesa = dadosDespesas.find(d => d.id === id);
+        if (!despesa) return;
+
+        // Converter data de dd/mm/aaaa para aaaa-mm-dd
+        const partes = despesa.data.split('/');
+        const dataFormatada = partes[2] + '-' + partes[1] + '-' + partes[0];
+
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_data').value = dataFormatada;
+        document.getElementById('edit_descricao').value = despesa.descricao;
+        document.getElementById('edit_valor').value = despesa.valor;
+        document.getElementById('edit_recorrente').checked = despesa.recorrente;
+        document.getElementById('edit_pago').checked = despesa.pago;
+        document.getElementById('edit_observacoes').value = despesa.observacoes || '';
+
+        // Selecionar categoria
+        const selectCat = document.getElementById('edit_categoria');
+        for (let i = 0; i < selectCat.options.length; i++) {
+            if (selectCat.options[i].text === despesa.categoria) {
+                selectCat.selectedIndex = i;
+                break;
+            }
+        }
+
+        // Atualizar action do form
+        document.getElementById('formEditarDespesa').action = '/despesas/editar/' + id;
+
+        new bootstrap.Modal(document.getElementById('modalEditarDespesa')).show();
+    }
+
+    function salvarEdicao() {
+        document.getElementById('formEditarDespesa').submit();
+    }
+</script>
+{% endblock %}

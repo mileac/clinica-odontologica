@@ -1,0 +1,41 @@
+﻿{% extends "base.html" %}
+{% block title %}Relatório de Comissões{% endblock %}
+{% block header_title %}Relatório de Comissões{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-calculator"></i> Produtividade por Profissional</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Profissional</th>
+                        <th>Cargo</th>
+                        <th>Total Produzido</th>
+                        <th>Total Recebido</th>
+                        <th>Comissão %</th>
+                        <th>Valor Comissão</th>
+                        <th>Tratamentos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in dados %}
+                    <tr>
+                        <td>{{ d.nome }}</td>
+                        <td>{{ d.cargo }}</td>
+                        <td>R$ {{ "%.2f"|format(d.total_produzido) }}</td>
+                        <td>R$ {{ "%.2f"|format(d.total_recebido) }}</td>
+                        <td>{{ "%.1f"|format(d.comissao_percentual) }}%</td>
+                        <td><strong>R$ {{ "%.2f"|format(d.comissao_valor) }}</strong></td>
+                        <td>{{ d.total_tratamentos }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

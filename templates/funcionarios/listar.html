@@ -1,0 +1,54 @@
+﻿{% extends "base.html" %}
+{% block title %}Funcionários - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Funcionários{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-people"></i> Equipe</h5>
+        <a href="/funcionarios/cadastrar" class="btn btn-primary btn-sm">
+            <i class="bi bi-person-plus"></i> Novo Funcionário
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>CRO</th>
+                        <th>Especialidade</th>
+                        <th>Comissão</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in funcionarios %}
+                    <tr>
+                        <td>{{ f.nome_completo }}</td>
+                        <td><span class="badge bg-info">{{ f.cargo }}</span></td>
+                        <td>{{ f.cro or '-' }}</td>
+                        <td>{{ f.especialidade or '-' }}</td>
+                        <td>{{ "%.1f"|format(f.comissao_percentual) }}%</td>
+                        <td>
+                            <a href="/funcionarios/editar/{{ f.id }}" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            {% if f.username != 'admin' %}
+                            <button onclick="deletar({{ f.id }})" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+function deletar(id) { if(confirm('Remover este funcionário?')) window.location.href='/funcionarios/deletar/'+id; }
+</script>
+{% endblock %}

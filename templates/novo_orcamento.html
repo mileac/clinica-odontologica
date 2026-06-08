@@ -1,0 +1,200 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Novo Orçamento - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Novo Orçamento: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Criar Orçamento</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" id="formOrcamento">
+            <h6 class="mb-3"><strong>Procedimentos</strong></h6>
+
+            <div id="itensOrcamento">
+                <div class="row item-orcamento mb-3 p-2 border rounded bg-light">
+                    <div class="col-md-2 mb-2">
+                        <label class="form-label">Dente</label>
+                        <input type="text" class="form-control" name="dente[]" placeholder="Ex: 11">
+                    </div>
+                    <div class="col-md-5 mb-2">
+                        <label class="form-label">Procedimento *</label>
+                        <input type="text" class="form-control" name="procedimento[]" placeholder="Ex: Restauração" required>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label class="form-label">Valor (R$) *</label>
+                        <input type="number" step="0.01" class="form-control valor-item" name="valor[]" placeholder="0.00" required onchange="atualizarTotal()">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="button" class="btn btn-danger w-100" onclick="removerItem(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-outline-primary mb-3" onclick="adicionarItem()">
+                <i class="bi bi-plus-circle"></i> Adicionar Procedimento
+            </button>
+
+            <hr>
+
+            <!-- Totais e Parcelas -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h6>Valor dos Procedimentos</h6>
+                            <h4 id="totalOrcamento" class="text-primary">R$ 0,00</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Parcelas</strong></label>
+                    <select class="form-select" name="parcelas" onchange="calcularParcelas()">
+                        <option value="1">1x (à vista)</option>
+                        <option value="2">2x</option>
+                        <option value="3">3x</option>
+                        <option value="4">4x</option>
+                        <option value="5">5x</option>
+                        <option value="6">6x</option>
+                        <option value="10">10x</option>
+                        <option value="12">12x</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Acréscimo (%)</strong></label>
+                    <div class="input-group">
+                        <input type="number" step="0.01" class="form-control" name="acrescimo_percentual"
+                               id="acrescimo_percentual" value="0" onchange="calcularParcelas()"
+                               placeholder="Ex: 3.99">
+                        <span class="input-group-text">%</span>
+                    </div>
+                    <small class="text-muted">Taxa do cartão de crédito</small>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h6>Valor da Parcela</h6>
+                            <h4 id="valorParcela" class="text-success">R$ 0,00</h4>
+                            <small id="infoAcrescimo" class="text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo do acréscimo -->
+            <div class="row mt-3" id="resumoAcrescimo" style="display:none;">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>Valor Original:</strong> <span id="resumoOriginal">R$ 0,00</span>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Acréscimo:</strong> <span id="resumoAcrescimoValor">R$ 0,00</span>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Valor Total:</strong> <span id="resumoTotal">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" name="observacoes" rows="2" placeholder="Observações sobre o orçamento..."></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save"></i> Salvar Orçamento
+                </button>
+                <a href="/orcamento/{{ paciente.id }}" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function adicionarItem() {
+        const html = `
+        <div class="row item-orcamento mb-3 p-2 border rounded bg-light">
+            <div class="col-md-2 mb-2">
+                <input type="text" class="form-control" name="dente[]" placeholder="Ex: 11">
+            </div>
+            <div class="col-md-5 mb-2">
+                <input type="text" class="form-control" name="procedimento[]" placeholder="Ex: Restauração" required>
+            </div>
+            <div class="col-md-3 mb-2">
+                <input type="number" step="0.01" class="form-control valor-item" name="valor[]" placeholder="0.00" required onchange="atualizarTotal()">
+            </div>
+            <div class="col-md-2 mb-2">
+                <button type="button" class="btn btn-danger w-100" onclick="removerItem(this)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>`;
+        document.getElementById('itensOrcamento').insertAdjacentHTML('beforeend', html);
+    }
+
+    function removerItem(btn) {
+        const itens = document.querySelectorAll('.item-orcamento');
+        if (itens.length > 1) {
+            btn.closest('.item-orcamento').remove();
+            atualizarTotal();
+        } else {
+            alert('O orçamento precisa ter pelo menos 1 procedimento.');
+        }
+    }
+
+    function atualizarTotal() {
+        let total = 0;
+        document.querySelectorAll('.valor-item').forEach(input => {
+            total += parseFloat(input.value || 0);
+        });
+        document.getElementById('totalOrcamento').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+        calcularParcelas();
+    }
+
+    function calcularParcelas() {
+        let total = 0;
+        document.querySelectorAll('.valor-item').forEach(input => {
+            total += parseFloat(input.value || 0);
+        });
+
+        const parcelas = parseInt(document.querySelector('[name="parcelas"]').value || 1);
+        const acrescimo = parseFloat(document.getElementById('acrescimo_percentual').value || 0);
+
+        const acrescimoValor = total * (acrescimo / 100);
+        const totalComAcrescimo = total + acrescimoValor;
+        const valorParcela = totalComAcrescimo / parcelas;
+
+        document.getElementById('valorParcela').textContent = 'R$ ' + valorParcela.toFixed(2).replace('.', ',');
+
+        // Mostrar/esconder resumo
+        if (acrescimo > 0) {
+            document.getElementById('resumoAcrescimo').style.display = 'block';
+            document.getElementById('resumoOriginal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+            document.getElementById('resumoAcrescimoValor').textContent = 'R$ ' + acrescimoValor.toFixed(2).replace('.', ',') + ' (' + acrescimo.toFixed(2) + '%)';
+            document.getElementById('resumoTotal').textContent = 'R$ ' + totalComAcrescimo.toFixed(2).replace('.', ',');
+            document.getElementById('infoAcrescimo').textContent = 'Com acréscimo de ' + acrescimo.toFixed(2) + '%';
+        } else {
+            document.getElementById('resumoAcrescimo').style.display = 'none';
+            document.getElementById('infoAcrescimo').textContent = parcelas + 'x sem juros';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.valor-item').forEach(input => {
+            input.addEventListener('change', atualizarTotal);
+            input.addEventListener('keyup', atualizarTotal);
+        });
+    });
+</script>
+{% endblock %}

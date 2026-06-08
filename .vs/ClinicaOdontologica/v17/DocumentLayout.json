@@ -1,0 +1,870 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\despesas\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\despesas\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\config.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:config.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\base.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\agenda.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorios\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\relatorios\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\editar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\funcionarios\\editar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\listar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\funcionarios\\listar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\comissoes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\funcionarios\\comissoes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\cadastrar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\funcionarios\\cadastrar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes\\visualizar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\pacientes\\visualizar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\aniversariantes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\aniversariantes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\historico.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestados.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\atestados.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestado_gerado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\atestado_gerado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\arquivos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\arquivos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ver_orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\ver_orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\novo_orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\criar_banco.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:criar_banco.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\geral.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\financeiro\\geral.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\odontograma.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\odontograma.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\pacientes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\keep_alive.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:keep_alive.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\editar_tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\fichas\\editar_tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\fichas\\tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\clinica.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\fichas\\clinica.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\ortodontica.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\fichas\\ortodontica.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:requirements.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\instrucoes.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:instrucoes.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\filtros.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:templates\\financeiro\\filtros.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\static\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{FD2CE0DF-444E-44A6-B149-A953E8A3EB84}|ClinicaOdontologica.pyproj|solutionrelative:static\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico_completo.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\historico_completo.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\imprimir_atestado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\imprimir_atestado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\financeiro.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\financeiro_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorio_financeiro.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\relatorio_financeiro.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\todos_agendamentos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\todos_agendamentos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\prontuario.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\prontuario.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_atestado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\novo_atestado.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fidelizacao.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\fidelizacao.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\ficha_tratamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_papel.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\ficha_papel.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\ficha_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_desenho.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\ficha_desenho.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_atendimento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\ficha_atendimento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\editar_paciente.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_consulta.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\editar_consulta.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\confirmacao.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\confirmacao.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda_mes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:templates\\agenda_mes.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\despesas\\index.html",
+              "RelativeDocumentMoniker": "templates\\despesas\\index.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\despesas\\index.html",
+              "RelativeToolTip": "templates\\despesas\\index.html",
+              "ViewState": "AgIAABMBAAAAAAAAAAAuwB8BAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-08T13:02:26.401Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "editar.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\editar.html",
+              "RelativeDocumentMoniker": "templates\\funcionarios\\editar.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\editar.html",
+              "RelativeToolTip": "templates\\funcionarios\\editar.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T21:10:58.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "base.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\base.html",
+              "RelativeDocumentMoniker": "templates\\base.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\base.html",
+              "RelativeToolTip": "templates\\base.html",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAALEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T20:46:52.25Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\app.py",
+              "RelativeDocumentMoniker": "app.py",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\app.py",
+              "RelativeToolTip": "app.py",
+              "ViewState": "AgIAACgGAAAAAAAAAAAqwDQGAAAdAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-05-30T18:19:19.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "cadastrar.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\cadastrar.html",
+              "RelativeDocumentMoniker": "templates\\funcionarios\\cadastrar.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\cadastrar.html",
+              "RelativeToolTip": "templates\\funcionarios\\cadastrar.html",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAuwHMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T05:37:58.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "comissoes.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\comissoes.html",
+              "RelativeDocumentMoniker": "templates\\funcionarios\\comissoes.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\comissoes.html",
+              "RelativeToolTip": "templates\\funcionarios\\comissoes.html",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAuwCgAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T05:39:35.44Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "config.py",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\config.py",
+              "RelativeDocumentMoniker": "config.py",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\config.py",
+              "RelativeToolTip": "config.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-06-02T21:46:18.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "agenda.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda.html",
+              "RelativeDocumentMoniker": "templates\\agenda.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda.html",
+              "RelativeToolTip": "templates\\agenda.html",
+              "ViewState": "AgIAABkBAAAAAAAAAAAuwDIBAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T20:51:32.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorios\\index.html",
+              "RelativeDocumentMoniker": "templates\\relatorios\\index.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorios\\index.html",
+              "RelativeToolTip": "templates\\relatorios\\index.html",
+              "ViewState": "AgIAANsAAAAAAAAAAAAuwOwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T21:42:30.75Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "visualizar.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes\\visualizar.html",
+              "RelativeDocumentMoniker": "templates\\pacientes\\visualizar.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes\\visualizar.html",
+              "RelativeToolTip": "templates\\pacientes\\visualizar.html",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAuwJoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T21:42:11.877Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "listar.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\listar.html",
+              "RelativeDocumentMoniker": "templates\\funcionarios\\listar.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\funcionarios\\listar.html",
+              "RelativeToolTip": "templates\\funcionarios\\listar.html",
+              "ViewState": "AgIAABwAAAAAAAAAAAAxwC8AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T05:37:02.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "aniversariantes.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\aniversariantes.html",
+              "RelativeDocumentMoniker": "templates\\aniversariantes.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\aniversariantes.html",
+              "RelativeToolTip": "templates\\aniversariantes.html",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB4AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T19:55:04.814Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "arquivos.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\arquivos.html",
+              "RelativeDocumentMoniker": "templates\\arquivos.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\arquivos.html",
+              "RelativeToolTip": "templates\\arquivos.html",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAxwG8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T04:57:34.698Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "atestado_gerado.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestado_gerado.html",
+              "RelativeDocumentMoniker": "templates\\atestado_gerado.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestado_gerado.html",
+              "RelativeToolTip": "templates\\atestado_gerado.html",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAcwHoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T19:56:10.124Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "atestados.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestados.html",
+              "RelativeDocumentMoniker": "templates\\atestados.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\atestados.html",
+              "RelativeToolTip": "templates\\atestados.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:52:38.052Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "historico.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico.html",
+              "RelativeDocumentMoniker": "templates\\historico.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico.html",
+              "RelativeToolTip": "templates\\historico.html",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAcwCMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T19:55:37.452Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "orcamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\orcamento.html",
+              "RelativeDocumentMoniker": "templates\\orcamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\orcamento.html",
+              "RelativeToolTip": "templates\\orcamento.html",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T23:28:01.025Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ver_orcamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ver_orcamento.html",
+              "RelativeDocumentMoniker": "templates\\ver_orcamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ver_orcamento.html",
+              "RelativeToolTip": "templates\\ver_orcamento.html",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAAAHcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T03:22:54.37Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "dashboard.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\dashboard.html",
+              "RelativeDocumentMoniker": "templates\\dashboard.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\dashboard.html",
+              "RelativeToolTip": "templates\\dashboard.html",
+              "ViewState": "AgIAAOMAAAAAAAAAAAAgwP0AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T20:52:32.646Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "novo_orcamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_orcamento.html",
+              "RelativeDocumentMoniker": "templates\\novo_orcamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_orcamento.html",
+              "RelativeToolTip": "templates\\novo_orcamento.html",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAuwMcAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T03:22:25.066Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "criar_banco.py",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\criar_banco.py",
+              "RelativeDocumentMoniker": "criar_banco.py",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\criar_banco.py",
+              "RelativeToolTip": "criar_banco.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABDAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-05-31T00:57:49.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "login.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\login.html",
+              "RelativeDocumentMoniker": "templates\\login.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\login.html",
+              "RelativeToolTip": "templates\\login.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T01:04:28.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "geral.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\geral.html",
+              "RelativeDocumentMoniker": "templates\\financeiro\\geral.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\geral.html",
+              "RelativeToolTip": "templates\\financeiro\\geral.html",
+              "ViewState": "AgIAALgAAAAAAAAAAAAkwMcAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T19:53:55.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "odontograma.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\odontograma.html",
+              "RelativeDocumentMoniker": "templates\\odontograma.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\odontograma.html",
+              "RelativeToolTip": "templates\\odontograma.html",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAkwN4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-07T01:51:40.735Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "tratamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\tratamento.html",
+              "RelativeDocumentMoniker": "templates\\fichas\\tratamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\tratamento.html",
+              "RelativeToolTip": "templates\\fichas\\tratamento.html",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAiwLUAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T20:07:31.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "pacientes.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes.html",
+              "RelativeDocumentMoniker": "templates\\pacientes.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\pacientes.html",
+              "RelativeToolTip": "templates\\pacientes.html",
+              "ViewState": "AgIAADgAAAAAAAAAAAAiwDsAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T18:00:35.637Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "editar_tratamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\editar_tratamento.html",
+              "RelativeDocumentMoniker": "templates\\fichas\\editar_tratamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\editar_tratamento.html",
+              "RelativeToolTip": "templates\\fichas\\editar_tratamento.html",
+              "ViewState": "AgIAADIAAAAAAAAAAAAcwDgAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-06T00:17:01.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "keep_alive.py",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\keep_alive.py",
+              "RelativeDocumentMoniker": "keep_alive.py",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\keep_alive.py",
+              "RelativeToolTip": "keep_alive.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAANAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-06-06T02:05:27.16Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "clinica.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\clinica.html",
+              "RelativeDocumentMoniker": "templates\\fichas\\clinica.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\clinica.html",
+              "RelativeToolTip": "templates\\fichas\\clinica.html",
+              "ViewState": "AgIAAK8AAAAAAAAAAAAiwLsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T21:41:14.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ortodontica.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\ortodontica.html",
+              "RelativeDocumentMoniker": "templates\\fichas\\ortodontica.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fichas\\ortodontica.html",
+              "RelativeToolTip": "templates\\fichas\\ortodontica.html",
+              "ViewState": "AgIAAHcAAAAAAAAAAADwv40AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T20:08:20.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "requirements.txt",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\requirements.txt",
+              "RelativeDocumentMoniker": "requirements.txt",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\requirements.txt",
+              "RelativeToolTip": "requirements.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-06-02T18:07:12.68Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\models.py",
+              "RelativeDocumentMoniker": "models.py",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\models.py",
+              "RelativeToolTip": "models.py",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADwAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-06-03T19:10:03.033Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "instrucoes.txt",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\instrucoes.txt",
+              "RelativeDocumentMoniker": "instrucoes.txt",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\instrucoes.txt",
+              "RelativeToolTip": "instrucoes.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-06-01T13:11:33.805Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "filtros.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\filtros.html",
+              "RelativeDocumentMoniker": "templates\\financeiro\\filtros.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro\\filtros.html",
+              "RelativeToolTip": "templates\\financeiro\\filtros.html",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAcwH4AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-05T19:53:15.762Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "historico_completo.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico_completo.html",
+              "RelativeDocumentMoniker": "templates\\historico_completo.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\historico_completo.html",
+              "RelativeToolTip": "templates\\historico_completo.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T19:55:06.506Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "imprimir_atestado.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\imprimir_atestado.html",
+              "RelativeDocumentMoniker": "templates\\imprimir_atestado.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\imprimir_atestado.html",
+              "RelativeToolTip": "templates\\imprimir_atestado.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:55:30.604Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "financeiro.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro.html",
+              "RelativeDocumentMoniker": "templates\\financeiro.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro.html",
+              "RelativeToolTip": "templates\\financeiro.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:48:51.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "financeiro_paciente.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro_paciente.html",
+              "RelativeDocumentMoniker": "templates\\financeiro_paciente.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\financeiro_paciente.html",
+              "RelativeToolTip": "templates\\financeiro_paciente.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T20:46:35.588Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "relatorio_financeiro.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorio_financeiro.html",
+              "RelativeDocumentMoniker": "templates\\relatorio_financeiro.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\relatorio_financeiro.html",
+              "RelativeToolTip": "templates\\relatorio_financeiro.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-03T17:56:24.193Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "todos_agendamentos.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\todos_agendamentos.html",
+              "RelativeDocumentMoniker": "templates\\todos_agendamentos.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\todos_agendamentos.html",
+              "RelativeToolTip": "templates\\todos_agendamentos.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:25:59.657Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "prontuario.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\prontuario.html",
+              "RelativeDocumentMoniker": "templates\\prontuario.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\prontuario.html",
+              "RelativeToolTip": "templates\\prontuario.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T20:49:29.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "novo_atestado.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_atestado.html",
+              "RelativeDocumentMoniker": "templates\\novo_atestado.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\novo_atestado.html",
+              "RelativeToolTip": "templates\\novo_atestado.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:53:48.93Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\index.html",
+              "RelativeDocumentMoniker": "templates\\index.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\index.html",
+              "RelativeToolTip": "templates\\index.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T20:31:47.534Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "fidelizacao.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fidelizacao.html",
+              "RelativeDocumentMoniker": "templates\\fidelizacao.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\fidelizacao.html",
+              "RelativeToolTip": "templates\\fidelizacao.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T20:16:59.917Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "ficha_tratamento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_tratamento.html",
+              "RelativeDocumentMoniker": "templates\\ficha_tratamento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_tratamento.html",
+              "RelativeToolTip": "templates\\ficha_tratamento.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T21:49:46.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "ficha_papel.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_papel.html",
+              "RelativeDocumentMoniker": "templates\\ficha_papel.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_papel.html",
+              "RelativeToolTip": "templates\\ficha_papel.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-01T15:15:17.672Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "ficha_paciente.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_paciente.html",
+              "RelativeDocumentMoniker": "templates\\ficha_paciente.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_paciente.html",
+              "RelativeToolTip": "templates\\ficha_paciente.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T22:36:38.523Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "ficha_desenho.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_desenho.html",
+              "RelativeDocumentMoniker": "templates\\ficha_desenho.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_desenho.html",
+              "RelativeToolTip": "templates\\ficha_desenho.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-01T20:45:57.041Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "ficha_atendimento.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_atendimento.html",
+              "RelativeDocumentMoniker": "templates\\ficha_atendimento.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\ficha_atendimento.html",
+              "RelativeToolTip": "templates\\ficha_atendimento.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-01T13:20:17.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "editar_paciente.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_paciente.html",
+              "RelativeDocumentMoniker": "templates\\editar_paciente.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_paciente.html",
+              "RelativeToolTip": "templates\\editar_paciente.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-30T20:26:29.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "editar_consulta.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_consulta.html",
+              "RelativeDocumentMoniker": "templates\\editar_consulta.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\editar_consulta.html",
+              "RelativeToolTip": "templates\\editar_consulta.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-31T00:16:24.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "confirmacao.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\confirmacao.html",
+              "RelativeDocumentMoniker": "templates\\confirmacao.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\confirmacao.html",
+              "RelativeToolTip": "templates\\confirmacao.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-05-31T00:47:49.267Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "agenda_mes.html",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda_mes.html",
+              "RelativeDocumentMoniker": "templates\\agenda_mes.html",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\templates\\agenda_mes.html",
+              "RelativeToolTip": "templates\\agenda_mes.html",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-06-02T18:45:27.072Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "style.css",
+              "DocumentMoniker": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\static\\style.css",
+              "RelativeDocumentMoniker": "static\\style.css",
+              "ToolTip": "C:\\Users\\Marco Antonio\\OneDrive\\\u00C1rea de Trabalho\\Dr. Eduardo\\clinica_odontologica\\static\\style.css",
+              "RelativeToolTip": "static\\style.css",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-05-30T18:05:41.101Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

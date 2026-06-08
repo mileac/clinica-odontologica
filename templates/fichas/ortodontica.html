@@ -1,0 +1,143 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Ficha Ortodontica - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Ficha Ortodontica: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="bi bi-file-earmark-medical"></i> Avaliacao Ortodontica
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <h6 class="mb-3"><strong>Avaliacao Clinica</strong></h6>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Tipo de Denticao</label>
+                    <select class="form-select" name="tipo_denticao">
+                        <option value="">Selecione...</option>
+                        <option value="Decidua">Decidua</option>
+                        <option value="Mista">Mista</option>
+                        <option value="Permanente">Permanente</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Classe de Angle</label>
+                    <select class="form-select" name="classe_angle">
+                        <option value="">Selecione...</option>
+                        <option value="Classe I">Classe I</option>
+                        <option value="Classe II">Classe II</option>
+                        <option value="Classe III">Classe III</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Tipo de Mordida</label>
+                    <select class="form-select" name="tipo_mordida">
+                        <option value="">Selecione...</option>
+                        <option value="Aberta">Aberta</option>
+                        <option value="Cruzada">Cruzada</option>
+                        <option value="Profunda">Profunda</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Apinhamento</label>
+                    <select class="form-select" name="apinhamento">
+                        <option value="">Selecione...</option>
+                        <option value="Leve">Leve</option>
+                        <option value="Moderado">Moderado</option>
+                        <option value="Severo">Severo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Linha Media</label>
+                    <select class="form-select" name="linha_media">
+                        <option value="">Selecione...</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Desviada D">Desviada D</option>
+                        <option value="Desviada E">Desviada E</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" name="diastemas" id="diastemas">
+                        <label class="form-check-label" for="diastemas">
+                            Diastemas
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="mb-3"><strong>Medidas Cefalometricas</strong></h6>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">SNA</label>
+                    <input type="number" step="0.1" class="form-control" name="sna" placeholder="0.0">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">SNB</label>
+                    <input type="number" step="0.1" class="form-control" name="snb" placeholder="0.0">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">ANB</label>
+                    <input type="number" step="0.1" class="form-control" name="anb" placeholder="0.0">
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="mb-3"><strong>Plano de Tratamento</strong></h6>
+
+            <div class="mb-3">
+                <label class="form-label">Diagnostico</label>
+                <textarea class="form-control" name="diagnostico" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Plano de Tratamento</label>
+                <textarea class="form-control" name="plano_tratamento" rows="3"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Aparelho Recomendado</label>
+                    <input type="text" class="form-control" name="aparelho_recomendado"
+                           placeholder="Ex: Aparelho Fixo Superior e Inferior">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Tempo Estimado (meses)</label>
+                    <input type="number" class="form-control" name="tempo_estimado" placeholder="12">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Valor Total (R$)</label>
+                    <input type="number" step="0.01" class="form-control" name="valor_total" placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Observacoes</label>
+                <textarea class="form-control" name="observacoes" rows="2"></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Salvar Ficha
+                </button>
+                <a href="/pacientes/{{ paciente.id }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

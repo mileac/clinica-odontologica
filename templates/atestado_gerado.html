@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ dados.tipo }} - {{ dados.clinica }}</title>
+    <style>
+        @media print {
+            body {
+                margin: 2cm;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .documento {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            border: 2px solid #000;
+            min-height: 400px;
+        }
+
+        .cabecalho {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+            .cabecalho h2 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+            .cabecalho p {
+                margin: 5px 0;
+                color: #555;
+            }
+
+        .conteudo {
+            text-align: justify;
+            margin: 30px 0;
+            min-height: 200px;
+        }
+
+        .assinatura {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+            .assinatura .linha {
+                border-top: 1px solid #000;
+                width: 300px;
+                margin: 0 auto;
+                padding-top: 10px;
+            }
+
+        .btn-imprimir {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .btn-imprimir:hover {
+                background: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <button class="btn-imprimir no-print" onclick="window.print()">
+        🖨️ Imprimir
+    </button>
+
+    <div class="documento">
+        <div class="cabecalho">
+            <h2>{{ dados.clinica }}</h2>
+            <p>{{ dados.endereco }} - {{ dados.cidade }}/{{ dados.estado }}</p>
+            <p>Dr(a). {{ dados.doutor }} - {{ dados.cro }}</p>
+        </div>
+
+        <h3 style="text-align: center;">{{ dados.tipo|upper }}</h3>
+
+        <div class="conteudo">
+            {% if dados.tipo == 'Atestado' %}
+            <p>
+                Atesto para os devidos fins que o(a) Sr(a). <strong>{{ dados.paciente }}</strong>,
+                portador(a) do CPF nº {{ dados.cpf }}, esteve sob meus cuidados profissionais
+                no dia {{ dados.data }}.
+            </p>
+
+            {% if dados.dias_afastamento %}
+            <p>
+                Recomendo afastamento de suas atividades por {{ dados.dias_afastamento }} dia(s)
+                a partir desta data.
+            </p>
+            {% endif %}
+
+            <p>{{ dados.conteudo }}</p>
+
+            {% elif dados.tipo == 'Receituário' %}
+            <p><strong>Paciente:</strong> {{ dados.paciente }}</p>
+            <p><strong>CPF:</strong> {{ dados.cpf }}</p>
+            <p><strong>Data:</strong> {{ dados.data }}</p>
+
+            <div style="margin: 20px 0; padding: 10px; border: 1px solid #ccc;">
+                <p>{{ dados.conteudo }}</p>
+            </div>
+
+            {% else %}
+            <p>
+                Declaro para os devidos fins que o(a) Sr(a). <strong>{{ dados.paciente }}</strong>,
+                portador(a) do CPF nº {{ dados.cpf }}, {{ dados.conteudo }}
+            </p>
+            {% endif %}
+        </div>
+
+        <div class="assinatura">
+            <div class="linha">
+                <strong>Dr(a). {{ dados.doutor }}</strong><br>
+                {{ dados.cro }}
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px; color: #888;">
+            {{ dados.cidade }}, {{ dados.data }}
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Filtros Financeiro - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Relatório Financeiro com Filtros{% endblock %}
+
+{% block content %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-funnel"></i> Filtros</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Paciente</label>
+                    <select class="form-select" name="paciente_id">
+                        <option value="">Todos</option>
+                        {% for paciente in pacientes %}
+                        <option value="{{ paciente.id }}">{{ paciente.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Data Início</label>
+                    <input type="date" class="form-control" name="data_inicio">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Data Fim</label>
+                    <input type="date" class="form-control" name="data_fim">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Mês/Ano</label>
+                    <input type="month" class="form-control" name="mes">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" name="status">
+                        <option value="">Todos</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Parcial">Parcial</option>
+                        <option value="Pago">Pago</option>
+                    </select>
+                </div>
+                <div class="col-md-1 mb-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if filtro_aplicado %}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Filtrado</h5>
+                <h3>R$ {{ "%.2f"|format(total_filtrado) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Recebido</h5>
+                <h3>R$ {{ "%.2f"|format(recebido_filtrado) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5>Pendente</h5>
+                <h3>R$ {{ "%.2f"|format(pendente_filtrado) }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Resultados ({{ resultados|length }} encontrados)</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Paciente</th>
+                        <th>Procedimento</th>
+                        <th>Valor</th>
+                        <th>Pago</th>
+                        <th>Saldo</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in resultados %}
+                    <tr>
+                        <td>{{ t.data.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ t.paciente.nome }}</td>
+                        <td>{{ t.procedimento }}</td>
+                        <td>R$ {{ "%.2f"|format(t.valor) }}</td>
+                        <td>R$ {{ "%.2f"|format(t.valor_pago) }}</td>
+                        <td>R$ {{ "%.2f"|format(t.saldo_restante) }}</td>
+                        <td>
+                            <span class="status-badge status-{{ t.status_pagamento.lower() }}">
+                                {{ t.status_pagamento }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum resultado encontrado</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

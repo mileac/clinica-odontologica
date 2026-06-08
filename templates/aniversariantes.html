@@ -1,0 +1,41 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Aniversariantes - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Aniversariantes do Mês{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-gift"></i> Aniversariantes - Mês {{ mes_atual }}</h5>
+    </div>
+    <div class="card-body">
+        {% if aniversariantes %}
+        <div class="row">
+            {% for aniversariante in aniversariantes %}
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light">
+                    <div class="card-body text-center">
+                        <h5>{{ aniversariante.nome }}</h5>
+                        <p class="mb-1">
+                            <i class="bi bi-calendar-heart"></i>
+                            {{ aniversariante.data_nascimento.strftime('%d/%m') }} -
+                            {{ aniversariante.calcular_idade() }} anos
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-telephone"></i> {{ aniversariante.celular }}
+                        </p>
+                        <a href="https://wa.me/55{{ aniversariante.celular|replace('(', '')|replace(')', '')|replace(' ', '')|replace('-', '') }}?text=Olá {{ aniversariante.nome }}! A {{ config.nome_clinica }} deseja um feliz aniversário! Muitas felicidades, alegrias e sorrisos neste dia especial!"
+                           class="btn btn-success btn-sm" target="_blank">
+                            <i class="bi bi-whatsapp"></i> Enviar Mensagem
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center">Nenhum aniversariante este mês</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

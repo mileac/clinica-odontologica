@@ -1,0 +1,84 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Configurações - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Configurações da Clínica{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-building"></i> Dados da Clínica</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="nome_clinica" class="form-label">Nome da Clínica *</label>
+                    <input type="text" class="form-control" id="nome_clinica" name="nome_clinica"
+                           value="{{ config.nome_clinica }}" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           value="{{ config.email }}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mb-3">
+                    <label for="endereco" class="form-label">Endereço *</label>
+                    <input type="text" class="form-control" id="endereco" name="endereco"
+                           value="{{ config.endereco }}" required>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="cep" class="form-label">CEP</label>
+                    <input type="text" class="form-control cep-mask" id="cep" name="cep"
+                           value="{{ config.cep }}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade"
+                           value="{{ config.cidade }}">
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <input type="text" class="form-control" id="estado" name="estado"
+                           value="{{ config.estado }}" maxlength="2">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control celular-mask" id="telefone" name="telefone"
+                           value="{{ config.telefone }}">
+                </div>
+            </div>
+
+            <hr>
+            <h5 class="mb-3"><i class="bi bi-person-badge"></i> Dados do Profissional</h5>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="nome_doutor" class="form-label">Nome do Dentista *</label>
+                    <input type="text" class="form-control" id="nome_doutor" name="nome_doutor"
+                           value="{{ config.nome_doutor }}" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="cro" class="form-label">CRO *</label>
+                    <input type="text" class="form-control cro-mask" id="cro" name="cro"
+                           value="{{ config.cro }}" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Salvar Configurações
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

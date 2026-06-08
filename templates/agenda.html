@@ -1,0 +1,307 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Agenda - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Agenda de Consultas{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <!-- Filtros e Ações -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-funnel"></i> Filtros</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <label class="form-label small">Profissional</label>
+                    <select class="form-select form-select-sm" id="filtroProfissional" onchange="filtrarAgenda()">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small">Status</label>
+                    <select class="form-select form-select-sm" id="filtroStatus" onchange="filtrarAgenda()">
+                        <option value="">Todos</option>
+                        <option value="Agendado">Agendado</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Realizado">Realizado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legenda -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-palette"></i> Cores</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-1"><span class="badge" style="background:#4CAF50;">&nbsp;&nbsp;&nbsp;</span> Consulta</div>
+                <div class="mb-1"><span class="badge" style="background:#2196F3;">&nbsp;&nbsp;&nbsp;</span> Limpeza</div>
+                <div class="mb-1"><span class="badge" style="background:#FF9800;">&nbsp;&nbsp;&nbsp;</span> Restauração</div>
+                <div class="mb-1"><span class="badge" style="background:#9C27B0;">&nbsp;&nbsp;&nbsp;</span> Canal</div>
+                <div class="mb-1"><span class="badge" style="background:#F44336;">&nbsp;&nbsp;&nbsp;</span> Cirurgia</div>
+                <div class="mb-1"><span class="badge" style="background:#00BCD4;">&nbsp;&nbsp;&nbsp;</span> Ortodontia</div>
+                <div class="mb-1"><span class="badge" style="background:#795548;">&nbsp;&nbsp;&nbsp;</span> Prótese</div>
+                <div class="mb-1"><span class="badge" style="background:#607D8B;">&nbsp;&nbsp;&nbsp;</span> Outro</div>
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-lightning-charge"></i> Ações</h6>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary btn-sm w-100 mb-2" onclick="abrirModalAgendamento()">
+                    <i class="bi bi-plus-circle"></i> Novo Agendamento
+                </button>
+                <button class="btn btn-outline-secondary btn-sm w-100 mb-2" onclick="calendar.today()">
+                    <i class="bi bi-calendar-check"></i> Hoje
+                </button>
+                <button class="btn btn-outline-danger btn-sm w-100" onclick="bloquearAlmoco()">
+                    <i class="bi bi-lock"></i> Bloquear Almoço (12h-14h)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body p-2">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Agendamento -->
+<div class="modal fade" id="modalAgendamento" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-calendar-plus"></i> Agendamento</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Paciente *</label>
+                        <select class="form-select" id="paciente_id" required>
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Profissional</label>
+                        <select class="form-select" id="profissional_id">
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Data e Hora *</label>
+                        <input type="datetime-local" class="form-control" id="data_hora" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Procedimento *</label>
+                        <select class="form-select" id="procedimento" required onchange="definirDuracao()">
+                            <option value="">Selecione...</option>
+                            <option value="Consulta">Consulta</option>
+                            <option value="Limpeza">Limpeza/Profilaxia</option>
+                            <option value="Restauracao">Restauração</option>
+                            <option value="Canal">Tratamento de Canal</option>
+                            <option value="Extracao">Extração</option>
+                            <option value="Ortodontia">Ortodontia (manutenção)</option>
+                            <option value="Protese">Prótese</option>
+                            <option value="Clareamento">Clareamento</option>
+                            <option value="Emergencia">Emergência</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Duração</label>
+                        <select class="form-select" id="duracao">
+                            <option value="30">30 min</option>
+                            <option value="60" selected>1 hora</option>
+                            <option value="90">1h30min</option>
+                            <option value="120">2 horas</option>
+                            <option value="180">3 horas</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-control" id="observacoes" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarAgendamento()">
+                    <i class="bi bi-check-circle"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<script>
+    let calendar;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+            initialView: 'timeGridWeek',
+            locale: 'pt-br',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            buttonText: {
+                today: 'Hoje',
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia'
+            },
+            slotMinTime: '07:00:00',
+            slotMaxTime: '20:00:00',
+            allDaySlot: false,
+            slotDuration: '00:30:00',
+            height: 'auto',
+            events: '/api/agendamentos',
+            eventDidMount: function (info) {
+                info.el.title = info.event.extendedProps.paciente;
+            },
+            dateClick: function (info) {
+                document.getElementById('data_hora').value = info.dateStr.slice(0, 16);
+                carregarSelects();
+                new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
+            },
+            eventClick: function (info) {
+                if (confirm(`Paciente: ${info.event.extendedProps.paciente}\nProcedimento: ${info.event.title}\n\nDeseja cancelar este agendamento?`)) {
+                    fetch(`/agendamento/cancelar/${info.event.id}`, { method: 'POST' })
+                        .then(() => calendar.refetchEvents());
+                }
+            }
+        });
+        calendar.render();
+        carregarProfissionais();
+    });
+
+    function carregarProfissionais() {
+        fetch('/api/profissionais')
+            .then(r => r.json())
+            .then(data => {
+                const select = document.getElementById('profissional_id');
+                const filtro = document.getElementById('filtroProfissional');
+                select.innerHTML = '<option value="">Selecione...</option>';
+                filtro.innerHTML = '<option value="">Todos</option>';
+                data.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.nome}</option>`;
+                    filtro.innerHTML += `<option value="${p.id}">${p.nome}</option>`;
+                });
+            });
+    }
+
+    function carregarSelects() {
+        fetch('/pacientes/buscar?termo=')
+            .then(r => r.json())
+            .then(data => {
+                const select = document.getElementById('paciente_id');
+                select.innerHTML = '<option value="">Selecione...</option>';
+                data.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.nome} - ${p.celular || ''}</option>`;
+                });
+            });
+    }
+
+    function definirDuracao() {
+        const proc = document.getElementById('procedimento').value;
+        const duracoes = {
+            'Consulta': 30, 'Limpeza': 60, 'Restauracao': 60,
+            'Canal': 90, 'Extracao': 60, 'Ortodontia': 30,
+            'Protese': 90, 'Clareamento': 60, 'Emergencia': 30, 'Outro': 60
+        };
+        if (duracoes[proc]) {
+            document.getElementById('duracao').value = duracoes[proc];
+        }
+    }
+
+    function salvarAgendamento() {
+        const paciente_id = document.getElementById('paciente_id').value;
+        const data_hora = document.getElementById('data_hora').value;
+        const procedimento = document.getElementById('procedimento').value;
+
+        if (!paciente_id || !data_hora || !procedimento) {
+            alert('Preencha todos os campos obrigatórios!');
+            return;
+        }
+
+        const dados = {
+            paciente_id: paciente_id,
+            profissional_id: document.getElementById('profissional_id').value || null,
+            data_hora: data_hora,
+            duracao: document.getElementById('duracao').value,
+            procedimento: procedimento,
+            observacoes: document.getElementById('observacoes').value
+        };
+
+        fetch('/agendamento/novo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    bootstrap.Modal.getInstance(document.getElementById('modalAgendamento')).hide();
+                    calendar.refetchEvents();
+                    if (data.whatsapp_link && confirm('Deseja enviar confirmação via WhatsApp?')) {
+                        window.open(data.whatsapp_link, '_blank');
+                    }
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            });
+    }
+
+    function abrirModalAgendamento() {
+        document.getElementById('data_hora').value = '';
+        document.getElementById('observacoes').value = '';
+        carregarSelects();
+        new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
+    }
+
+    function filtrarAgenda() {
+        const profissional = document.getElementById('filtroProfissional').value;
+        const status = document.getElementById('filtroStatus').value;
+        let url = '/api/agendamentos?';
+        if (profissional) url += 'profissional_id=' + profissional + '&';
+        if (status) url += 'status=' + status;
+        calendar.setOption('events', url);
+        calendar.refetchEvents();
+    }
+
+    function bloquearAlmoco() {
+        const hoje = new Date().toISOString().slice(0, 10);
+        if (confirm('Deseja bloquear o horário de almoço (12h-14h) de hoje?')) {
+            const dados = {
+                paciente_id: null,
+                data_hora: hoje + 'T12:00',
+                duracao: 120,
+                procedimento: 'Horário Bloqueado - Almoço',
+                status: 'Bloqueado'
+            };
+            fetch('/agendamento/novo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            }).then(() => calendar.refetchEvents());
+        }
+    }
+</script>
+{% endblock %}

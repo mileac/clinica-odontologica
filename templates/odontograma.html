@@ -1,0 +1,427 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Odontograma - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Odontograma: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<style>
+    .odontograma-container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .boca {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .arcada {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .dente {
+        width: 45px;
+        height: 60px;
+        border: 2px solid #555;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+        background: white;
+        color: #333;
+    }
+
+        .dente:hover {
+            transform: scale(1.15);
+            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .dente.selecionado {
+            border: 3px solid #000;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transform: scale(1.1);
+        }
+
+        /* CORES FORTES E DIFERENCIADAS */
+        .dente.higido {
+            background: #4CAF50;
+            border-color: #2E7D32;
+            color: white;
+        }
+
+        .dente.cariado {
+            background: #F44336;
+            border-color: #C62828;
+            color: white;
+        }
+
+        .dente.restaurado {
+            background: #FF9800;
+            border-color: #E65100;
+            color: white;
+        }
+
+        .dente.extraido {
+            background: #424242;
+            border-color: #212121;
+            color: white;
+        }
+
+        .dente.protese {
+            background: #2196F3;
+            border-color: #0D47A1;
+            color: white;
+        }
+
+        .dente.canal {
+            background: #9C27B0;
+            border-color: #4A148C;
+            color: white;
+        }
+
+        .dente.ausente {
+            background: #BDBDBD;
+            border-color: #757575;
+            color: #333;
+        }
+
+    .legenda {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .legenda-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .legenda-cor {
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        border: 2px solid #333;
+    }
+
+        /* Cores da legenda - IGUAIS aos dentes */
+        .legenda-cor.higido {
+            background: #4CAF50;
+        }
+
+        .legenda-cor.cariado {
+            background: #F44336;
+        }
+
+        .legenda-cor.restaurado {
+            background: #FF9800;
+        }
+
+        .legenda-cor.extraido {
+            background: #424242;
+        }
+
+        .legenda-cor.protese {
+            background: #2196F3;
+        }
+
+        .legenda-cor.canal {
+            background: #9C27B0;
+        }
+
+        .legenda-cor.ausente {
+            background: #BDBDBD;
+        }
+
+    .botoes-status {
+        display: flex;
+        gap: 8px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .btn-status {
+        padding: 10px 18px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+        color: white;
+        font-size: 14px;
+    }
+
+        .btn-status:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-status.ativo {
+            border-width: 3px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            transform: scale(1.1);
+        }
+
+        /* Cores dos botões de status */
+        .btn-status.higido {
+            background: #4CAF50;
+            border-color: #2E7D32;
+        }
+
+        .btn-status.cariado {
+            background: #F44336;
+            border-color: #C62828;
+        }
+
+        .btn-status.restaurado {
+            background: #FF9800;
+            border-color: #E65100;
+        }
+
+        .btn-status.extraido {
+            background: #424242;
+            border-color: #212121;
+        }
+
+        .btn-status.protese {
+            background: #2196F3;
+            border-color: #0D47A1;
+        }
+
+        .btn-status.canal {
+            background: #9C27B0;
+            border-color: #4A148C;
+        }
+
+        .btn-status.ausente {
+            background: #BDBDBD;
+            border-color: #757575;
+            color: #333;
+        }
+
+    .separador {
+        height: 3px;
+        background: #333;
+        width: 80%;
+        margin: 10px auto;
+        border-radius: 2px;
+    }
+
+    .numero-dente {
+        position: absolute;
+        bottom: -18px;
+        font-size: 10px;
+        color: #666;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">
+            <i class="bi bi-grid-3x3-gap"></i> Odontograma Interativo
+        </h5>
+        <div>
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetarOdontograma()">
+                <i class="bi bi-arrow-counterclockwise"></i> Limpar
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- Legenda -->
+        <div class="legenda">
+            <div class="legenda-item">
+                <div class="legenda-cor higido"></div> Hígido
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor cariado"></div> Cariado
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor restaurado"></div> Restaurado
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor extraido"></div> Extraído
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor protese"></div> Prótese
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor canal"></div> Canal
+            </div>
+            <div class="legenda-item">
+                <div class="legenda-cor ausente"></div> Ausente
+            </div>
+        </div>
+
+        <!-- Botões de status -->
+        <div class="botoes-status mb-3" id="botoesStatus">
+            <button type="button" class="btn-status higido" onclick="selecionarStatus('higido', this)">Hígido</button>
+            <button type="button" class="btn-status cariado" onclick="selecionarStatus('cariado', this)">Cariado</button>
+            <button type="button" class="btn-status restaurado" onclick="selecionarStatus('restaurado', this)">Restaurado</button>
+            <button type="button" class="btn-status extraido" onclick="selecionarStatus('extraido', this)">Extraído</button>
+            <button type="button" class="btn-status protese" onclick="selecionarStatus('protese', this)">Prótese</button>
+            <button type="button" class="btn-status canal" onclick="selecionarStatus('canal', this)">Canal</button>
+            <button type="button" class="btn-status ausente" onclick="selecionarStatus('ausente', this)">Ausente</button>
+        </div>
+
+        <form method="POST" id="formOdontograma">
+            <div class="odontograma-container">
+                <div class="boca">
+                    <!-- Arcada Superior -->
+                    <div style="text-align: center; font-weight: bold; color: #666;">ARCADA SUPERIOR</div>
+                    <div class="arcada" id="arcadaSuperiorDireita">
+                        {% for d in [18,17,16,15,14,13,12,11] %}
+                        <div class="dente" id="dente_{{ d }}" onclick="clicarDente({{ d }})">
+                            {{ d }}
+                            <input type="hidden" name="dente_{{ d }}" id="input_dente_{{ d }}" value="higido">
+                        </div>
+                        {% endfor %}
+                        <div style="width: 20px;"></div>
+                        {% for d in [21,22,23,24,25,26,27,28] %}
+                        <div class="dente" id="dente_{{ d }}" onclick="clicarDente({{ d }})">
+                            {{ d }}
+                            <input type="hidden" name="dente_{{ d }}" id="input_dente_{{ d }}" value="higido">
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="separador"></div>
+
+                    <!-- Arcada Inferior -->
+                    <div style="text-align: center; font-weight: bold; color: #666;">ARCADA INFERIOR</div>
+                    <div class="arcada" id="arcadaInferiorDireita">
+                        {% for d in [48,47,46,45,44,43,42,41] %}
+                        <div class="dente" id="dente_{{ d }}" onclick="clicarDente({{ d }})">
+                            {{ d }}
+                            <input type="hidden" name="dente_{{ d }}" id="input_dente_{{ d }}" value="higido">
+                        </div>
+                        {% endfor %}
+                        <div style="width: 20px;"></div>
+                        {% for d in [31,32,33,34,35,36,37,38] %}
+                        <div class="dente" id="dente_{{ d }}" onclick="clicarDente({{ d }})">
+                            {{ d }}
+                            <input type="hidden" name="dente_{{ d }}" id="input_dente_{{ d }}" value="higido">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" name="observacoes" rows="2">{{ odonto.observacoes if odonto else '' }}</textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Salvar Odontograma
+                </button>
+                <a href="/pacientes/{{ paciente.id }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+let statusAtual = 'cariado';
+let denteSelecionado = null;
+
+// Carregar dados salvos
+{% if odonto and odonto.dentes %}
+const dadosSalvos = JSON.parse('{{ odonto.dentes | safe }}');
+for (const [dente, status] of Object.entries(dadosSalvos)) {
+    const divDente = document.getElementById('dente_' + dente);
+    const inputDente = document.getElementById('input_dente_' + dente);
+    if (divDente && inputDente) {
+        divDente.className = 'dente ' + status;
+        inputDente.value = status;
+    }
+}
+{% endif %}
+
+function selecionarStatus(status, btn) {
+    statusAtual = status;
+
+    // Destacar botão ativo
+    document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo'));
+    btn.classList.add('ativo');
+
+    // Se tiver dente selecionado, aplicar novo status
+    if (denteSelecionado !== null) {
+        aplicarStatus(denteSelecionado);
+    }
+}
+
+function clicarDente(numero) {
+    // Remover seleção anterior
+    if (denteSelecionado !== null) {
+        document.getElementById('dente_' + denteSelecionado).classList.remove('selecionado');
+    }
+
+    // Selecionar novo dente
+    denteSelecionado = numero;
+    document.getElementById('dente_' + numero).classList.add('selecionado');
+
+    // Aplicar status atual
+    aplicarStatus(numero);
+}
+
+function aplicarStatus(numero) {
+    const dente = document.getElementById('dente_' + numero);
+    const input = document.getElementById('input_dente_' + numero);
+
+    // Remover classes de status
+    dente.classList.remove('higido', 'cariado', 'restaurado', 'extraido', 'protese', 'canal', 'ausente');
+
+    // Adicionar nova classe
+    dente.classList.add(statusAtual);
+    input.value = statusAtual;
+}
+
+function resetarOdontograma() {
+    if (confirm('Tem certeza que deseja limpar todo o odontograma?')) {
+        for (let i = 11; i <= 48; i++) {
+            if ([19,20,29,30,39,40].includes(i)) continue;
+
+            const dente = document.getElementById('dente_' + i);
+            const input = document.getElementById('input_dente_' + i);
+
+            if (dente && input) {
+                dente.classList.remove('cariado', 'restaurado', 'extraido', 'protese', 'canal', 'ausente');
+                dente.classList.add('higido');
+                input.value = 'higido';
+            }
+        }
+        denteSelecionado = null;
+    }
+}
+
+// Selecionar status padrão
+document.addEventListener('DOMContentLoaded', function() {
+    const primeiroBotao = document.querySelector('.btn-status.cariado');
+    if (primeiroBotao) {
+        primeiroBotao.classList.add('ativo');
+    }
+});
+</script>
+{% endblock %}

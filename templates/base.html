@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ config.nome_clinica }}{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #4CAF50;
+            --background-color: #f5f6fa;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+            .sidebar .logo {
+                padding: 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+                .sidebar .logo h4 {
+                    margin: 0;
+                    font-size: 1.2rem;
+                }
+
+                .sidebar .logo small {
+                    opacity: 0.8;
+                }
+
+            .sidebar .nav-link {
+                color: rgba(255,255,255,0.8);
+                padding: 12px 20px;
+                transition: all 0.3s;
+            }
+
+                .sidebar .nav-link:hover {
+                    color: white;
+                    background: rgba(255,255,255,0.1);
+                }
+
+                .sidebar .nav-link.active {
+                    color: white;
+                    background: rgba(255,255,255,0.2);
+                    border-left: 4px solid white;
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .header-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+        .btn-success {
+            background: var(--secondary-color);
+            border: none;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .status-pendente {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .status-pago {
+            background: #55efc4;
+            color: #00b894;
+        }
+
+        .status-parcial {
+            background: #81ecec;
+            color: #00cec9;
+        }
+
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h4>{{ config.nome_clinica }}</h4>
+            <small>Dr. {{ config.nome_doutor }}</small>
+            <br>
+            <small>{{ config.cro }}</small>
+        </div>
+
+        <nav class="nav flex-column mt-3">
+            <a class="nav-link {{ 'active' if request.endpoint == 'dashboard' }}" href="{{ url_for('dashboard') }}">
+                <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+
+            {% if current_user.tem_permissao('pacientes') %}
+            <a class="nav-link {{ 'active' if 'pacientes' in request.endpoint }}" href="{{ url_for('listar_pacientes') }}">
+                <i class="bi bi-people"></i> Pacientes
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('agenda') %}
+            <a class="nav-link {{ 'active' if request.endpoint == 'agenda' }}" href="{{ url_for('agenda') }}">
+                <i class="bi bi-calendar3"></i> Agenda
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('ver_financeiro') %}
+            <a class="nav-link {{ 'active' if 'financeiro' in request.endpoint }}" href="{{ url_for('financeiro') }}">
+                <i class="bi bi-cash-coin"></i> Financeiro
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('ver_financeiro') %}
+            <a class="nav-link {{ 'active' if 'despesas' in request.endpoint }}" href="{{ url_for('despesas') }}">
+                <i class="bi bi-cash-stack"></i> Despesas
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('ver_financeiro') %}
+            <a class="nav-link {{ 'active' if 'relatorios' in request.endpoint }}" href="{{ url_for('relatorios') }}">
+                <i class="bi bi-file-earmark-bar-graph"></i> Relatórios
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('atestados') %}
+            <a class="nav-link {{ 'active' if request.endpoint == 'atestados' }}" href="{{ url_for('atestados') }}">
+                <i class="bi bi-file-text"></i> Atestados
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('aniversariantes') %}
+            <a class="nav-link {{ 'active' if request.endpoint == 'aniversariantes' }}" href="{{ url_for('aniversariantes') }}">
+                <i class="bi bi-gift"></i> Aniversariantes
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('funcionarios') %}
+            <a class="nav-link {{ 'active' if 'funcionarios' in request.endpoint or request.endpoint == 'relatorio_comissoes' }}" href="{{ url_for('listar_funcionarios') }}">
+                <i class="bi bi-person-badge"></i> Funcionários
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('comissoes') %}
+            <a class="nav-link {{ 'active' if request.endpoint == 'relatorio_comissoes' }}" href="{{ url_for('relatorio_comissoes') }}">
+                <i class="bi bi-calculator"></i> Comissões
+            </a>
+            {% endif %}
+
+            {% if current_user.tem_permissao('editar_configuracao') %}
+            <a class="nav-link {{ 'active' if request.endpoint == 'configuracao' }}" href="{{ url_for('configuracao') }}">
+                <i class="bi bi-gear"></i> Configurações
+            </a>
+            {% endif %}
+
+            <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+
+            <div class="px-3 mb-2">
+                <small class="text-white-50">{{ current_user.cargo }}: {{ current_user.nome_completo }}</small>
+            </div>
+
+            <a class="nav-link" href="{{ url_for('logout') }}">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header-bar d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0">{% block header_title %}{% endblock %}</h5>
+                <small class="text-muted">{{ config.endereco }}</small>
+            </div>
+            <div>
+                <span class="text-muted">
+                    <i class="bi bi-person-circle"></i> {{ current_user.nome_completo }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ 'success' if category == 'success' else 'danger' if category == 'error' else 'info' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Content -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Input Mask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+        // Máscaras para campos
+        $(document).ready(function () {
+            $('.cpf-mask').mask('000.000.000-00');
+            $('.celular-mask').mask('(00) 00000-0000');
+            $('.cep-mask').mask('00000-000');
+            $('.cro-mask').mask('CRO-AA 00000');
+        });
+
+        // Auto-hide flash messages
+        setTimeout(function () {
+            $('.alert').alert('close');
+        }, 3000);
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

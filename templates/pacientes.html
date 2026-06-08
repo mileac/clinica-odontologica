@@ -1,0 +1,123 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Pacientes - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Pacientes{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-people"></i> Lista de Pacientes</h5>
+        <a href="{{ url_for('cadastrar_paciente') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-person-plus"></i> Novo Paciente
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Campo de busca -->
+        <div class="mb-3">
+            <input type="text" class="form-control" id="buscar-paciente"
+                   placeholder="Buscar por nome ou CPF...">
+        </div>
+
+        <!-- Tabela de pacientes -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Idade</th>
+                        <th>Celular</th>
+                        <th>Data Cadastro</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-pacientes">
+                    {% for paciente in pacientes %}
+                    <tr>
+                        <td>{{ paciente.nome }}</td>
+                        <td>{{ paciente.cpf }}</td>
+                        <td>{{ paciente.calcular_idade() }} anos</td>
+                        <td>{{ paciente.celular }}</td>
+                        <td>{{ paciente.data_cadastro.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ url_for('visualizar_paciente', id=paciente.id) }}"
+                                   class="btn btn-sm btn-info" title="Visualizar">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ url_for('editar_paciente', id=paciente.id) }}"
+                                   class="btn btn-sm btn-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="{{ url_for('ficha_tratamento', paciente_id=paciente.id) }}"
+                                   class="btn btn-sm btn-success" title="Tratamento">
+                                    <i class="bi bi-clipboard2-pulse"></i>
+                                </a>
+                                <button onclick="confirmarExclusao({{ paciente.id }})"
+                                        class="btn btn-sm btn-danger" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">Nenhum paciente cadastrado</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+// Busca em tempo real
+document.getElementById('buscar-paciente').addEventListener('keyup', function() {
+    const termo = this.value;
+
+    if (termo.length >= 2) {
+        fetch(`/pacientes/buscar?termo=${termo}`)
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('tabela-pacientes');
+                tbody.innerHTML = '';
+
+                data.forEach(paciente => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${paciente.nome}</td>
+                            <td>${paciente.cpf}</td>
+                            <td>${paciente.idade} anos</td>
+                            <td>${paciente.celular}</td>
+                            <td>Hoje</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/pacientes/${paciente.id}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="/pacientes/editar/${paciente.id}" class="btn btn-sm btn-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="/ficha-tratamento/${paciente.id}" class="btn btn-sm btn-success">
+                                        <i class="bi bi-clipboard2-pulse"></i>
+                                    </a>
+                                    <button onclick="confirmarExclusao(${paciente.id})" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            });
+    }
+});
+
+function confirmarExclusao(id) {
+    if (confirm('Tem certeza que deseja excluir este paciente?')) {
+        window.location.href = `/pacientes/deletar/${id}`;
+    }
+}
+</script>
+{% endblock %}

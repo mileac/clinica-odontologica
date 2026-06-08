@@ -1,0 +1,710 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ABAS */
+.abas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.aba {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #666;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s;
+}
+
+ .aba:hover {
+        background: #f0f2f5;
+ }
+
+ .aba.ativa {
+        background: #1e3c72;
+        color: white;
+ }
+
+/* Cores do Financeiro */
+.valor-credito {    color: #10b981;    } /* verde - crédito */
+.valor-debito {    color: #ef4444;    } /* vermelho - débito */
+.valor-saldo {    color: #3b82f6;    } /* azul - saldo positivo */
+
+/* Menu Lateral */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.logo-icon {
+    font-size: 32px;
+}
+
+.logo h2 {
+    font-size: 22px;
+}
+
+.nav-item {
+    display: block;
+    padding: 12px 15px;
+    margin: 5px 0;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+    .nav-item:hover {
+        background: rgba(255,255,255,0.2);
+        transform: translateX(5px);
+    }
+
+/* Conteúdo Principal */
+.main-content {
+    flex: 1;
+    background: #f5f7fa;
+}
+
+.header {
+    background: white;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+    .header h1 {
+        font-size: 24px;
+        color: #2a5298;
+    }
+
+.content {
+    padding: 30px;
+}
+
+/* Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2a5298;
+    margin-top: 10px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+    .card h2 {
+        color: #1e3c72;
+        margin-bottom: 20px;
+    }
+
+/* Formulários */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #2a5298;
+    }
+
+textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Botões */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+    }
+
+.btn-success {
+    background: #10b981;
+    color: white;
+}
+
+.btn-small {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 0 2px;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    background: #e0e0e0;
+    color: #333;
+}
+
+    .btn-small:hover {
+        background: #ccc;
+    }
+
+/* Tabelas */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .data-table th, .data-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .data-table th {
+        background: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .data-table tr:hover {
+        background: #f8f9fa;
+    }
+
+/* Status */
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-pendente {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-confirmada {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-realizada {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.status-cancelada {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.status-aprovado {
+    background: #d1fae5;
+    color: #059669;
+}
+
+/* Alertas */
+.alert {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid #10b981;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+/* Ações */
+.acoes a {
+    margin-right: 5px;
+    text-decoration: none;
+}
+
+/* Fidelização */
+.fidelizacao-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.plano-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .fidelizacao-card {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+/* Ficha de Acompanhamento */
+.ficha-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+}
+
+.ficha-cabecalho {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 2px solid #1e3c72;
+    margin-bottom: 20px;
+}
+
+    .ficha-cabecalho h1 {
+        color: #1e3c72;
+        margin: 0;
+    }
+
+.ficha-secao {
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    background: #fafafa;
+}
+
+    .ficha-secao h2 {
+        color: #1e3c72;
+        border-bottom: 2px solid #1e3c72;
+        padding-bottom: 5px;
+        margin-top: 0;
+    }
+
+.dados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    text-align: center;
+}
+
+.resumo-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.resumo-numero {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.resumo-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.verde .resumo-numero {
+    color: #10b981;
+}
+
+.amarelo .resumo-numero {
+    color: #f59e0b;
+}
+
+.vermelho .resumo-numero {
+    color: #ef4444;
+}
+
+.azul .resumo-numero {
+    color: #3b82f6;
+}
+
+.laranja .resumo-numero {
+    color: #f97316;
+}
+
+.ficha-tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .ficha-tabela th, .ficha-tabela td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .ficha-tabela th {
+        background: #f0f2f5;
+    }
+
+.prontuario-info p {
+    margin: 10px 0;
+    padding: 5px;
+    background: white;
+    border-radius: 5px;
+}
+
+.observacoes p {
+    line-height: 2;
+    margin: 5px 0;
+}
+
+.ficha-rodape {
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    color: #666;
+}
+
+.botoes-acao {
+    text-align: center;
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Atendimentos */
+.atendimento-card {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.atendimento-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+
+.atendimento-body {
+    padding: 15px;
+}
+
+.dente-marcado {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.atendimento-procedimentos ul {
+    margin: 5px 0 10px 20px;
+}
+
+.atendimento-obs p {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+.atendimento-proxima {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+    color: #1e3c72;
+    font-weight: bold;
+}
+
+/* Ficha de Atendimento Virtual */
+.ficha-atendimento {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+}
+
+.arcada {
+    margin-bottom: 30px;
+}
+
+.dentes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.dente {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    width: 70px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+    .dente:hover {
+        transform: scale(1.1);
+        background: #e0e0e0;
+    }
+
+    .dente[data-status="tratado"] {
+        background: #d1fae5;
+        border-color: #10b981;
+    }
+
+.dente-numero {
+    font-size: 10px;
+    color: #666;
+}
+
+.dente-icon {
+    font-size: 32px;
+}
+
+.legenda {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.dente-normal {
+    width: 20px;
+    height: 20px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.dente-tratado {
+    width: 20px;
+    height: 20px;
+    background: #d1fae5;
+    border: 1px solid #10b981;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.dente-svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.dente.selecionado .dente-svg path {
+    fill: #10b981 !important;
+    stroke: white !important;
+}
+
+.dente-num {
+    font-size: 9px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.procedimento-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.procedimento-input {
+    flex: 1;
+    padding: 8px;
+}
+
+.btn-remover {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+    .btn-remover:hover {
+        background: #dc2626;
+    }
+
+.assinaturas {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+}
+
+.assinatura {
+    flex: 1;
+    text-align: center;
+}
+
+.arcada-acoes {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Impressão */
+@media print {
+    .sidebar, .header, .botoes-acao, nav, .alert, .arcada-acoes {
+        display: none !important;
+    }
+
+    .main-content {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .content {
+        padding: 0;
+    }
+
+    .ficha-container, .ficha-atendimento {
+        margin: 0;
+        padding: 20px;
+    }
+
+    .status {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+/* Responsivo para telas pequenas */
+@media (max-width: 768px) {
+    .dados-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dente {
+        width: 50px;
+    }
+
+    .dente-icon {
+        font-size: 24px;
+    }
+
+    .assinaturas {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

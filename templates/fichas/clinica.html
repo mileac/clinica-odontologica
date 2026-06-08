@@ -1,0 +1,200 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Ficha Clínica - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Ficha Clínica: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-danger text-white">
+        <h5 class="mb-0">
+            <i class="bi bi-clipboard2-heart"></i> Ficha Clínica - Histórico de Saúde
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i>
+            <strong>Atenção:</strong> Estas informações são fundamentais para a segurança do paciente durante o tratamento odontológico.
+        </div>
+
+        <form method="POST">
+            <!-- Alergias -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-shield-x"></i> Alergias</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="tem_alergia" id="tem_alergia"
+                               {% if ficha and ficha.tem_alergia %}checked{% endif %}
+                               onchange="toggleField('alergia_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="tem_alergia">
+                            Paciente tem alergia?
+                        </label>
+                    </div>
+                    <div id="alergia_fields" style="display: {% if ficha and ficha.tem_alergia %}block{% else %}none{% endif %};">
+                        <label class="form-label">Qual(is) alergia(s)?</label>
+                        <textarea class="form-control" name="qual_alergia" rows="2"
+                                  placeholder="Descreva as alergias do paciente...">{{ ficha.qual_alergia if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Antibióticos -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-capsule"></i> Antibióticos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="usa_antibioticos" id="usa_antibioticos"
+                               {% if ficha and ficha.usa_antibioticos %}checked{% endif %}
+                               onchange="toggleField('antibiotico_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="usa_antibioticos">
+                            Faz uso de antibióticos?
+                        </label>
+                    </div>
+                    <div id="antibiotico_fields" style="display: {% if ficha and ficha.usa_antibioticos %}block{% else %}none{% endif %};">
+                        <label class="form-label">Qual(is) antibiótico(s)?</label>
+                        <textarea class="form-control" name="qual_antibiotico" rows="2"
+                                  placeholder="Informe os antibióticos...">{{ ficha.qual_antibiotico if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sensibilidade a Medicamentos -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-diamond"></i> Sensibilidade a Medicamentos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="sensibilidade_medicamentos" id="sensibilidade_medicamentos"
+                               {% if ficha and ficha.sensibilidade_medicamentos %}checked{% endif %}
+                               onchange="toggleField('sensibilidade_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="sensibilidade_medicamentos">
+                            Tem sensibilidade a medicamentos?
+                        </label>
+                    </div>
+                    <div id="sensibilidade_fields" style="display: {% if ficha and ficha.sensibilidade_medicamentos %}block{% else %}none{% endif %};">
+                        <label class="form-label">Quais medicamentos?</label>
+                        <textarea class="form-control" name="quais_medicamentos_sensivel" rows="2"
+                                  placeholder="Informe os medicamentos que causam sensibilidade...">{{ ficha.quais_medicamentos_sensivel if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicamentos de Uso Contínuo -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-prescription2"></i> Medicamentos de Uso Contínuo</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="toma_medicamento" id="toma_medicamento"
+                               {% if ficha and ficha.toma_medicamento %}checked{% endif %}
+                               onchange="toggleField('medicamento_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="toma_medicamento">
+                            Toma algum medicamento regularmente?
+                        </label>
+                    </div>
+                    <div id="medicamento_fields" style="display: {% if ficha and ficha.toma_medicamento %}block{% else %}none{% endif %};">
+                        <label class="form-label">Qual(is) medicamento(s)?</label>
+                        <textarea class="form-control" name="qual_medicamento" rows="2"
+                                  placeholder="Informe os medicamentos de uso contínuo...">{{ ficha.qual_medicamento if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anestésicos -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-syringe"></i> Anestésicos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="usa_anestesico" id="usa_anestesico"
+                               {% if ficha and ficha.usa_anestesico %}checked{% endif %}
+                               onchange="toggleField('anestesico_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="usa_anestesico">
+                            Já usou anestésico local? Teve alguma reação?
+                        </label>
+                    </div>
+                    <div id="anestesico_fields" style="display: {% if ficha and ficha.usa_anestesico %}block{% else %}none{% endif %};">
+                        <label class="form-label">Qual anestésico? Qual reação?</label>
+                        <textarea class="form-control" name="qual_anestesico" rows="2"
+                                  placeholder="Informe o tipo de anestésico e possíveis reações...">{{ ficha.qual_anestesico if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problemas de Saúde -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-heart-pulse"></i> Problemas de Saúde</h6>
+                </div>
+                <div class="card-body">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="tem_problema_saude" id="tem_problema_saude"
+                               {% if ficha and ficha.tem_problema_saude %}checked{% endif %}
+                               onchange="toggleField('saude_fields', this.checked)">
+                        <label class="form-check-label fw-bold" for="tem_problema_saude">
+                            Tem algum problema de saúde?
+                        </label>
+                    </div>
+                    <div id="saude_fields" style="display: {% if ficha and ficha.tem_problema_saude %}block{% else %}none{% endif %};">
+                        <label class="form-label">Qual(is) problema(s)?</label>
+                        <textarea class="form-control" name="qual_problema_saude" rows="2"
+                                  placeholder="Ex: Diabetes, Hipertensão, Cardiopatia...">{{ ficha.qual_problema_saude if ficha else '' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pressão Arterial -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-heart"></i> Pressão Arterial</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Pressão Arterial</label>
+                            <input type="text" class="form-control" name="pressao_arterial"
+                                   placeholder="Ex: 120/80 mmHg"
+                                   value="{{ ficha.pressao_arterial if ficha else '' }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Observações -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-journal-text"></i> Observações Gerais</h6>
+                </div>
+                <div class="card-body">
+                    <textarea class="form-control" name="observacoes" rows="3"
+                              placeholder="Outras informações relevantes sobre a saúde do paciente...">{{ ficha.observacoes if ficha else '' }}</textarea>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-save"></i> Salvar Ficha Clínica
+                </button>
+                <a href="/pacientes/{{ paciente.id }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function toggleField(id, show) {
+    const field = document.getElementById(id);
+    if (field) {
+        field.style.display = show ? 'block' : 'none';
+    }
+}
+</script>
+{% endblock %}

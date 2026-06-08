@@ -1,0 +1,258 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Cards de estatisticas -->
+<div class="row">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title"><i class="bi bi-people"></i> Pacientes</h5>
+                        <h2 class="card-text">{{ total_pacientes }}</h2>
+                        <small>total cadastrado</small>
+                    </div>
+                    <i class="bi bi-people-fill" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title"><i class="bi bi-calendar-check"></i> Hoje</h5>
+                        <h2 class="card-text">{{ total_agendamentos_hoje }}</h2>
+                        <small>agendamentos</small>
+                    </div>
+                    <i class="bi bi-calendar-check-fill" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title"><i class="bi bi-cash-stack"></i> Pendente</h5>
+                        <h2 class="card-text">R$ {{ "%.2f"|format(total_financeiro_pendente) }}</h2>
+                        <small>a receber</small>
+                    </div>
+                    <i class="bi bi-cash-stack" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title"><i class="bi bi-gift"></i> Aniversariantes</h5>
+                        <h2 class="card-text">{{ aniversariantes|length }}</h2>
+                        <small>este mes</small>
+                    </div>
+                    <i class="bi bi-gift-fill" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LEMBRETES - NOVO -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0"><i class="bi bi-bell"></i> Consultas de Amanha</h6>
+            </div>
+            <div class="card-body" style="max-height: 200px; overflow-y: auto;">
+                {% if agendamentos_amanha %}
+                {% for agend in agendamentos_amanha %}
+                <div class="d-flex justify-content-between align-items-center mb-1 p-1 border-bottom">
+                    <div>
+                        <strong>{{ agend.data_hora.strftime('%H:%M') }}</strong> - {{ agend.paciente.nome }}
+                    </div>
+                    <a href="https://wa.me/55{{ agend.paciente.celular|replace('(', '')|replace(')', '')|replace(' ', '')|replace('-', '') }}?text=Ola {{ agend.paciente.nome }}! Lembramos da sua consulta amanha as {{ agend.data_hora.strftime('%H:%M') }}. Aguardamos voce!"
+                       class="btn btn-success btn-sm" target="_blank">
+                        <i class="bi bi-whatsapp"></i>
+                    </a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted text-center">Nenhuma consulta amanha</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Retornos Pendentes (+6 meses)</h6>
+            </div>
+            <div class="card-body" style="max-height: 200px; overflow-y: auto;">
+                {% if pacientes_sem_retorno %}
+                {% for pac in pacientes_sem_retorno %}
+                <div class="d-flex justify-content-between align-items-center mb-1 p-1 border-bottom">
+                    <div>
+                        <strong>{{ pac.nome }}</strong>
+                        <small class="text-muted d-block">{{ pac.celular }}</small>
+                    </div>
+                    <a href="/ficha-tratamento/{{ pac.id }}" class="btn btn-outline-primary btn-sm">Ver</a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted text-center">Todos em dia!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Conteudo principal -->
+<div class="row mt-4">
+    <!-- Agendamentos de Hoje -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-calendar-event"></i>
+                    Agendamentos de Hoje - {{ hoje.strftime('%d/%m/%Y') }}
+                </h5>
+                <a href="{{ url_for('agenda') }}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-calendar3"></i> Ver Agenda Completa
+                </a>
+            </div>
+            <div class="card-body">
+                {% if agendamentos_hoje_lista %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Horario</th>
+                                <th>Paciente</th>
+                                <th>Procedimento</th>
+                                <th>Duracao</th>
+                                <th>Status</th>
+                                <th>Acao</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for agend in agendamentos_hoje_lista %}
+                            {% if agend.paciente %}
+                            <tr>
+                                <td><strong>{{ agend.data_hora.strftime('%H:%M') }}</strong></td>
+                                <td>
+                                    {{ agend.paciente.nome }}<br>
+                                    <small class="text-muted">{{ agend.paciente.celular }}</small>
+                                </td>
+                                <td>{{ agend.procedimento }}</td>
+                                <td>{{ agend.duracao }} min</td>
+                                <td>
+                                    {% if agend.status == 'Confirmado' %}
+                                    <span class="badge bg-success">Confirmado</span>
+                                    {% elif agend.status == 'Agendado' %}
+                                    <span class="badge bg-primary">Agendado</span>
+                                    {% elif agend.status == 'Realizado' %}
+                                    <span class="badge bg-info">Realizado</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ agend.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="/ficha-tratamento/{{ agend.paciente_id }}"
+                                       class="btn btn-sm btn-success" title="Iniciar Tratamento">
+                                        <i class="bi bi-clipboard2-pulse"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-calendar-x" style="font-size: 3rem; color: #ccc;"></i>
+                    <p class="text-muted mt-2">Nenhum agendamento para hoje</p>
+                    <a href="{{ url_for('agenda') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle"></i> Agendar Consulta
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Coluna direita -->
+    <div class="col-md-4">
+        <!-- Aniversariantes do Mes -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-gift-fill"></i> Aniversariantes do Mes</h5>
+            </div>
+            <div class="card-body">
+                {% if aniversariantes %}
+                <div class="list-group">
+                    {% for aniversariante in aniversariantes[:5] %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">{{ aniversariante.nome }}</h6>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar-heart"></i>
+                                    {{ aniversariante.data_nascimento.strftime('%d/%m') }} -
+                                    {{ aniversariante.calcular_idade() }} anos
+                                </small>
+                            </div>
+                            <a href="https://wa.me/55{{ aniversariante.celular|replace('(', '')|replace(')', '')|replace(' ', '')|replace('-', '') }}?text=Ola {{ aniversariante.nome }}! A {{ config.nome_clinica }} deseja um feliz aniversario! Muitas felicidades, alegrias e sorrisos neste dia especial!"
+                               class="btn btn-success btn-sm" target="_blank">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if aniversariantes|length > 5 %}
+                <div class="text-center mt-2">
+                    <a href="{{ url_for('aniversariantes') }}" class="btn btn-link btn-sm">
+                        Ver todos ({{ aniversariantes|length }})
+                    </a>
+                </div>
+                {% endif %}
+                {% else %}
+                <p class="text-center text-muted">Nenhum aniversariante este mes</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Acoes Rapidas -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-lightning-charge"></i> Acoes Rapidas</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('cadastrar_paciente') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-person-plus"></i> Novo Paciente
+                    </a>
+                    <a href="{{ url_for('agenda') }}" class="btn btn-outline-success">
+                        <i class="bi bi-calendar-plus"></i> Novo Agendamento
+                    </a>
+                    <a href="{{ url_for('atestados') }}" class="btn btn-outline-info">
+                        <i class="bi bi-file-text"></i> Gerar Atestado
+                    </a>
+                    <a href="{{ url_for('financeiro') }}" class="btn btn-outline-warning">
+                        <i class="bi bi-cash-coin"></i> Ver Financeiro
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

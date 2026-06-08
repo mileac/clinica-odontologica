@@ -1,0 +1,121 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Arquivos - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Arquivos: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Upload -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-cloud-upload"></i> Enviar Arquivo</h5>
+            </div>
+            <div class="card-body">
+                <form action="/arquivos/upload/{{ paciente.id }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Selecione o arquivo</label>
+                        <input type="file" class="form-control" name="arquivo" required accept="image/*,.pdf,.doc,.docx">
+                        <small class="text-muted">Formatos: JPG, PNG, PDF, DOC (max 16MB)</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select class="form-select" name="tipo">
+                            <option value="radiografia">Radiografia</option>
+                            <option value="foto">Foto</option>
+                            <option value="documento">Documento</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <select class="form-select" name="categoria">
+                            <option value="">Geral</option>
+                            <option value="antes">Antes do tratamento</option>
+                            <option value="depois">Depois do tratamento</option>
+                            <option value="documento">Documento pessoal</option>
+                            <option value="exame">Exame</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descrição</label>
+                        <input type="text" class="form-control" name="descricao" placeholder="Descreva o arquivo...">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-cloud-upload"></i> Enviar Arquivo
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arquivos -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-folder2"></i> Arquivos do Paciente</h5>
+            </div>
+            <div class="card-body">
+                {% if arquivos %}
+                <div class="row">
+                    {% for arq in arquivos %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            {% if arq.tipo in ['radiografia', 'foto'] and arq.nome_arquivo.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+                            <a href="/static/uploads/{{ paciente.id }}/{{ arq.nome_arquivo }}" target="_blank">
+                                <img src="/static/uploads/{{ paciente.id }}/{{ arq.nome_arquivo }}"
+                                     class="card-img-top" style="height: 150px; object-fit: cover;" alt="{{ arq.descricao }}">
+                            </a>
+                            {% else %}
+                            <div class="text-center py-4 bg-light">
+                                <i class="bi bi-file-earmark-text" style="font-size: 3rem; color: #666;"></i>
+                            </div>
+                            {% endif %}
+                            <div class="card-body p-2">
+                                <small class="text-muted">{{ arq.data_upload.strftime('%d/%m/%Y %H:%M') }}</small>
+                                <br>
+                                <span class="badge bg-info">{{ arq.tipo }}</span>
+                                {% if arq.categoria %}
+                                <span class="badge bg-secondary">{{ arq.categoria }}</span>
+                                {% endif %}
+                                {% if arq.descricao %}
+                                <p class="mb-1 small">{{ arq.descricao }}</p>
+                                {% endif %}
+                                <div class="btn-group w-100">
+                                    <a href="/static/uploads/{{ paciente.id }}/{{ arq.nome_arquivo }}"
+                                       class="btn btn-sm btn-outline-primary" target="_blank" download>
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                    <button onclick="deletarArquivo({{ arq.id }})"
+                                            class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-cloud-upload" style="font-size: 3rem; color: #ccc;"></i>
+                    <p class="text-muted mt-2">Nenhum arquivo anexado</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deletarArquivo(id) {
+        if (confirm('Tem certeza que deseja excluir este arquivo?')) {
+            window.location.href = '/arquivos/deletar/' + id;
+        }
+    }
+</script>
+{% endblock %}

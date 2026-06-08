@@ -1,0 +1,50 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Atestados - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Gerar Atestados e Receituários{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-file-text"></i> Gerar Documento</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('gerar_atestado') }}" target="_blank">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Paciente *</label>
+                    <select class="form-select" name="paciente_id" required>
+                        <option value="">Selecione o paciente...</option>
+                        {% for paciente in pacientes %}
+                        <option value="{{ paciente.id }}">{{ paciente.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Tipo de Documento *</label>
+                    <select class="form-select" name="tipo" required>
+                        <option value="Atestado">Atestado</option>
+                        <option value="Receituário">Receituário</option>
+                        <option value="Declaração">Declaração</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Conteúdo do Documento *</label>
+                <textarea class="form-control" name="conteudo" rows="5" required 
+                          placeholder="Descreva o conteúdo do atestado ou receituário..."></textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Dias de Afastamento (se aplicável)</label>
+                    <input type="number" class="form-control" name="dias_afastamento" 
+                           placeholder="Ex: 3">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-printer"></i> Gerar Documento
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

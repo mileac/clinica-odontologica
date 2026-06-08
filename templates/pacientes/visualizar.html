@@ -1,0 +1,169 @@
+﻿{% extends "base.html" %}
+
+{% block title %}{{ paciente.nome }} - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Ficha do Paciente{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-person"></i> Dados Pessoais</h5>
+            </div>
+            <div class="card-body">
+                <h5>{{ paciente.nome }}</h5>
+                <hr>
+                <p><strong><i class="bi bi-credit-card"></i> CPF:</strong> {{ paciente.cpf }}</p>
+                <p><strong><i class="bi bi-calendar"></i> Idade:</strong> {{ paciente.calcular_idade() }} anos</p>
+                <p><strong><i class="bi bi-cake"></i> Nascimento:</strong> {{ paciente.data_nascimento.strftime('%d/%m/%Y') }}</p>
+                <p><strong><i class="bi bi-telephone"></i> Celular:</strong> {{ paciente.celular or 'Não informado' }}</p>
+                <p><strong><i class="bi bi-envelope"></i> E-mail:</strong> {{ paciente.email or 'Não informado' }}</p>
+                <p><strong><i class="bi bi-geo-alt"></i> Endereço:</strong> {{ paciente.endereco or 'Não informado' }}</p>
+                <p><strong><i class="bi bi-calendar-check"></i> Cadastro:</strong> {{ paciente.data_cadastro.strftime('%d/%m/%Y') }}</p>
+
+                {% if current_user.tem_permissao('editar_pacientes') %}
+                <div class="d-grid gap-2 mt-3">
+                    <a href="/pacientes/editar/{{ paciente.id }}" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Editar Dados
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if paciente.observacoes %}
+        <div class="card mt-3">
+            <div class="card-header"><h6 class="mb-0"><i class="bi bi-journal-text"></i> Observações</h6></div>
+            <div class="card-body"><p class="mb-0">{{ paciente.observacoes }}</p></div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-tools"></i> Fichas e Ações</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if current_user.tem_permissao('ficha_clinica') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/ficha-clinica/{{ paciente.id }}" class="btn btn-outline-danger w-100 p-3">
+                            <i class="bi bi-clipboard2-heart" style="font-size: 1.5rem;"></i><br>
+                            <strong>Ficha Clínica</strong><br>
+                            <small>Alergias, saúde, medicamentos</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('ficha_ortodontica') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/ficha-ortodontica/{{ paciente.id }}" class="btn btn-outline-primary w-100 p-3">
+                            <i class="bi bi-file-earmark-medical" style="font-size: 1.5rem;"></i><br>
+                            <strong>Ficha Ortodôntica</strong><br>
+                            <small>Avaliação e planejamento</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('ficha_tratamento') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/ficha-tratamento/{{ paciente.id }}" class="btn btn-outline-success w-100 p-3">
+                            <i class="bi bi-clipboard2-pulse" style="font-size: 1.5rem;"></i><br>
+                            <strong>Ficha de Tratamento</strong><br>
+                            <small>Procedimentos e valores</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('odontograma') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/odontograma/{{ paciente.id }}" class="btn btn-outline-dark w-100 p-3">
+                            <i class="bi bi-grid-3x3-gap" style="font-size: 1.5rem;"></i><br>
+                            <strong>Odontograma</strong><br>
+                            <small>Mapa dental interativo</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('orcamento') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/orcamento/{{ paciente.id }}" class="btn btn-outline-teal w-100 p-3" style="border-color: #009688; color: #009688;">
+                            <i class="bi bi-file-earmark-text" style="font-size: 1.5rem;"></i><br>
+                            <strong>Orçamento</strong><br>
+                            <small>Criar e gerenciar</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('historico') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/historico/{{ paciente.id }}" class="btn btn-outline-info w-100 p-3">
+                            <i class="bi bi-clock-history" style="font-size: 1.5rem;"></i><br>
+                            <strong>Histórico</strong><br>
+                            <small>Atendimentos realizados</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('arquivos') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/arquivos/{{ paciente.id }}" class="btn btn-outline-secondary w-100 p-3">
+                            <i class="bi bi-paperclip" style="font-size: 1.5rem;"></i><br>
+                            <strong>Arquivos</strong><br>
+                            <small>Fotos, radiografias, documentos</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if current_user.tem_permissao('agenda') %}
+                    <div class="col-md-6 mb-3">
+                        <a href="/agenda" class="btn btn-outline-warning w-100 p-3">
+                            <i class="bi bi-calendar-plus" style="font-size: 1.5rem;"></i><br>
+                            <strong>Agendar Consulta</strong><br>
+                            <small>Novo agendamento</small>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-md-6 mb-3">
+                        <a href="https://wa.me/55{{ paciente.celular|replace('(', '')|replace(')', '')|replace(' ', '')|replace('-', '') }}"
+                           class="btn btn-outline-success w-100 p-3" target="_blank">
+                            <i class="bi bi-whatsapp" style="font-size: 1.5rem;"></i><br>
+                            <strong>WhatsApp</strong><br>
+                            <small>Enviar mensagem</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if current_user.tem_permissao('ver_financeiro') %}
+        <div class="card mt-3">
+            <div class="card-header"><h5 class="mb-0"><i class="bi bi-cash-coin"></i> Resumo Financeiro</h5></div>
+            <div class="card-body">
+                {% set tratamentos = paciente.fichas_tratamento %}
+                {% if tratamentos %}
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <h6 class="text-muted">Total Faturado</h6>
+                        <h4 class="text-primary">R$ {{ "%.2f"|format(tratamentos|sum(attribute='valor')) }}</h4>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h6 class="text-muted">Total Pago</h6>
+                        <h4 class="text-success">R$ {{ "%.2f"|format(tratamentos|sum(attribute='valor_pago')) }}</h4>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h6 class="text-muted">Saldo Pendente</h6>
+                        <h4 class="text-danger">R$ {{ "%.2f"|format(tratamentos|sum(attribute='valor') - tratamentos|sum(attribute='valor_pago')) }}</h4>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">Nenhum tratamento registrado</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

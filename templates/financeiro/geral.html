@@ -1,0 +1,215 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Financeiro - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Relatorio Financeiro{% endblock %}
+
+{% block content %}
+<!-- Cards de resumo -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5>Total Faturado</h5>
+                        <h2>R$ {{ "%.2f"|format(total_faturado) }}</h2>
+                    </div>
+                    <i class="bi bi-cash-stack" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5>Total Recebido</h5>
+                        <h2>R$ {{ "%.2f"|format(total_recebido) }}</h2>
+                    </div>
+                    <i class="bi bi-check-circle" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-{{ 'warning' if total_pendente > 0 else 'success' }} text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5>Total Pendente</h5>
+                        <h2>R$ {{ "%.2f"|format(total_pendente) }}</h2>
+                    </div>
+                    <i class="bi bi-exclamation-circle" style="font-size: 3rem; opacity: 0.3;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graficos -->
+<div class="row mb-4">
+    <!-- Grafico de Faturamento Mensal -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-graph-up"></i> Faturamento dos Ultimos 6 Meses</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="graficoMensal" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafico de Procedimentos -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Procedimentos</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="graficoProcedimentos" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botoes -->
+<div class="mb-3">
+    <a href="{{ url_for('financeiro_filtros') }}" class="btn btn-primary">
+        <i class="bi bi-funnel"></i> Filtrar Relatorio
+    </a>
+</div>
+
+<!-- Ultimos tratamentos -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Ultimos Lancamentos</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Paciente</th>
+                        <th>Procedimento</th>
+                        <th>Valor</th>
+                        <th>Pago</th>
+                        <th>Saldo</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in ultimos_tratamentos %}
+                    <tr>
+                        <td>{{ t.data.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ t.paciente.nome }}</td>
+                        <td>{{ t.procedimento }}</td>
+                        <td>R$ {{ "%.2f"|format(t.valor) }}</td>
+                        <td>R$ {{ "%.2f"|format(t.valor_pago) }}</td>
+                        <td>R$ {{ "%.2f"|format(t.saldo_restante) }}</td>
+                        <td>
+                            {% if t.status_pagamento == 'Pago' %}
+                            <span class="badge bg-success">Pago</span>
+                            {% elif t.status_pagamento == 'Parcial' %}
+                            <span class="badge bg-warning">Parcial</span>
+                            {% else %}
+                            <span class="badge bg-danger">Pendente</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum tratamento registrado</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Grafico de Faturamento Mensal
+const ctxMensal = document.getElementById('graficoMensal').getContext('2d');
+new Chart(ctxMensal, {
+    type: 'bar',
+    data: {
+        labels: {{ meses_labels | tojson }},
+        datasets: [
+            {
+                label: 'Faturado',
+                data: {{ meses_faturado | tojson }},
+                backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                borderColor: 'rgb(102, 126, 234)',
+                borderWidth: 2,
+                borderRadius: 5
+            },
+            {
+                label: 'Recebido',
+                data: {{ meses_recebido | tojson }},
+                backgroundColor: 'rgba(76, 175, 80, 0.8)',
+                borderColor: 'rgb(76, 175, 80)',
+                borderWidth: 2,
+                borderRadius: 5
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value) {
+                        return 'R$ ' + value.toFixed(0);
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Grafico de Procedimentos
+const ctxProc = document.getElementById('graficoProcedimentos').getContext('2d');
+new Chart(ctxProc, {
+    type: 'doughnut',
+    data: {
+        labels: {{ proc_labels | tojson }},
+        datasets: [{
+            data: {{ proc_valores | tojson }},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: {
+                        size: 11
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
