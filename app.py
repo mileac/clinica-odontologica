@@ -12,7 +12,11 @@ from werkzeug.utils import secure_filename
 # Inicialização do app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'sua_chave_secreta_aqui_123456'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clinica.db'
+DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
+if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
+    DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Configuração para upload de arquivos

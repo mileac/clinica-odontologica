@@ -226,8 +226,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -242,10 +246,6 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "editar.html",
@@ -255,8 +255,7 @@
               "RelativeToolTip": "templates\\funcionarios\\editar.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T21:10:58.072Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T21:10:58.072Z"
             },
             {
               "$type": "Document",
@@ -268,8 +267,7 @@
               "RelativeToolTip": "templates\\base.html",
               "ViewState": "AgIAABcAAAAAAAAAAAAAALEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-05-30T20:46:52.25Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T20:46:52.25Z"
             },
             {
               "$type": "Document",
@@ -281,8 +279,7 @@
               "RelativeToolTip": "app.py",
               "ViewState": "AgIAACgGAAAAAAAAAAAqwDQGAAAdAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-05-30T18:19:19.701Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T18:19:19.701Z"
             },
             {
               "$type": "Document",
@@ -294,8 +291,7 @@
               "RelativeToolTip": "templates\\funcionarios\\cadastrar.html",
               "ViewState": "AgIAAFoAAAAAAAAAAAAuwHMAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T05:37:58.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T05:37:58.21Z"
             },
             {
               "$type": "Document",
@@ -307,8 +303,7 @@
               "RelativeToolTip": "templates\\funcionarios\\comissoes.html",
               "ViewState": "AgIAAA8AAAAAAAAAAAAuwCgAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T05:39:35.44Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T05:39:35.44Z"
             },
             {
               "$type": "Document",
@@ -320,8 +315,7 @@
               "RelativeToolTip": "config.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-06-02T21:46:18.056Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-02T21:46:18.056Z"
             },
             {
               "$type": "Document",
@@ -333,8 +327,7 @@
               "RelativeToolTip": "templates\\agenda.html",
               "ViewState": "AgIAABkBAAAAAAAAAAAuwDIBAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T20:51:32.853Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T20:51:32.853Z"
             },
             {
               "$type": "Document",
@@ -346,8 +339,7 @@
               "RelativeToolTip": "templates\\relatorios\\index.html",
               "ViewState": "AgIAANsAAAAAAAAAAAAuwOwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T21:42:30.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T21:42:30.75Z"
             },
             {
               "$type": "Document",
@@ -359,8 +351,7 @@
               "RelativeToolTip": "templates\\pacientes\\visualizar.html",
               "ViewState": "AgIAAIkAAAAAAAAAAAAuwJoAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T21:42:11.877Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T21:42:11.877Z"
             },
             {
               "$type": "Document",
@@ -372,8 +363,7 @@
               "RelativeToolTip": "templates\\funcionarios\\listar.html",
               "ViewState": "AgIAABwAAAAAAAAAAAAxwC8AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T05:37:02.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T05:37:02.951Z"
             },
             {
               "$type": "Document",
@@ -385,8 +375,7 @@
               "RelativeToolTip": "templates\\aniversariantes.html",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAAB4AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T19:55:04.814Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T19:55:04.814Z"
             },
             {
               "$type": "Document",
@@ -398,8 +387,7 @@
               "RelativeToolTip": "templates\\arquivos.html",
               "ViewState": "AgIAAF8AAAAAAAAAAAAxwG8AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T04:57:34.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T04:57:34.698Z"
             },
             {
               "$type": "Document",
@@ -411,8 +399,7 @@
               "RelativeToolTip": "templates\\atestado_gerado.html",
               "ViewState": "AgIAAHYAAAAAAAAAAAAcwHoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T19:56:10.124Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T19:56:10.124Z"
             },
             {
               "$type": "Document",
@@ -424,8 +411,7 @@
               "RelativeToolTip": "templates\\atestados.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-02T18:52:38.052Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-02T18:52:38.052Z"
             },
             {
               "$type": "Document",
@@ -437,8 +423,7 @@
               "RelativeToolTip": "templates\\historico.html",
               "ViewState": "AgIAAAsAAAAAAAAAAAAcwCMAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T19:55:37.452Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T19:55:37.452Z"
             },
             {
               "$type": "Document",
@@ -450,8 +435,7 @@
               "RelativeToolTip": "templates\\orcamento.html",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-02T23:28:01.025Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-02T23:28:01.025Z"
             },
             {
               "$type": "Document",
@@ -463,8 +447,7 @@
               "RelativeToolTip": "templates\\ver_orcamento.html",
               "ViewState": "AgIAAGsAAAAAAAAAAAAAAHcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T03:22:54.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T03:22:54.37Z"
             },
             {
               "$type": "Document",
@@ -476,8 +459,7 @@
               "RelativeToolTip": "templates\\dashboard.html",
               "ViewState": "AgIAAOMAAAAAAAAAAAAgwP0AAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T20:52:32.646Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T20:52:32.646Z"
             },
             {
               "$type": "Document",
@@ -489,8 +471,7 @@
               "RelativeToolTip": "templates\\novo_orcamento.html",
               "ViewState": "AgIAAK4AAAAAAAAAAAAuwMcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T03:22:25.066Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T03:22:25.066Z"
             },
             {
               "$type": "Document",
@@ -502,8 +483,7 @@
               "RelativeToolTip": "criar_banco.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABDAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-05-31T00:57:49.579Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-31T00:57:49.579Z"
             },
             {
               "$type": "Document",
@@ -515,8 +495,7 @@
               "RelativeToolTip": "templates\\login.html",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T01:04:28.374Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T01:04:28.374Z"
             },
             {
               "$type": "Document",
@@ -528,8 +507,7 @@
               "RelativeToolTip": "templates\\financeiro\\geral.html",
               "ViewState": "AgIAALgAAAAAAAAAAAAkwMcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T19:53:55.574Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T19:53:55.574Z"
             },
             {
               "$type": "Document",
@@ -541,8 +519,7 @@
               "RelativeToolTip": "templates\\odontograma.html",
               "ViewState": "AgIAAMwAAAAAAAAAAAAkwN4AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-07T01:51:40.735Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-07T01:51:40.735Z"
             },
             {
               "$type": "Document",
@@ -554,8 +531,7 @@
               "RelativeToolTip": "templates\\fichas\\tratamento.html",
               "ViewState": "AgIAAKgAAAAAAAAAAAAiwLUAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T20:07:31.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T20:07:31.51Z"
             },
             {
               "$type": "Document",
@@ -567,8 +543,7 @@
               "RelativeToolTip": "templates\\pacientes.html",
               "ViewState": "AgIAADgAAAAAAAAAAAAiwDsAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-05-30T18:00:35.637Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T18:00:35.637Z"
             },
             {
               "$type": "Document",
@@ -580,8 +555,7 @@
               "RelativeToolTip": "templates\\fichas\\editar_tratamento.html",
               "ViewState": "AgIAADIAAAAAAAAAAAAcwDgAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-06T00:17:01.031Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-06T00:17:01.031Z"
             },
             {
               "$type": "Document",
@@ -593,8 +567,7 @@
               "RelativeToolTip": "keep_alive.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAANAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-06-06T02:05:27.16Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-06T02:05:27.16Z"
             },
             {
               "$type": "Document",
@@ -606,8 +579,7 @@
               "RelativeToolTip": "templates\\fichas\\clinica.html",
               "ViewState": "AgIAAK8AAAAAAAAAAAAiwLsAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T21:41:14.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T21:41:14.168Z"
             },
             {
               "$type": "Document",
@@ -619,8 +591,7 @@
               "RelativeToolTip": "templates\\fichas\\ortodontica.html",
               "ViewState": "AgIAAHcAAAAAAAAAAADwv40AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T20:08:20.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T20:08:20.952Z"
             },
             {
               "$type": "Document",
@@ -632,8 +603,7 @@
               "RelativeToolTip": "requirements.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-06-02T18:07:12.68Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-02T18:07:12.68Z"
             },
             {
               "$type": "Document",
@@ -645,8 +615,7 @@
               "RelativeToolTip": "models.py",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAADwAAAAAAAAAAAAAAA==",
               "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHfSURBVDhPpZCxaxNhGMZ/9zVJaUuDUlq1FBWLZBFTCXo4BFyU1qGKi4OkIHhkzF/g0KF00M2lR9YUdDDQQVAcJILoQUd1UNRmkhoRm8RL777v7nOoCZd4AcEH3uF5nvd73vd74X\u002BgtTai3LIsHeWDEEJct217a1DvwbIs7bpubFUqFW3b9naxWLwWfSOipAvHcfqqi0KhkMtms3cty1rsaomeG4FpmoMSANVqlXQ6nQMWgacMC4hOBchduEj\u002ByjKjScGh8SS1Wq3nxQZEN3j1eY/Vrfe8rTeQvsf89ARLS1cz5XIZ/uUGXxptQiVRUhJIybudXaZn52a7vbEBpmkyNb/A69YM9W8tDEJOTI2hpI\u002BSkvOZH2f13sNAB\u002B07sV9wHIdH9Unquz9RvoeUPtL3UFISKkky\u002BAT7HwTi6FpsgGma3N9\u002Bg5I\u002BKaFZyU8wOpJChwHnjiuE9wKCXyC/zsQGOI7DeELjtiUPbgky6Wd/HA3KBelC4AIpNfQGl88cQ0mfI5PugRhKkM2DUk0INYwtPI/dAGAlf4rbl06T6DyBVgeCABJzYPhwcm0V8ICNvwJKpVIf37h3IxSyKVAuBMDIYQAMw1jvaxwGrYNl3Xq5o79vat3Y3Nedj4\u002B11je7/m\u002BXOuyzFtDhUgAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-06-03T19:10:03.033Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-03T19:10:03.033Z"
             },
             {
               "$type": "Document",
@@ -658,8 +627,7 @@
               "RelativeToolTip": "instrucoes.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-06-01T13:11:33.805Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-01T13:11:33.805Z"
             },
             {
               "$type": "Document",
@@ -671,8 +639,7 @@
               "RelativeToolTip": "templates\\financeiro\\filtros.html",
               "ViewState": "AgIAAGYAAAAAAAAAAAAcwH4AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-06-05T19:53:15.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-05T19:53:15.762Z"
             },
             {
               "$type": "Document",
@@ -893,8 +860,7 @@
               "RelativeToolTip": "static\\style.css",
               "ViewState": "AgIAACEAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-05-30T18:05:41.101Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T18:05:41.101Z"
             }
           ]
         }
