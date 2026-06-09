@@ -35,6 +35,10 @@ def allowed_file(filename):
 # Inicialização do banco de dados
 db = SQLAlchemy(app)
 
+# Forçar criação das tabelas
+with app.app_context():
+    db.create_all()
+
 # Inicialização do Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
