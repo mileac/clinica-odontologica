@@ -226,9 +226,15 @@
                 <small class="text-white-50">{{ current_user.cargo }}: {{ current_user.nome_completo }}</small>
             </div>
 
-            <a class="nav-link" href="{{ url_for('logout') }}">
-                <i class="bi bi-box-arrow-right"></i> Sair
-            </a>
+            <a class="nav-link" href="https://github.com/mileac/clinica-odontologica/blob/main/MANUAL.md" target="_blank">
+				<i class="bi bi-book"></i> Manual do Usuário
+			</a>
+
+			<hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
+
+			<a class="nav-link" href="{{ url_for('logout') }}">
+				<i class="bi bi-box-arrow-right"></i> Sair
+			</a>
         </nav>
     </div>
 
