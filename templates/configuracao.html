@@ -1,84 +1,101 @@
 ﻿{% extends "base.html" %}
 
-{% block title %}Configurações - {{ config.nome_clinica }}{% endblock %}
-{% block header_title %}Configurações da Clínica{% endblock %}
+{% block title %}Configuracoes - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Configuracoes da Clinica{% endblock %}
 
 {% block content %}
 <div class="card">
     <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-building"></i> Dados da Clínica</h5>
+        <h5 class="mb-0"><i class="bi bi-building"></i> Dados da Clinica</h5>
     </div>
     <div class="card-body">
         <form method="POST">
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="nome_clinica" class="form-label">Nome da Clínica *</label>
-                    <input type="text" class="form-control" id="nome_clinica" name="nome_clinica"
-                           value="{{ config.nome_clinica }}" required>
+                <div class="col-md-8 mb-3">
+                    <label for="nome_clinica" class="form-label">Nome da Clinica *</label>
+                    <input type="text" class="form-control" id="nome_clinica" name="nome_clinica" value="{{ config.nome_clinica }}" required>
                 </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email"
-                           value="{{ config.email }}">
+                <div class="col-md-4 mb-3">
+                    <label for="cnpj_clinica" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control cnpj-mask" id="cnpj_clinica" name="cnpj_clinica" value="{{ config.cnpj_clinica or '' }}">
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-md-8 mb-3">
-                    <label for="endereco" class="form-label">Endereço *</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco"
-                           value="{{ config.endereco }}" required>
+                    <label for="endereco" class="form-label">Endereco *</label>
+                    <input type="text" class="form-control" id="endereco" name="endereco" value="{{ config.endereco }}" required>
                 </div>
-
                 <div class="col-md-4 mb-3">
                     <label for="cep" class="form-label">CEP</label>
-                    <input type="text" class="form-control cep-mask" id="cep" name="cep"
-                           value="{{ config.cep }}">
+                    <input type="text" class="form-control cep-mask" id="cep" name="cep" value="{{ config.cep }}">
                 </div>
             </div>
-
+            
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="cidade" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="cidade"
-                           value="{{ config.cidade }}">
+                    <input type="text" class="form-control" id="cidade" name="cidade" value="{{ config.cidade }}">
                 </div>
-
                 <div class="col-md-2 mb-3">
                     <label for="estado" class="form-label">Estado</label>
-                    <input type="text" class="form-control" id="estado" name="estado"
-                           value="{{ config.estado }}" maxlength="2">
+                    <input type="text" class="form-control" id="estado" name="estado" value="{{ config.estado }}" maxlength="2">
                 </div>
-
                 <div class="col-md-4 mb-3">
                     <label for="telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control celular-mask" id="telefone" name="telefone"
-                           value="{{ config.telefone }}">
+                    <input type="text" class="form-control celular-mask" id="telefone" name="telefone" value="{{ config.telefone }}">
                 </div>
             </div>
-
-            <hr>
-            <h5 class="mb-3"><i class="bi bi-person-badge"></i> Dados do Profissional</h5>
-
+            
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="nome_doutor" class="form-label">Nome do Dentista *</label>
-                    <input type="text" class="form-control" id="nome_doutor" name="nome_doutor"
-                           value="{{ config.nome_doutor }}" required>
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ config.email }}">
                 </div>
-
-                <div class="col-md-6 mb-3">
-                    <label for="cro" class="form-label">CRO *</label>
-                    <input type="text" class="form-control cro-mask" id="cro" name="cro"
-                           value="{{ config.cro }}" required>
+                <div class="col-md-3 mb-3">
+                    <label for="inscricao_municipal" class="form-label">Inscricao Municipal</label>
+                    <input type="text" class="form-control" id="inscricao_municipal" name="inscricao_municipal" value="{{ config.inscricao_municipal or '' }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="iss_percentual" class="form-label">ISS Padrao (%)</label>
+                    <input type="number" step="0.1" class="form-control" id="iss_percentual" name="iss_percentual" value="{{ config.iss_percentual or 5 }}">
                 </div>
             </div>
-
+            
+            <hr>
+            <h5 class="mb-3"><i class="bi bi-person-badge"></i> Dados do Profissional</h5>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="nome_doutor" class="form-label">Nome do Dentista *</label>
+                    <input type="text" class="form-control" id="nome_doutor" name="nome_doutor" value="{{ config.nome_doutor }}" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cro" class="form-label">CRO *</label>
+                    <input type="text" class="form-control cro-mask" id="cro" name="cro" value="{{ config.cro }}" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="cpf_doutor" class="form-label">CPF do Dentista</label>
+                    <input type="text" class="form-control cpf-mask" id="cpf_doutor" name="cpf_doutor" value="{{ config.cpf_doutor or '' }}">
+                </div>
+            </div>
+            
             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save"></i> Salvar Configurações
+                <i class="bi bi-save"></i> Salvar Configuracoes
             </button>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+$(document).ready(function() {
+    $('.cnpj-mask').mask('00.000.000/0000-00');
+    $('.cpf-mask').mask('000.000.000-00');
+    $('.cep-mask').mask('00000-000');
+    $('.celular-mask').mask('(00) 00000-0000');
+    $('.cro-mask').mask('CRO-AA 00000');
+});
+</script>
 {% endblock %}

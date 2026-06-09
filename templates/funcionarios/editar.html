@@ -45,7 +45,11 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-4 mb-3">
+					<label class="form-label">CPF</label>
+					<input type="text" class="form-control cpf-mask" name="cpf" value="{{ funcionario.cpf or '' }}">
+				</div>
+				<div class="col-md-6 mb-3">
                     <label class="form-label">CRO</label>
                     <input type="text" class="form-control" name="cro" value="{{ funcionario.cro or '' }}">
                 </div>

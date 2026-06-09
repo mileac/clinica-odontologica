@@ -16,12 +16,18 @@
     
     <div class="container" style="max-width: 800px; margin-top: 20px;">
         <div class="recibo-header">
-            <h4>{{ config.nome_clinica }}</h4>
-            <p>{{ config.endereco }} - {{ config.cidade }}/{{ config.estado }}</p>
-            <p>Dr(a). {{ config.nome_doutor }} - {{ config.cro }}</p>
-            <h5 class="mt-3">RECIBO DE PRESTAÇÃO DE SERVIÇOS</h5>
-            <h3>Nº {{ recibo.numero }}</h3>
-        </div>
+			<h4>{{ config.nome_clinica }}</h4>
+			<p>{{ config.endereco }} - {{ config.cidade }}/{{ config.estado }}</p>
+			{% if config.cnpj_clinica %}<p><strong>CNPJ:</strong> {{ config.cnpj_clinica }}</p>{% endif %}
+			{% if config.inscricao_municipal %}<p><strong>Inscrição Municipal:</strong> {{ config.inscricao_municipal }}</p>{% endif %}
+			<hr>
+			<p>
+				<strong>Profissional:</strong> {{ current_user.nome_completo }} - {{ current_user.cro or 'N/A' }}
+				{% if current_user.cpf %}<br><strong>CPF:</strong> {{ current_user.cpf }}{% endif %}
+			</p>
+			<h5 class="mt-3">RECIBO DE PRESTAÇÃO DE SERVIÇOS</h5>
+			<h3>Nº {{ recibo.numero }}</h3>
+		</div>
         
         <div class="row mb-3">
             <div class="col-6"><strong>Paciente:</strong> {{ recibo.paciente.nome }}<br><strong>CPF:</strong> {{ recibo.paciente.cpf }}</div>

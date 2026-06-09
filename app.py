@@ -52,6 +52,7 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(db.String(120))
     cargo = db.Column(db.String(50), default='Dentista')
     cro = db.Column(db.String(20))
+    cpf = db.Column(db.String(14))
     especialidade = db.Column(db.String(100))
     comissao_percentual = db.Column(db.Float, default=0.0)
     ativo = db.Column(db.Boolean, default=True)
@@ -106,6 +107,10 @@ class ConfiguracaoClinica(db.Model):
     telefone = db.Column(db.String(20))
     nome_doutor = db.Column(db.String(200))
     cro = db.Column(db.String(20))
+    cpf_doutor = db.Column(db.String(14))       # NOVO
+    cnpj_clinica = db.Column(db.String(18))      # NOVO
+    inscricao_municipal = db.Column(db.String(20))  # NOVO
+    iss_percentual = db.Column(db.Float, default=5.0)  # NOVO
     
     @staticmethod
     def get_configuracao():
@@ -453,6 +458,7 @@ def api_profissionais():
 @requer_permissao('editar_configuracao')
 def configuracao():
     config = ConfiguracaoClinica.get_configuracao()
+    
     if request.method == 'POST':
         config.nome_clinica = request.form['nome_clinica']
         config.endereco = request.form['endereco']
@@ -463,9 +469,15 @@ def configuracao():
         config.telefone = request.form['telefone']
         config.nome_doutor = request.form['nome_doutor']
         config.cro = request.form['cro']
+        config.cpf_doutor = request.form.get('cpf_doutor', '')
+        config.cnpj_clinica = request.form.get('cnpj_clinica', '')
+        config.inscricao_municipal = request.form.get('inscricao_municipal', '')
+        config.iss_percentual = float(request.form.get('iss_percentual', 5) or 5)
+        
         db.session.commit()
         flash('Configurações atualizadas!', 'success')
         return redirect(url_for('configuracao'))
+    
     return render_template('configuracao.html', config=config)
 
 # ==================== ROTAS DE PACIENTES ====================
@@ -1059,7 +1071,8 @@ def cadastrar_funcionario():
             username=username, nome_completo=request.form['nome_completo'],
             email=request.form.get('email', ''), cargo=request.form.get('cargo', 'Dentista'),
             cro=request.form.get('cro', ''), especialidade=request.form.get('especialidade', ''),
-            comissao_percentual=float(request.form.get('comissao_percentual', 0) or 0)
+            cpf=request.form.get('cpf', ''),
+            comissao_percentual=float(request.form.get('comissao_percentual', 0) or 0)            
         )
         funcionario.set_password(request.form['password'])
         db.session.add(funcionario)
@@ -1082,6 +1095,7 @@ def editar_funcionario(id):
         funcionario.cargo = request.form.get('cargo', 'Dentista')
         funcionario.cro = request.form.get('cro', '')
         funcionario.especialidade = request.form.get('especialidade', '')
+        funcionario.cpf = request.form.get('cpf', '')
         funcionario.comissao_percentual = float(request.form.get('comissao_percentual', 0) or 0)
         if request.form.get('password'):
             funcionario.set_password(request.form['password'])
