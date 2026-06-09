@@ -183,6 +183,12 @@
                 <i class="bi bi-file-earmark-bar-graph"></i> Relatórios
             </a>
             {% endif %}
+			
+			{% if current_user.tem_permissao('ver_financeiro') %}
+			<a class="nav-link {{ 'active' if 'recibos' in request.endpoint }}" href="{{ url_for('recibos') }}">
+				<i class="bi bi-receipt"></i> Recibos
+			</a>
+			{% endif %}
 
             {% if current_user.tem_permissao('atestados') %}
             <a class="nav-link {{ 'active' if request.endpoint == 'atestados' }}" href="{{ url_for('atestados') }}">

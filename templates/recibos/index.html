@@ -1,0 +1,44 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Recibos - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Recibos Emitidos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="bi bi-receipt"></i> Recibos</h5>
+        <div class="d-flex gap-2">
+            <input type="month" class="form-control form-control-sm" id="filtroMes" onchange="carregarRecibos()" style="width:150px;">
+            <input type="text" class="form-control form-control-sm" id="filtroPaciente" placeholder="Buscar paciente..." onkeyup="carregarRecibos()" style="width:200px;">
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead><tr><th>Nº</th><th>Data</th><th>Paciente</th><th>Valor</th><th>ISS</th><th>Líquido</th><th>Status</th><th>Ações</th></tr></thead>
+                <tbody id="tabelaRecibos">
+                    {% for r in recibos %}
+                    <tr>
+                        <td><strong>#{{ r.numero }}</strong></td>
+                        <td>{{ r.data_emissao.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ r.paciente.nome }}</td>
+                        <td>R$ {{ "%.2f"|format(r.valor_total) }}</td>
+                        <td>R$ {{ "%.2f"|format(r.iss_valor) }}</td>
+                        <td>R$ {{ "%.2f"|format(r.valor_liquido) }}</td>
+                        <td><span class="badge bg-{{ 'success' if r.status == 'Emitido' else 'danger' }}">{{ r.status }}</span></td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="/recibos/ver/{{ r.id }}" class="btn btn-sm btn-outline-info" target="_blank"><i class="bi bi-eye"></i></a>
+                                {% if r.status != 'Cancelado' %}
+                                <a href="/recibos/cancelar/{{ r.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Cancelar este recibo?')"><i class="bi bi-x-lg"></i></a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

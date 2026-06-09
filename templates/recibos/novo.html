@@ -1,0 +1,104 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Novo Recibo - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Emitir Recibo: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" id="formRecibo">
+            <h6 class="mb-3"><strong>Serviços Prestados</strong></h6>
+            
+            <div id="itensRecibo">
+                <div class="row item-recibo mb-2 p-2 border rounded bg-light">
+                    <div class="col-md-2"><label class="form-label small">Dente</label><input type="text" class="form-control form-control-sm" name="dente[]"></div>
+                    <div class="col-md-5"><label class="form-label small">Procedimento *</label><input type="text" class="form-control form-control-sm" name="procedimento[]" required></div>
+                    <div class="col-md-3"><label class="form-label small">Valor (R$) *</label><input type="number" step="0.01" class="form-control form-control-sm valor-item" name="valor[]" required onchange="atualizarTotal()"></div>
+                    <div class="col-md-2"><label class="form-label small">&nbsp;</label><button type="button" class="btn btn-danger btn-sm w-100" onclick="removerItem(this)"><i class="bi bi-trash"></i></button></div>
+                    <input type="hidden" name="tratamento_id[]" value="">
+                </div>
+            </div>
+            
+            <button type="button" class="btn btn-outline-primary btn-sm mb-3" onclick="adicionarItem()">
+                <i class="bi bi-plus-circle"></i> Adicionar Serviço
+            </button>
+            
+            <hr>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card bg-light"><div class="card-body text-center"><h6>Subtotal</h6><h4 id="subtotal">R$ 0,00</h4></div></div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"><strong>ISS (%)</strong></label>
+                    <input type="number" step="0.1" class="form-control" name="iss_percentual" value="5" onchange="atualizarTotal()">
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-light"><div class="card-body text-center"><h6>Total Líquido</h6><h4 id="totalLiquido" class="text-success">R$ 0,00</h4></div></div>
+                </div>
+            </div>
+            
+            <div class="mb-3 mt-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" name="observacoes" rows="2"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary"><i class="bi bi-receipt"></i> Emitir Recibo</button>
+            <a href="/pacientes/{{ paciente.id }}" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</div>
+
+{% if tratamentos %}
+<div class="card mt-3">
+    <div class="card-header"><h6>Tratamentos do Paciente (clique para adicionar)</h6></div>
+    <div class="card-body">
+        {% for t in tratamentos %}
+        <button class="btn btn-outline-secondary btn-sm m-1" onclick="adicionarTratamento('{{ t.procedimento }}', '{{ t.dente or '' }}', {{ t.valor }}, {{ t.id }})">
+            {{ t.procedimento }} ({{ t.dente or 'N/A' }}) - R$ {{ "%.2f"|format(t.valor) }}
+        </button>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<script>
+function adicionarItem() {
+    const html = `<div class="row item-recibo mb-2 p-2 border rounded bg-light">
+        <div class="col-md-2"><input type="text" class="form-control form-control-sm" name="dente[]"></div>
+        <div class="col-md-5"><input type="text" class="form-control form-control-sm" name="procedimento[]" required></div>
+        <div class="col-md-3"><input type="number" step="0.01" class="form-control form-control-sm valor-item" name="valor[]" required onchange="atualizarTotal()"></div>
+        <div class="col-md-2"><button type="button" class="btn btn-danger btn-sm w-100" onclick="removerItem(this)"><i class="bi bi-trash"></i></button></div>
+        <input type="hidden" name="tratamento_id[]" value="">
+    </div>`;
+    document.getElementById('itensRecibo').insertAdjacentHTML('beforeend', html);
+}
+
+function removerItem(btn) {
+    if (document.querySelectorAll('.item-recibo').length > 1) {
+        btn.closest('.item-recibo').remove();
+        atualizarTotal();
+    }
+}
+
+function adicionarTratamento(procedimento, dente, valor, tratamentoId) {
+    adicionarItem();
+    const itens = document.querySelectorAll('.item-recibo');
+    const ultimo = itens[itens.length - 1];
+    ultimo.querySelector('input[name="dente[]"]').value = dente;
+    ultimo.querySelector('input[name="procedimento[]"]').value = procedimento;
+    ultimo.querySelector('input[name="valor[]"]').value = valor;
+    ultimo.querySelector('input[name="tratamento_id[]"]').value = tratamentoId;
+    atualizarTotal();
+}
+
+function atualizarTotal() {
+    let total = 0;
+    document.querySelectorAll('.valor-item').forEach(i => total += parseFloat(i.value || 0));
+    document.getElementById('subtotal').textContent = 'R$ ' + total.toFixed(2).replace('.',',');
+    const iss = parseFloat(document.querySelector('[name="iss_percentual"]').value || 5);
+    const issValor = total * (iss / 100);
+    document.getElementById('totalLiquido').textContent = 'R$ ' + (total - issValor).toFixed(2).replace('.',',');
+}
+</script>
+{% endblock %}

@@ -95,6 +95,16 @@
                         </a>
                     </div>
                     {% endif %}
+					
+					{% if current_user.tem_permissao('ficha_tratamento') %}
+					<div class="col-md-6 mb-3">
+						<a href="/recibos/novo/{{ paciente.id }}" class="btn btn-outline-teal w-100 p-3" style="border-color: #009688; color: #009688;">
+							<i class="bi bi-receipt" style="font-size: 1.5rem;"></i><br>
+							<strong>Emitir Recibo</strong><br>
+							<small>Gerar recibo de serviços</small>
+						</a>
+					</div>
+					{% endif %}
 
                     {% if current_user.tem_permissao('historico') %}
                     <div class="col-md-6 mb-3">

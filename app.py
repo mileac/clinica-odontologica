@@ -312,6 +312,33 @@ class Despesa(db.Model):
     pago = db.Column(db.Boolean, default=True)
     observacoes = db.Column(db.Text)
     data_cadastro = db.Column(db.DateTime, default=datetime.utcnow)
+    
+class Recibo(db.Model):
+    __tablename__ = 'recibos'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'), nullable=False)
+    numero = db.Column(db.Integer)  # Número sequencial automático
+    data_emissao = db.Column(db.Date, default=date.today)
+    valor_total = db.Column(db.Float, default=0.0)
+    iss_percentual = db.Column(db.Float, default=5.0)  # % ISS da prefeitura
+    iss_valor = db.Column(db.Float, default=0.0)
+    valor_liquido = db.Column(db.Float, default=0.0)
+    observacoes = db.Column(db.Text)
+    status = db.Column(db.String(20), default='Emitido')  # Emitido, Cancelado
+    
+    paciente = db.relationship('Paciente', backref=db.backref('recibos', lazy=True))
+    itens = db.relationship('ItemRecibo', backref='recibo', lazy=True, cascade='all, delete-orphan')
+
+class ItemRecibo(db.Model):
+    __tablename__ = 'itens_recibo'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    recibo_id = db.Column(db.Integer, db.ForeignKey('recibos.id'), nullable=False)
+    procedimento = db.Column(db.String(200), nullable=False)
+    dente = db.Column(db.String(10))
+    valor = db.Column(db.Float, nullable=False)
+    tratamento_id = db.Column(db.Integer, db.ForeignKey('fichas_tratamento.id'))  # Link com tratamento    
 
 # ==================== FUNÇÕES AUXILIARES ====================
 
@@ -1680,6 +1707,140 @@ def gerar_despesas_recorrentes():
         db.session.commit()
     
     return jsonify({'geradas': geradas, 'mensagem': f'{geradas} despesas recorrentes geradas'})
+    
+# ==================== ROTAS DE RECIBOS ====================
+
+@app.route('/recibos')
+@requer_permissao('ver_financeiro')
+def recibos():
+    config = ConfiguracaoClinica.get_configuracao()
+    recibos = Recibo.query.order_by(Recibo.data_emissao.desc()).limit(50).all()
+    return render_template('recibos/index.html', config=config, recibos=recibos)
+
+@app.route('/recibos/novo/<int:paciente_id>', methods=['GET', 'POST'])
+@requer_permissao('ficha_tratamento')
+def novo_recibo(paciente_id):
+    config = ConfiguracaoClinica.get_configuracao()
+    paciente = db.session.get(Paciente, paciente_id)
+    
+    if not paciente:
+        flash('Paciente não encontrado!', 'error')
+        return redirect(url_for('listar_pacientes'))
+    
+    # Buscar tratamentos pendentes de recibo
+    tratamentos = FichaTratamento.query.filter_by(paciente_id=paciente_id).order_by(FichaTratamento.data.desc()).all()
+    
+    if request.method == 'POST':
+        try:
+            # Gerar número sequencial
+            ultimo = Recibo.query.order_by(Recibo.numero.desc()).first()
+            numero = (ultimo.numero + 1) if ultimo and ultimo.numero else 1
+            
+            iss_percentual = float(request.form.get('iss_percentual', 5) or 5)
+            
+            recibo = Recibo(
+                paciente_id=paciente_id,
+                numero=numero,
+                iss_percentual=iss_percentual,
+                observacoes=request.form.get('observacoes', '')
+            )
+            db.session.add(recibo)
+            db.session.flush()
+            
+            valor_total = 0
+            procedimentos = request.form.getlist('procedimento[]')
+            valores = request.form.getlist('valor[]')
+            tratamento_ids = request.form.getlist('tratamento_id[]')
+            
+            for i in range(len(procedimentos)):
+                if procedimentos[i]:
+                    valor = float(valores[i] or 0)
+                    item = ItemRecibo(
+                        recibo_id=recibo.id,
+                        procedimento=procedimentos[i],
+                        dente=request.form.getlist('dente[]')[i] if i < len(request.form.getlist('dente[]')) else '',
+                        valor=valor,
+                        tratamento_id=tratamento_ids[i] if i < len(tratamento_ids) and tratamento_ids[i] else None
+                    )
+                    db.session.add(item)
+                    valor_total += valor
+            
+            iss_valor = valor_total * (iss_percentual / 100)
+            
+            recibo.valor_total = valor_total
+            recibo.iss_valor = iss_valor
+            recibo.valor_liquido = valor_total - iss_valor
+            
+            db.session.commit()
+            
+            historico = HistoricoPaciente(
+                paciente_id=paciente.id,
+                acao='Recibo',
+                descricao=f'Recibo #{numero} emitido - R$ {valor_total:.2f}',
+                profissional=current_user.nome_completo
+            )
+            db.session.add(historico)
+            db.session.commit()
+            
+            flash(f'Recibo #{numero} emitido com sucesso!', 'success')
+            return redirect(url_for('ver_recibo', id=recibo.id))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao emitir recibo: {str(e)}', 'error')
+    
+    return render_template('recibos/novo.html', config=config, paciente=paciente, tratamentos=tratamentos)
+
+@app.route('/recibos/ver/<int:id>')
+@requer_permissao('ver_financeiro')
+def ver_recibo(id):
+    config = ConfiguracaoClinica.get_configuracao()
+    recibo = db.session.get(Recibo, id)
+    
+    if not recibo:
+        flash('Recibo não encontrado!', 'error')
+        return redirect(url_for('recibos'))
+    
+    return render_template('recibos/ver.html', config=config, recibo=recibo)
+
+@app.route('/recibos/cancelar/<int:id>')
+@requer_permissao('ver_financeiro')
+def cancelar_recibo(id):
+    recibo = db.session.get(Recibo, id)
+    if recibo and recibo.status != 'Cancelado':
+        recibo.status = 'Cancelado'
+        db.session.commit()
+        flash('Recibo cancelado!', 'success')
+    return redirect(url_for('recibos'))
+
+@app.route('/api/recibos/buscar')
+@requer_permissao('ver_financeiro')
+def api_buscar_recibos():
+    paciente_id = request.args.get('paciente_id')
+    data_inicio = request.args.get('data_inicio')
+    data_fim = request.args.get('data_fim')
+    
+    query = Recibo.query
+    
+    if paciente_id:
+        query = query.filter_by(paciente_id=paciente_id)
+    if data_inicio:
+        query = query.filter(Recibo.data_emissao >= datetime.strptime(data_inicio, '%Y-%m-%d').date())
+    if data_fim:
+        query = query.filter(Recibo.data_emissao <= datetime.strptime(data_fim, '%Y-%m-%d').date())
+    
+    recibos = query.order_by(Recibo.data_emissao.desc()).limit(100).all()
+    
+    return jsonify([{
+        'id': r.id,
+        'numero': r.numero,
+        'data': r.data_emissao.strftime('%d/%m/%Y'),
+        'paciente': r.paciente.nome,
+        'valor': r.valor_total,
+        'iss': r.iss_valor,
+        'liquido': r.valor_liquido,
+        'status': r.status
+    } for r in recibos])    
 
 # ==================== INICIALIZAÇÃO ====================
 
