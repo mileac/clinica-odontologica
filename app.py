@@ -35,10 +35,6 @@ def allowed_file(filename):
 # Inicialização do banco de dados
 db = SQLAlchemy(app)
 
-# Forçar criação das tabelas
-with app.app_context():
-    db.create_all()
-
 # Inicialização do Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -1688,58 +1684,58 @@ def gerar_despesas_recorrentes():
 # ==================== INICIALIZAÇÃO ====================
 
 def inicializar_banco():
-    with app.app_context():
-        db.create_all()
+    # Criar usuário admin
+    if not Usuario.query.filter_by(username='admin').first():
+        admin = Usuario(username='admin', nome_completo='Administrador', cargo='Admin')
+        admin.set_password('admin123')
+        db.session.add(admin)
+        print("✓ Usuário admin criado!")
         
-        # Criar usuário admin
-        if not Usuario.query.filter_by(username='admin').first():
-            admin = Usuario(username='admin', nome_completo='Administrador', cargo='Admin')
-            admin.set_password('admin123')
-            db.session.add(admin)
-            print("✓ Usuário admin criado!")
-            
-            config = ConfiguracaoClinica(
-                nome_clinica='Clínica Odontológica Exemplo', endereco='Rua Exemplo, 123',
-                cidade='São Paulo', estado='SP', cep='00000-000',
-                email='clinica@exemplo.com', telefone='(11) 9999-9999',
-                nome_doutor='Dr. João Silva', cro='CRO-SP 12345'
-            )
-            db.session.add(config)
-            print("✓ Configuração inicial criada!")
-        else:
-            print("✓ Banco de dados já inicializado")
-        
-        # Criar categorias de despesas padrão
-        if not CategoriaDespesa.query.first():
-            categorias_padrao = [
-                ('Aluguel', 'bi bi-building', '#E91E63', True),
-                ('Condomínio', 'bi bi-building', '#9C27B0', True),
-                ('IPTU', 'bi bi-receipt', '#673AB7', True),
-                ('Água', 'bi bi-droplet', '#2196F3', True),
-                ('Luz', 'bi bi-lightning', '#FF9800', True),
-                ('Internet/Telefone', 'bi bi-wifi', '#00BCD4', True),
-                ('Salários', 'bi bi-people', '#F44336', True),
-                ('Comissões', 'bi bi-calculator', '#FF5722', False),
-                ('Encargos', 'bi bi-file-text', '#795548', True),
-                ('Materiais Odontológicos', 'bi bi-box-seam', '#4CAF50', False),
-                ('Manutenção', 'bi bi-tools', '#607D8B', False),
-                ('Limpeza', 'bi bi-droplet', '#8BC34A', False),
-                ('Contador', 'bi bi-calculator', '#009688', True),
-                ('Software/Sistema', 'bi bi-laptop', '#3F51B5', True),
-                ('Marketing', 'bi bi-megaphone', '#FF4081', False),
-                ('Transporte', 'bi bi-car-front', '#795548', False),
-                ('Impostos/Taxas', 'bi bi-receipt', '#F44336', False),
-                ('Seguros', 'bi bi-shield', '#2196F3', True),
-                ('Outros', 'bi bi-three-dots', '#9E9E9E', False),
-            ]
-            for nome, icone, cor, fixa in categorias_padrao:
-                db.session.add(CategoriaDespesa(nome=nome, icone=icone, cor=cor, fixa=fixa))
-            print("✓ Categorias de despesas criadas!")
-        
-        db.session.commit()
+        config = ConfiguracaoClinica(
+            nome_clinica='Clínica Odontológica Exemplo', endereco='Rua Exemplo, 123',
+            cidade='São Paulo', estado='SP', cep='00000-000',
+            email='clinica@exemplo.com', telefone='(11) 9999-9999',
+            nome_doutor='Dr. João Silva', cro='CRO-SP 12345'
+        )
+        db.session.add(config)
+        print("✓ Configuração inicial criada!")
+    
+    # Criar categorias de despesas padrão
+    if not CategoriaDespesa.query.first():
+        categorias_padrao = [
+            ('Aluguel', 'bi bi-building', '#E91E63', True),
+            ('Condomínio', 'bi bi-building', '#9C27B0', True),
+            ('IPTU', 'bi bi-receipt', '#673AB7', True),
+            ('Água', 'bi bi-droplet', '#2196F3', True),
+            ('Luz', 'bi bi-lightning', '#FF9800', True),
+            ('Internet/Telefone', 'bi bi-wifi', '#00BCD4', True),
+            ('Salários', 'bi bi-people', '#F44336', True),
+            ('Comissões', 'bi bi-calculator', '#FF5722', False),
+            ('Encargos', 'bi bi-file-text', '#795548', True),
+            ('Materiais Odontológicos', 'bi bi-box-seam', '#4CAF50', False),
+            ('Manutenção', 'bi bi-tools', '#607D8B', False),
+            ('Limpeza', 'bi bi-droplet', '#8BC34A', False),
+            ('Contador', 'bi bi-calculator', '#009688', True),
+            ('Software/Sistema', 'bi bi-laptop', '#3F51B5', True),
+            ('Marketing', 'bi bi-megaphone', '#FF4081', False),
+            ('Transporte', 'bi bi-car-front', '#795548', False),
+            ('Impostos/Taxas', 'bi bi-receipt', '#F44336', False),
+            ('Seguros', 'bi bi-shield', '#2196F3', True),
+            ('Outros', 'bi bi-three-dots', '#9E9E9E', False),
+        ]
+        for nome, icone, cor, fixa in categorias_padrao:
+            db.session.add(CategoriaDespesa(nome=nome, icone=icone, cor=cor, fixa=fixa))
+        print("✓ Categorias de despesas criadas!")
+    
+    db.session.commit()
+
+# Criar tabelas e inicializar (funciona local e no Render)
+with app.app_context():
+    db.create_all()
+    inicializar_banco()
+    print("✓ Banco de dados pronto!")
 
 if __name__ == '__main__':
-    inicializar_banco()
     print("\n" + "="*60)
     print("🏥 SISTEMA DE GESTÃO ODONTOLÓGICA")
     print("="*60)
