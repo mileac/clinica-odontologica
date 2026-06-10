@@ -21,12 +21,13 @@
                 <div class="mb-2">
                     <label class="form-label small">Status</label>
                     <select class="form-select form-select-sm" id="filtroStatus" onchange="filtrarAgenda()">
-                        <option value="">Todos</option>
-                        <option value="Agendado">Agendado</option>
-                        <option value="Confirmado">Confirmado</option>
-                        <option value="Realizado">Realizado</option>
-                        <option value="Cancelado">Cancelado</option>
-                    </select>
+						<option value="">Ativos</option>
+						<option value="Todos">Todos (inclui cancelados)</option>
+						<option value="Agendado">Agendado</option>
+						<option value="Confirmado">Confirmado</option>
+						<option value="Realizado">Realizado</option>
+						<option value="Cancelado">Cancelado</option>
+					</select>
                 </div>
             </div>
         </div>
@@ -298,14 +299,14 @@
     }
 
     function filtrarAgenda() {
-        const profissional = document.getElementById('filtroProfissional').value;
-        const status = document.getElementById('filtroStatus').value;
-        let url = '/api/agendamentos?';
-        if (profissional) url += 'profissional_id=' + profissional + '&';
-        if (status) url += 'status=' + status;
-        calendar.setOption('events', url);
-        calendar.refetchEvents();
-    }
+		const profissional = document.getElementById('filtroProfissional').value;
+		const status = document.getElementById('filtroStatus').value;
+		let url = '/api/agendamentos?';
+		if (profissional) url += 'profissional_id=' + profissional + '&';
+		if (status) url += 'status=' + status;
+		calendar.setOption('events', url);
+		calendar.refetchEvents();
+	}
 	
 	function abrirEdicaoAgendamento(agendamento) {
 		document.getElementById('paciente_id').value = agendamento.extendedProps.paciente_id || '';

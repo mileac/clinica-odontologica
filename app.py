@@ -405,8 +405,16 @@ def dashboard():
     total_pacientes = Paciente.query.filter_by(ativo=True).count()
     hoje = date.today()
     
+    # Agendamentos de hoje (apenas não cancelados)
     agendamentos_hoje = Agendamento.query.filter(
-        db.func.date(Agendamento.data_hora) == hoje
+        db.func.date(Agendamento.data_hora) == hoje,
+        Agendamento.status != 'Cancelado'
+    ).order_by(Agendamento.data_hora).all()
+
+    # Agendamentos de amanhã (apenas não cancelados)
+    agendamentos_amanha = Agendamento.query.filter(
+        db.func.date(Agendamento.data_hora) == amanha,
+        Agendamento.status != 'Cancelado'
     ).order_by(Agendamento.data_hora).all()
     
     total_agendamentos_hoje = len(agendamentos_hoje)
@@ -867,7 +875,10 @@ def agenda():
 def api_agendamentos():
     query = Agendamento.query
     
-    # Filtros
+    # Por padrão, NÃO mostra cancelados (a menos que o filtro peça)
+    if request.args.get('status') != 'Cancelado' and request.args.get('status') != 'Todos':
+        query = query.filter(Agendamento.status != 'Cancelado')
+    
     if request.args.get('profissional_id'):
         query = query.filter_by(profissional_id=request.args.get('profissional_id'))
     if request.args.get('status'):
@@ -926,7 +937,7 @@ def novo_agendamento():
         paciente = db.session.get(Paciente, paciente_id) if paciente_id else None
         
         agendamento = Agendamento(
-            paciente_id=paciente_id,
+            paciente_id=data.get('paciente_id') or None,  # Permite NULL para bloqueios
             profissional_id=data.get('profissional_id'),
             data_hora=datetime.fromisoformat(data['data_hora']),
             duracao=data.get('duracao', 60),
