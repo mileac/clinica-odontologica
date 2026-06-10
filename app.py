@@ -1928,7 +1928,7 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
-    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
+    db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     db.create_all()
     inicializar_banco()
     print("✓ Banco de dados recriado!")
