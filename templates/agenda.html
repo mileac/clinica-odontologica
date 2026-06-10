@@ -181,12 +181,33 @@
                 carregarSelects();
                 new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
             },
-            eventClick: function (info) {
-                if (confirm(`Paciente: ${info.event.extendedProps.paciente}\nProcedimento: ${info.event.title}\n\nDeseja cancelar este agendamento?`)) {
-                    fetch(`/agendamento/cancelar/${info.event.id}`, { method: 'POST' })
-                        .then(() => calendar.refetchEvents());
-                }
-            }
+            eventClick: function(info) {
+				const agendamento = info.event;
+				const opcao = prompt(
+					`Paciente: ${agendamento.extendedProps.paciente}\n` +
+					`Procedimento: ${agendamento.title}\n` +
+					`Data: ${agendamento.start.toLocaleString('pt-BR')}\n\n` +
+					`O que deseja fazer?\n\n` +
+					`1 - Editar (digite: editar)\n` +
+					`2 - Cancelar (digite: cancelar)\n` +
+					`3 - Fechar (digite: sair)`
+				);
+				
+				if (opcao === 'editar') {
+					abrirEdicaoAgendamento(agendamento);
+				} else if (opcao === 'cancelar') {
+					if (confirm('Tem certeza que deseja CANCELAR este agendamento?')) {
+						fetch('/agendamento/cancelar/' + agendamento.id, {method: 'POST'})
+							.then(r => r.json())
+							.then(data => {
+								if (data.success) {
+									calendar.refetchEvents();
+									alert('Agendamento cancelado!');
+								}
+							});
+					}
+				}
+			}
         });
         calendar.render();
         carregarProfissionais();
@@ -285,6 +306,17 @@
         calendar.setOption('events', url);
         calendar.refetchEvents();
     }
+	
+	function abrirEdicaoAgendamento(agendamento) {
+		document.getElementById('paciente_id').value = agendamento.extendedProps.paciente_id || '';
+		document.getElementById('data_hora').value = agendamento.start.toISOString().slice(0, 16);
+		document.getElementById('procedimento').value = agendamento.title;
+		document.getElementById('duracao').value = (agendamento.end - agendamento.start) / 60000;
+		document.getElementById('observacoes').value = agendamento.extendedProps.observacoes || '';
+		
+		carregarSelects();
+		new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
+	}
 
     function bloquearAlmoco() {
         const hoje = new Date().toISOString().slice(0, 10);

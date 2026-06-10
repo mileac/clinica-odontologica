@@ -897,8 +897,10 @@ def api_agendamentos():
             'borderColor': cor,
             'textColor': '#fff',
             'paciente': agend.paciente.nome if agend.paciente else 'Bloqueado',
+            'paciente_id': agend.paciente_id,      
             'status': agend.status,
-            'profissional': agend.profissional.nome_completo if agend.profissional else ''
+            'profissional': agend.profissional.nome_completo if agend.profissional else '',
+            'observacoes': agend.observacoes or ''  
         })
     
     return jsonify(eventos)
@@ -912,8 +914,8 @@ def cancelar_agendamento(id):
     if agendamento:
         agendamento.status = 'Cancelado'
         db.session.commit()
-        return jsonify({'success': True})
-    return jsonify({'success': False})
+        return jsonify({'success': True, 'message': 'Agendamento cancelado com sucesso!'})
+    return jsonify({'success': False, 'message': 'Agendamento não encontrado'}), 404
 
 @app.route('/agendamento/novo', methods=['POST'])
 @login_required
