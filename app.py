@@ -15,6 +15,8 @@ app.config['SECRET_KEY'] = 'sua_chave_secreta_aqui_123456'
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
 if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
     DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+if DATABASE_URL and 'postgresql://' in DATABASE_URL:
+    DATABASE_URL = DATABASE_URL + '?sslmode=require'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -55,6 +57,10 @@ def allowed_file(filename):
 
 # Inicialização do banco de dados
 db = SQLAlchemy(app)
+
+# Corrigir SSL do PostgreSQL no Render
+from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 
 # Inicialização do Login Manager
 login_manager = LoginManager()
