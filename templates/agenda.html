@@ -319,21 +319,27 @@
 	}
 
     function bloquearAlmoco() {
-        const hoje = new Date().toISOString().slice(0, 10);
-        if (confirm('Deseja bloquear o horário de almoço (12h-14h) de hoje?')) {
-            const dados = {
-                paciente_id: null,
-                data_hora: hoje + 'T12:00',
-                duracao: 120,
-                procedimento: 'Horário Bloqueado - Almoço',
-                status: 'Bloqueado'
-            };
-            fetch('/agendamento/novo', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
-            }).then(() => calendar.refetchEvents());
-        }
-    }
+		const hoje = new Date().toISOString().slice(0, 10);
+		if (confirm('Deseja bloquear o horário de almoço (12h-14h) de hoje?')) {
+			const dados = {
+				data_hora: hoje + 'T12:00',
+				duracao: 120,
+				procedimento: 'Horário Bloqueado - Almoço'
+			};
+			fetch('/agendamento/novo', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(dados)
+			})
+			.then(r => r.json())
+			.then(data => {
+				if (data.success) {
+					calendar.refetchEvents();
+				} else {
+					alert('Erro: ' + (data.error || 'Tente novamente'));
+				}
+			});
+		}
+	}
 </script>
 {% endblock %}
