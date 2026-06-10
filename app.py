@@ -403,15 +403,18 @@ def logout():
 def dashboard():
     config = ConfiguracaoClinica.get_configuracao()
     total_pacientes = Paciente.query.filter_by(ativo=True).count()
+    
     hoje = date.today()
     
-    # Agendamentos de hoje (apenas não cancelados)
     agendamentos_hoje = Agendamento.query.filter(
         db.func.date(Agendamento.data_hora) == hoje,
         Agendamento.status != 'Cancelado'
     ).order_by(Agendamento.data_hora).all()
-
-    # Agendamentos de amanhã (apenas não cancelados)
+    
+    total_agendamentos_hoje = len(agendamentos_hoje)
+    
+    amanha = hoje + timedelta(days=1)  # ← PRECISA ESTAR AQUI!
+    
     agendamentos_amanha = Agendamento.query.filter(
         db.func.date(Agendamento.data_hora) == amanha,
         Agendamento.status != 'Cancelado'
