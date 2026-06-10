@@ -28,27 +28,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'pdf', 'doc', 'docx'}
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-@app.route('/reset-banco-2026')
-@login_required
-def reset_banco():
-    if current_user.cargo != 'Admin':
-        return "Acesso negado", 403
-    
-    try:
-        db.drop_all()
-        db.create_all()
-        inicializar_banco()
-        return """
-        <div style="text-align:center;padding:50px;font-family:Arial;">
-            <h1>✅ Banco de dados limpo com sucesso!</h1>
-            <p>Todas as tabelas foram recriadas.</p>
-            <p><strong>Login:</strong> admin / admin123</p>
-            <a href="/" style="color:blue;">Voltar ao sistema</a>
-        </div>
-        """
-    except Exception as e:
-        return f"Erro: {str(e)}", 500
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
@@ -1949,6 +1928,7 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
+    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     db.create_all()
     inicializar_banco()
     print("✓ Banco de dados recriado!")
