@@ -28,7 +28,6 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 @app.route('/reset-banco-2026')
 @login_required
-
 def reset_banco():
     if current_user.cargo != 'Admin':
         return "Acesso negado", 403
