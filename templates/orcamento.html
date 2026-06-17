@@ -44,18 +44,21 @@
                             {% endif %}
                         </td>
                         <td>
-                            <div class="btn-group">
-                                <a href="/orcamento/ver/{{ orc.id }}" class="btn btn-sm btn-info" target="_blank">
-                                    <i class="bi bi-eye"></i> Ver
-                                </a>
-                                <button class="btn btn-sm btn-success" onclick="mudarStatus({{ orc.id }}, 'Aprovado')" title="Aprovar">
-                                    <i class="bi bi-check-lg"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" onclick="mudarStatus({{ orc.id }}, 'Recusado')" title="Recusar">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
-                        </td>
+							<div class="btn-group">
+								<a href="/orcamento/ver/{{ orc.id }}" class="btn btn-sm btn-info" target="_blank">
+									<i class="bi bi-eye"></i>
+								</a>
+								<a href="/orcamento/editar/{{ orc.id }}" class="btn btn-sm btn-warning">
+									<i class="bi bi-pencil"></i>
+								</a>
+								<button class="btn btn-sm btn-success" onclick="mudarStatus({{ orc.id }}, 'Aprovado')">
+									<i class="bi bi-check-lg"></i>
+								</button>
+								<button class="btn btn-sm btn-danger" onclick="mudarStatus({{ orc.id }}, 'Recusado')">
+									<i class="bi bi-x-lg"></i>
+								</button>
+							</div>
+						</td>
                     </tr>
                     {% endfor %}
                 </tbody>

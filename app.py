@@ -858,6 +858,79 @@ def ver_orcamento(id):
         flash('Orçamento não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
     return render_template('ver_orcamento.html', config=config, orcamento=orcamento)
+    
+@app.route('/orcamento/editar/<int:id>', methods=['GET', 'POST'])
+@requer_permissao('orcamento')
+def editar_orcamento(id):
+    config = ConfiguracaoClinica.get_configuracao()
+    orcamento = db.session.get(Orcamento, id)
+    
+    if not orcamento:
+        flash('Orçamento não encontrado!', 'error')
+        return redirect(url_for('listar_pacientes'))
+    
+    if request.method == 'POST':
+        try:
+            parcelas = int(request.form.get('parcelas', 1))
+            
+            # Atualizar dados do orçamento
+            orcamento.parcelas = parcelas
+            orcamento.observacoes = request.form.get('observacoes', '')
+            
+            # Remover itens antigos
+            ItemOrcamento.query.filter_by(orcamento_id=orcamento.id).delete()
+            
+            # Adicionar novos itens
+            valor_total = 0
+            procedimentos = request.form.getlist('procedimento[]')
+            dentes = request.form.getlist('dente[]')
+            valores = request.form.getlist('valor[]')
+            
+            for i in range(len(procedimentos)):
+                if procedimentos[i]:
+                    valor = float(valores[i] or 0)
+                    item = ItemOrcamento(
+                        orcamento_id=orcamento.id,
+                        dente=dentes[i] if i < len(dentes) else '',
+                        procedimento=procedimentos[i],
+                        valor=valor
+                    )
+                    db.session.add(item)
+                    valor_total += valor
+            
+            # Recalcular acréscimo
+            acrescimo_percentual = float(request.form.get('acrescimo_percentual', 0) or 0)
+            acrescimo_valor = valor_total * (acrescimo_percentual / 100)
+            valor_com_acrescimo = valor_total + acrescimo_valor
+            
+            orcamento.valor_total = valor_total
+            orcamento.acrescimo_percentual = acrescimo_percentual
+            orcamento.acrescimo_valor = acrescimo_valor
+            orcamento.valor_total_com_acrescimo = valor_com_acrescimo
+            orcamento.valor_parcela = valor_com_acrescimo / parcelas if parcelas > 0 else valor_com_acrescimo
+            
+            db.session.commit()
+            
+            historico = HistoricoPaciente(
+                paciente_id=orcamento.paciente_id,
+                acao='Orçamento Editado',
+                descricao=f'Orçamento atualizado - R$ {valor_total:.2f}',
+                profissional=current_user.nome_completo
+            )
+            db.session.add(historico)
+            db.session.commit()
+            
+            flash('Orçamento atualizado com sucesso!', 'success')
+            return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao atualizar orçamento: {str(e)}', 'error')
+    
+    return render_template('orcamento_editar.html',
+                         config=config,
+                         orcamento=orcamento,
+                         paciente=orcamento.paciente)    
 
 @app.route('/orcamento/status/<int:id>', methods=['POST'])
 @login_required
@@ -870,7 +943,8 @@ def atualizar_status_orcamento(id):
         db.session.commit()
         flash('Status atualizado!', 'success')
     return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
-
+  
+ 
 # ==================== ROTAS DE AGENDA ====================
 
 @app.route('/agenda')

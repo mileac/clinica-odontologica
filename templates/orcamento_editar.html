@@ -1,0 +1,119 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Editar Orçamento - {{ paciente.nome }}{% endblock %}
+{% block header_title %}Editar Orçamento: {{ paciente.nome }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-pencil"></i> Editar Orçamento</h5>
+    </div>
+    <div class="card-body">
+        <form method="POST" id="formOrcamento">
+            <h6 class="mb-3"><strong>Procedimentos</strong></h6>
+            
+            <div id="itensOrcamento">
+                {% for item in orcamento.itens %}
+                <div class="row item-orcamento mb-3 p-2 border rounded bg-light">
+                    <div class="col-md-2 mb-2">
+                        <label class="form-label">Dente</label>
+                        <input type="text" class="form-control" name="dente[]" value="{{ item.dente or '' }}">
+                    </div>
+                    <div class="col-md-5 mb-2">
+                        <label class="form-label">Procedimento *</label>
+                        <input type="text" class="form-control" name="procedimento[]" value="{{ item.procedimento }}" required>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <label class="form-label">Valor (R$) *</label>
+                        <input type="number" step="0.01" class="form-control valor-item" name="valor[]" value="{{ item.valor }}" required onchange="atualizarTotal()">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="button" class="btn btn-danger w-100" onclick="removerItem(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button type="button" class="btn btn-outline-primary mb-3" onclick="adicionarItem()">
+                <i class="bi bi-plus-circle"></i> Adicionar Procedimento
+            </button>
+            
+            <hr>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card bg-light"><div class="card-body text-center"><h6>Subtotal</h6><h4 id="totalOrcamento">R$ 0,00</h4></div></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Parcelas</strong></label>
+                    <select class="form-select" name="parcelas" onchange="calcularParcelas()">
+                        <option value="1" {% if orcamento.parcelas == 1 %}selected{% endif %}>1x (à vista)</option>
+                        <option value="2" {% if orcamento.parcelas == 2 %}selected{% endif %}>2x</option>
+                        <option value="3" {% if orcamento.parcelas == 3 %}selected{% endif %}>3x</option>
+                        <option value="4" {% if orcamento.parcelas == 4 %}selected{% endif %}>4x</option>
+                        <option value="5" {% if orcamento.parcelas == 5 %}selected{% endif %}>5x</option>
+                        <option value="6" {% if orcamento.parcelas == 6 %}selected{% endif %}>6x</option>
+                        <option value="10" {% if orcamento.parcelas == 10 %}selected{% endif %}>10x</option>
+                        <option value="12" {% if orcamento.parcelas == 12 %}selected{% endif %}>12x</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><strong>Acréscimo (%)</strong></label>
+                    <input type="number" step="0.01" class="form-control" name="acrescimo_percentual" id="acrescimo_percentual" value="{{ orcamento.acrescimo_percentual }}" onchange="calcularParcelas()">
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-light"><div class="card-body text-center"><h6>Valor Parcela</h6><h4 id="valorParcela" class="text-success">R$ 0,00</h4></div></div>
+                </div>
+            </div>
+            
+            <div class="mb-3 mt-3">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" name="observacoes" rows="2">{{ orcamento.observacoes or '' }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Salvar Alterações</button>
+            <a href="/orcamento/{{ paciente.id }}" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+function adicionarItem() {
+    const html = `<div class="row item-orcamento mb-3 p-2 border rounded bg-light">
+        <div class="col-md-2"><input type="text" class="form-control" name="dente[]"></div>
+        <div class="col-md-5"><input type="text" class="form-control" name="procedimento[]" required></div>
+        <div class="col-md-3"><input type="number" step="0.01" class="form-control valor-item" name="valor[]" required onchange="atualizarTotal()"></div>
+        <div class="col-md-2"><button type="button" class="btn btn-danger w-100" onclick="removerItem(this)"><i class="bi bi-trash"></i></button></div>
+    </div>`;
+    document.getElementById('itensOrcamento').insertAdjacentHTML('beforeend', html);
+}
+
+function removerItem(btn) {
+    if (document.querySelectorAll('.item-orcamento').length > 1) {
+        btn.closest('.item-orcamento').remove();
+        atualizarTotal();
+    }
+}
+
+function atualizarTotal() {
+    let total = 0;
+    document.querySelectorAll('.valor-item').forEach(i => total += parseFloat(i.value || 0));
+    document.getElementById('totalOrcamento').textContent = 'R$ ' + total.toFixed(2).replace('.',',');
+    calcularParcelas();
+}
+
+function calcularParcelas() {
+    let total = 0;
+    document.querySelectorAll('.valor-item').forEach(i => total += parseFloat(i.value || 0));
+    const parcelas = parseInt(document.querySelector('[name="parcelas"]').value || 1);
+    const acrescimo = parseFloat(document.getElementById('acrescimo_percentual').value || 0);
+    const totalComAcrescimo = total + (total * acrescimo / 100);
+    document.getElementById('valorParcela').textContent = 'R$ ' + (totalComAcrescimo / parcelas).toFixed(2).replace('.',',');
+}
+
+document.addEventListener('DOMContentLoaded', atualizarTotal);
+</script>
+{% endblock %}
