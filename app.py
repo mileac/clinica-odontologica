@@ -1,4 +1,5 @@
-﻿from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, Response
+﻿from sqlalchemy import or_
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,10 +9,14 @@ import os
 import json
 from functools import wraps
 from werkzeug.utils import secure_filename
+from flask import jsonify, send_file # Certifique-se de ter esses imports no topo do app.py
+from io import BytesIO
+from datetime import datetime
+#from app import db, Paciente, Usuario, Agendamento
 
 # Inicialização do app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'sua_chave_secreta_aqui_123456'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sua_chave_secreta_aqui_123456')
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
 if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
     DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
@@ -424,12 +429,6 @@ def dashboard():
     agendamentos_amanha = Agendamento.query.filter(
         db.func.date(Agendamento.data_hora) == amanha,
         Agendamento.status != 'Cancelado'
-    ).order_by(Agendamento.data_hora).all()
-    
-    total_agendamentos_hoje = len(agendamentos_hoje)
-    amanha = hoje + timedelta(days=1)
-    agendamentos_amanha = Agendamento.query.filter(
-        db.func.date(Agendamento.data_hora) == amanha
     ).order_by(Agendamento.data_hora).all()
     
     seis_meses_atras = hoje - relativedelta(months=6)
@@ -1951,6 +1950,50 @@ def api_buscar_recibos():
         'liquido': r.valor_liquido,
         'status': r.status
     } for r in recibos])    
+    
+@app.route('/admin/backup/download')
+@login_required # 🔐 Segurança: Garante que apenas usuários logados na clínica possam baixar os dados
+def baixar_backup():
+    """
+    Rota que coleta os dados REAIS do seu banco PostgreSQL na nuvem,
+    transforma em JSON e envia como download direto para o navegador.
+    """
+    try:
+        data_atual = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        
+        # 1. Coletando os dados usando os modelos reais do seu app.py
+        dados_backup = {
+            "metadados": {
+                "data_geracao": data_atual,
+                "descricao": "Backup completo do sistema odontologico - Render Cloud"
+            },
+            # Coleta os pacientes salvando as datas em formato de texto ISO
+            "pacientes": [{col.name: (getattr(p, col.name).isoformat() if isinstance(getattr(p, col.name), (datetime, date)) else getattr(p, col.name)) for col in p.__table__.columns} for p in Paciente.query.all()],
+            
+            # Ajustado de 'Consulta' para 'Agendamento' (nome real usado no seu app.py) ✅
+            "consultas": [{col.name: (getattr(a, col.name).isoformat() if isinstance(getattr(a, col.name), (datetime, date)) else getattr(a, col.name)) for col in a.__table__.columns} for a in Agendamento.query.all()]
+        }
+        
+        # 2. Transformar o dicionário em uma string JSON organizada
+        json_string = json.dumps(dados_backup, indent=4, ensure_ascii=False)
+        
+        # 3. Criar um arquivo virtual na memória RAM do servidor para o envio
+        arquivo_memoria = BytesIO()
+        arquivo_memoria.write(json_string.encode('utf-8'))
+        arquivo_memoria.seek(0) 
+        
+        # 4. Envia o arquivo formatado fazendo o navegador iniciar o download
+        return send_file(
+            arquivo_memoria,
+            mimetype="application/json",
+            as_attachment=True,
+            download_name=f"backup_clinica_{data_atual}.json"
+        )
+        
+    except Exception as e:
+        # Se algo der errado, exibe uma mensagem de alerta vermelha na tela e volta ao dashboard
+        flash(f"Erro ao gerar cópia de segurança: {str(e)}", "danger")
+        return redirect(url_for('dashboard'))  
 
 # ==================== INICIALIZAÇÃO ====================
 
