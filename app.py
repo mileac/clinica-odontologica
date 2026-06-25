@@ -365,6 +365,16 @@ class ItemRecibo(db.Model):
     dente = db.Column(db.String(10))
     valor = db.Column(db.Float, nullable=False)
     tratamento_id = db.Column(db.Integer, db.ForeignKey('fichas_tratamento.id'))  # Link com tratamento    
+    
+class ProcedimentoPadrao(db.Model):
+    __tablename__ = 'procedimentos_padrao'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(200), nullable=False)
+    valor = db.Column(db.Float, default=0.0)
+    duracao_minutos = db.Column(db.Integer, default=60)
+    especialidade = db.Column(db.String(100))
+    ativo = db.Column(db.Boolean, default=True)    
 
 # ==================== FUNÇÕES AUXILIARES ====================
 
@@ -2004,6 +2014,55 @@ def baixar_backup():
         # Se algo der errado, exibe uma mensagem de alerta vermelha na tela e volta ao dashboard
         flash(f"Erro ao gerar cópia de segurança: {str(e)}", "danger")
         return redirect(url_for('dashboard'))  
+        
+# ==================== ROTAS DE PROCEDIMENTOS PADRÃO ====================
+
+@app.route('/procedimentos')
+@requer_permissao('ficha_tratamento')
+def procedimentos():
+    config = ConfiguracaoClinica.get_configuracao()
+    procedimentos = ProcedimentoPadrao.query.filter_by(ativo=True).order_by(ProcedimentoPadrao.nome).all()
+    return render_template('procedimentos.html', config=config, procedimentos=procedimentos)
+
+@app.route('/procedimentos/salvar', methods=['POST'])
+@requer_permissao('ficha_tratamento')
+def salvar_procedimento():
+    nome = request.form.get('nome')
+    valor = float(request.form.get('valor', 0) or 0)
+    duracao = int(request.form.get('duracao', 60) or 60)
+    especialidade = request.form.get('especialidade', '')
+    id = request.form.get('id')
+    
+    if id:
+        proc = db.session.get(ProcedimentoPadrao, int(id))
+        if proc:
+            proc.nome = nome
+            proc.valor = valor
+            proc.duracao_minutos = duracao
+            proc.especialidade = especialidade
+    else:
+        proc = ProcedimentoPadrao(nome=nome, valor=valor, duracao_minutos=duracao, especialidade=especialidade)
+        db.session.add(proc)
+    
+    db.session.commit()
+    flash('Procedimento salvo!', 'success')
+    return redirect(url_for('procedimentos'))
+
+@app.route('/procedimentos/excluir/<int:id>')
+@requer_permissao('ficha_tratamento')
+def excluir_procedimento(id):
+    proc = db.session.get(ProcedimentoPadrao, id)
+    if proc:
+        proc.ativo = False
+        db.session.commit()
+        flash('Procedimento removido!', 'success')
+    return redirect(url_for('procedimentos'))
+
+@app.route('/api/procedimentos')
+@login_required
+def api_procedimentos():
+    procs = ProcedimentoPadrao.query.filter_by(ativo=True).order_by(ProcedimentoPadrao.nome).all()
+    return jsonify([{'id': p.id, 'nome': p.nome, 'valor': p.valor, 'duracao': p.duracao_minutos} for p in procs])        
 
 # ==================== INICIALIZAÇÃO ====================
 

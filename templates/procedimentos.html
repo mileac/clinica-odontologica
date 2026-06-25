@@ -1,0 +1,83 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Tabela de Procedimentos{% endblock %}
+{% block header_title %}Tabela de Procedimentos{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Formulário -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header"><h6><i class="bi bi-plus-circle"></i> <span id="tituloForm">Novo Procedimento</span></h6></div>
+            <div class="card-body">
+                <form method="POST" action="/procedimentos/salvar" id="formProcedimento">
+                    <input type="hidden" name="id" id="proc_id">
+                    <div class="mb-2">
+                        <label class="form-label small">Nome *</label>
+                        <input type="text" class="form-control form-control-sm" name="nome" id="proc_nome" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Valor Padrão (R$)</label>
+                        <input type="number" step="0.01" class="form-control form-control-sm" name="valor" id="proc_valor">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Duração (minutos)</label>
+                        <input type="number" class="form-control form-control-sm" name="duracao" id="proc_duracao" value="60">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Especialidade</label>
+                        <input type="text" class="form-control form-control-sm" name="especialidade" id="proc_especialidade">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100"><i class="bi bi-save"></i> Salvar</button>
+                    <button type="button" class="btn btn-secondary btn-sm w-100 mt-1" onclick="limparForm()">Limpar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tabela -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><h6><i class="bi bi-list-ul"></i> Procedimentos Cadastrados</h6></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead><tr><th>Nome</th><th>Valor</th><th>Duração</th><th>Especialidade</th><th>Ações</th></tr></thead>
+                        <tbody>
+                            {% for p in procedimentos %}
+                            <tr>
+                                <td>{{ p.nome }}</td>
+                                <td>R$ {{ "%.2f"|format(p.valor) }}</td>
+                                <td>{{ p.duracao_minutos }} min</td>
+                                <td>{{ p.especialidade or '-' }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="editarProc({{ p.id }}, '{{ p.nome }}', {{ p.valor }}, {{ p.duracao_minutos }}, '{{ p.especialidade or '' }}')"><i class="bi bi-pencil"></i></button>
+                                    <a href="/procedimentos/excluir/{{ p.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remover?')"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function editarProc(id, nome, valor, duracao, especialidade) {
+    document.getElementById('proc_id').value = id;
+    document.getElementById('proc_nome').value = nome;
+    document.getElementById('proc_valor').value = valor;
+    document.getElementById('proc_duracao').value = duracao;
+    document.getElementById('proc_especialidade').value = especialidade;
+    document.getElementById('tituloForm').textContent = 'Editar Procedimento';
+}
+
+function limparForm() {
+    document.getElementById('proc_id').value = '';
+    document.getElementById('formProcedimento').reset();
+    document.getElementById('tituloForm').textContent = 'Novo Procedimento';
+}
+</script>
+{% endblock %}

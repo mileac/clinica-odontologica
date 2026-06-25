@@ -219,6 +219,12 @@
                 <i class="bi bi-gear"></i> Configurações
             </a>
 			{% endif %}
+			
+			{% if current_user.tem_permissao('ficha_tratamento') %}
+			<a class="nav-link {{ 'active' if 'procedimentos' in request.endpoint }}" href="{{ url_for('procedimentos') }}">
+				<i class="bi bi-journal-medical"></i> Procedimentos
+			</a>
+			{% endif %}
 
             <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
 
