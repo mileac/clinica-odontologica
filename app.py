@@ -742,7 +742,12 @@ def ficha_tratamento(paciente_id):
             db.session.rollback()
             flash(f'Erro: {str(e)}', 'error')
         return redirect(url_for('ficha_tratamento', paciente_id=paciente_id))
-    return render_template('fichas/tratamento.html', paciente=paciente, tratamentos=tratamentos)
+    procedimentos_lista = ProcedimentoPadrao.query.filter_by(ativo=True).order_by(ProcedimentoPadrao.nome).all()
+    
+    return render_template('fichas/tratamento.html', 
+                         paciente=paciente, 
+                         tratamentos=tratamentos,
+                         procedimentos_lista=procedimentos_lista)
 
 @app.route('/tratamento/editar/<int:id>', methods=['GET', 'POST'])
 @requer_permissao('editar_tratamentos')
