@@ -361,6 +361,11 @@ class ItemRecibo(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(Usuario, int(user_id))
+    
+# Context Processor - Injeta configuração em todos os templates
+@app.context_processor
+def injetar_config():
+    return dict(config=ConfiguracaoClinica.get_configuracao())    
 
 def requer_permissao(modulo):
     def decorator(f):
@@ -412,7 +417,6 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    config = ConfiguracaoClinica.get_configuracao()
     total_pacientes = Paciente.query.filter_by(ativo=True).count()
     
     hoje = date.today()
@@ -449,7 +453,6 @@ def dashboard():
     ).all()
     
     return render_template('dashboard.html', 
-                         config=config,
                          total_pacientes=total_pacientes,
                          total_agendamentos_hoje=total_agendamentos_hoje,
                          agendamentos_hoje_lista=agendamentos_hoje,
@@ -473,8 +476,7 @@ def api_profissionais():
 @app.route('/configuracao', methods=['GET', 'POST'])
 @requer_permissao('editar_configuracao')
 def configuracao():
-    config = ConfiguracaoClinica.get_configuracao()
-    
+        
     if request.method == 'POST':
         config.nome_clinica = request.form['nome_clinica']
         config.endereco = request.form['endereco']
@@ -494,16 +496,15 @@ def configuracao():
         flash('Configurações atualizadas!', 'success')
         return redirect(url_for('configuracao'))
     
-    return render_template('configuracao.html', config=config)
+    return render_template('configuracao.html')
 
 # ==================== ROTAS DE PACIENTES ====================
 
 @app.route('/pacientes')
 @requer_permissao('pacientes')
 def listar_pacientes():
-    config = ConfiguracaoClinica.get_configuracao()
     pacientes = Paciente.query.filter_by(ativo=True).all()
-    return render_template('pacientes/listar.html', config=config, pacientes=pacientes)
+    return render_template('pacientes/listar.html', pacientes=pacientes)
 
 @app.route('/pacientes/buscar')
 @login_required
@@ -527,7 +528,7 @@ def buscar_pacientes():
 @app.route('/pacientes/cadastrar', methods=['GET', 'POST'])
 @requer_permissao('editar_pacientes')
 def cadastrar_paciente():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     if request.method == 'POST':
         cpf = request.form['cpf']
         paciente_existente = Paciente.query.filter_by(cpf=cpf, ativo=True).first()
@@ -554,12 +555,12 @@ def cadastrar_paciente():
         except Exception as e:
             db.session.rollback()
             flash('Erro ao cadastrar.', 'error')
-    return render_template('pacientes/cadastrar.html', config=config)
+    return render_template('pacientes/cadastrar.html')
 
 @app.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
 @requer_permissao('editar_pacientes')
 def editar_paciente(id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -580,7 +581,7 @@ def editar_paciente(id):
         db.session.commit()
         flash('Paciente atualizado!', 'success')
         return redirect(url_for('listar_pacientes'))
-    return render_template('pacientes/editar.html', config=config, paciente=paciente)
+    return render_template('pacientes/editar.html', paciente=paciente)
 
 @app.route('/pacientes/deletar/<int:id>')
 @requer_permissao('deletar_pacientes')
@@ -600,19 +601,19 @@ def deletar_paciente(id):
 @app.route('/pacientes/<int:id>')
 @requer_permissao('pacientes')
 def visualizar_paciente(id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
-    return render_template('pacientes/visualizar.html', config=config, paciente=paciente)
+    return render_template('pacientes/visualizar.html', paciente=paciente)
 
 # ==================== ROTAS DE FICHAS ====================
 
 @app.route('/ficha-ortodontica/<int:paciente_id>', methods=['GET', 'POST'])
 @requer_permissao('ficha_ortodontica')
 def ficha_ortodontica(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -640,12 +641,12 @@ def ficha_ortodontica(paciente_id):
         db.session.commit()
         flash('Ficha ortodôntica salva!', 'success')
         return redirect(url_for('visualizar_paciente', id=paciente_id))
-    return render_template('fichas/ortodontica.html', config=config, paciente=paciente, ficha=ficha)
+    return render_template('fichas/ortodontica.html', paciente=paciente, ficha=ficha)
 
 @app.route('/ficha-clinica/<int:paciente_id>', methods=['GET', 'POST'])
 @requer_permissao('ficha_clinica')
 def ficha_clinica(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -678,12 +679,12 @@ def ficha_clinica(paciente_id):
         db.session.commit()
         flash('Ficha clínica salva!', 'success')
         return redirect(url_for('visualizar_paciente', id=paciente_id))
-    return render_template('fichas/clinica.html', config=config, paciente=paciente, ficha=ficha)
+    return render_template('fichas/clinica.html', paciente=paciente, ficha=ficha)
 
 @app.route('/ficha-tratamento/<int:paciente_id>', methods=['GET', 'POST'])
 @requer_permissao('ficha_tratamento')
 def ficha_tratamento(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -721,7 +722,7 @@ def ficha_tratamento(paciente_id):
             db.session.rollback()
             flash(f'Erro: {str(e)}', 'error')
         return redirect(url_for('ficha_tratamento', paciente_id=paciente_id))
-    return render_template('fichas/tratamento.html', config=config, paciente=paciente, tratamentos=tratamentos)
+    return render_template('fichas/tratamento.html', paciente=paciente, tratamentos=tratamentos)
 
 @app.route('/tratamento/editar/<int:id>', methods=['GET', 'POST'])
 @requer_permissao('editar_tratamentos')
@@ -775,7 +776,7 @@ def excluir_tratamento(id):
 @app.route('/odontograma/<int:paciente_id>', methods=['GET', 'POST'])
 @requer_permissao('odontograma')
 def odontograma(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -795,23 +796,23 @@ def odontograma(paciente_id):
         db.session.commit()
         flash('Odontograma salvo!', 'success')
         return redirect(url_for('visualizar_paciente', id=paciente_id))
-    return render_template('odontograma.html', config=config, paciente=paciente, odonto=odonto)
+    return render_template('odontograma.html', paciente=paciente, odonto=odonto)
 
 @app.route('/orcamento/<int:paciente_id>')
 @requer_permissao('orcamento')
 def orcamento(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
     orcamentos = Orcamento.query.filter_by(paciente_id=paciente_id).order_by(Orcamento.data_criacao.desc()).all()
-    return render_template('orcamento.html', config=config, paciente=paciente, orcamentos=orcamentos)
+    return render_template('orcamento.html', paciente=paciente, orcamentos=orcamentos)
 
 @app.route('/orcamento/novo/<int:paciente_id>', methods=['GET', 'POST'])
 @login_required
 def novo_orcamento(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
@@ -846,22 +847,22 @@ def novo_orcamento(paciente_id):
         except Exception as e:
             db.session.rollback()
             flash(f'Erro: {str(e)}', 'error')
-    return render_template('novo_orcamento.html', config=config, paciente=paciente)
+    return render_template('novo_orcamento.html', paciente=paciente)
 
 @app.route('/orcamento/ver/<int:id>')
 @login_required
 def ver_orcamento(id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     orcamento = db.session.get(Orcamento, id)
     if not orcamento:
         flash('Orçamento não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
-    return render_template('ver_orcamento.html', config=config, orcamento=orcamento)
+    return render_template('ver_orcamento.html', orcamento=orcamento)
     
 @app.route('/orcamento/editar/<int:id>', methods=['GET', 'POST'])
 @requer_permissao('orcamento')
 def editar_orcamento(id):
-    config = ConfiguracaoClinica.get_configuracao()
+   
     orcamento = db.session.get(Orcamento, id)
     
     if not orcamento:
@@ -927,7 +928,6 @@ def editar_orcamento(id):
             flash(f'Erro ao atualizar orçamento: {str(e)}', 'error')
     
     return render_template('orcamento_editar.html',
-                         config=config,
                          orcamento=orcamento,
                          paciente=orcamento.paciente)    
 
@@ -949,8 +949,8 @@ def atualizar_status_orcamento(id):
 @app.route('/agenda')
 @requer_permissao('agenda')
 def agenda():
-    config = ConfiguracaoClinica.get_configuracao()
-    return render_template('agenda.html', config=config)
+    
+    return render_template('agenda.html')
 
 @app.route('/api/agendamentos')
 @login_required
@@ -1054,14 +1054,14 @@ def novo_agendamento():
 @app.route('/atestados')
 @requer_permissao('atestados')
 def atestados():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     pacientes = Paciente.query.filter_by(ativo=True).all()
-    return render_template('atestados.html', config=config, pacientes=pacientes)
+    return render_template('atestados.html', pacientes=pacientes)
 
 @app.route('/gerar-atestado', methods=['POST'])
 @login_required
 def gerar_atestado():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, request.form['paciente_id'])
     dados_atestado = {
         'clinica': config.nome_clinica, 'doutor': config.nome_doutor, 'cro': config.cro,
@@ -1077,33 +1077,33 @@ def gerar_atestado():
 @app.route('/historico/<int:paciente_id>')
 @requer_permissao('historico')
 def historico_paciente(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
     historicos = HistoricoPaciente.query.filter_by(paciente_id=paciente_id).order_by(HistoricoPaciente.data.desc()).all()
-    return render_template('historico.html', config=config, paciente=paciente, historicos=historicos)
+    return render_template('historico.html', paciente=paciente, historicos=historicos)
 
 # ==================== ROTAS DE ANIVERSARIANTES ====================
 
 @app.route('/aniversariantes')
 @requer_permissao('aniversariantes')
 def aniversariantes():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     hoje = date.today()
     aniversariantes_mes = Paciente.query.filter(
         db.extract('month', Paciente.data_nascimento) == hoje.month,
         Paciente.ativo == True
     ).all()
-    return render_template('aniversariantes.html', config=config, aniversariantes=aniversariantes_mes, mes_atual=hoje.month)
+    return render_template('aniversariantes.html', aniversariantes=aniversariantes_mes, mes_atual=hoje.month)
 
 # ==================== ROTAS FINANCEIRAS ====================
 
 @app.route('/financeiro')
 @requer_permissao('ver_financeiro')
 def financeiro():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     total_faturado = db.session.query(db.func.sum(FichaTratamento.valor)).scalar() or 0
     total_recebido = db.session.query(db.func.sum(FichaTratamento.valor_pago)).scalar() or 0
     total_pendente = total_faturado - total_recebido
@@ -1120,12 +1120,12 @@ def financeiro():
         meses_faturado.append(float(faturado))
         meses_recebido.append(float(recebido))
     procedimentos = db.session.query(FichaTratamento.procedimento, db.func.count(FichaTratamento.id).label('total')).group_by(FichaTratamento.procedimento).order_by(db.desc('total')).limit(5).all()
-    return render_template('financeiro/geral.html', config=config, total_faturado=total_faturado, total_recebido=total_recebido, total_pendente=total_pendente, ultimos_tratamentos=ultimos_tratamentos, meses_labels=meses_labels, meses_faturado=meses_faturado, meses_recebido=meses_recebido, proc_labels=[p[0] for p in procedimentos], proc_valores=[p[1] for p in procedimentos])
+    return render_template('financeiro/geral.html', total_faturado=total_faturado, total_recebido=total_recebido, total_pendente=total_pendente, ultimos_tratamentos=ultimos_tratamentos, meses_labels=meses_labels, meses_faturado=meses_faturado, meses_recebido=meses_recebido, proc_labels=[p[0] for p in procedimentos], proc_valores=[p[1] for p in procedimentos])
 
 @app.route('/financeiro/filtros', methods=['GET', 'POST'])
 @requer_permissao('ver_financeiro')
 def financeiro_filtros():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     resultados, filtro_aplicado = [], False
     pacientes = Paciente.query.filter_by(ativo=True).all()
     if request.method == 'POST':
@@ -1141,22 +1141,22 @@ def financeiro_filtros():
         resultados = query.order_by(FichaTratamento.data.desc()).all()
         total_filtrado = sum(r.valor for r in resultados)
         recebido_filtrado = sum(r.valor_pago for r in resultados)
-        return render_template('financeiro/filtros.html', config=config, resultados=resultados, filtro_aplicado=filtro_aplicado, total_filtrado=total_filtrado, recebido_filtrado=recebido_filtrado, pendente_filtrado=total_filtrado-recebido_filtrado, pacientes=pacientes)
-    return render_template('financeiro/filtros.html', config=config, resultados=resultados, filtro_aplicado=filtro_aplicado, pacientes=pacientes)
+        return render_template('financeiro/filtros.html', resultados=resultados, filtro_aplicado=filtro_aplicado, total_filtrado=total_filtrado, recebido_filtrado=recebido_filtrado, pendente_filtrado=total_filtrado-recebido_filtrado, pacientes=pacientes)
+    return render_template('financeiro/filtros.html', resultados=resultados, filtro_aplicado=filtro_aplicado, pacientes=pacientes)
 
 # ==================== ROTAS DE FUNCIONÁRIOS ====================
 
 @app.route('/funcionarios')
 @requer_permissao('funcionarios')
 def listar_funcionarios():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     funcionarios = Usuario.query.filter_by(ativo=True).all()
-    return render_template('funcionarios/listar.html', config=config, funcionarios=funcionarios)
+    return render_template('funcionarios/listar.html', funcionarios=funcionarios)
 
 @app.route('/funcionarios/cadastrar', methods=['GET', 'POST'])
 @requer_permissao('funcionarios')
 def cadastrar_funcionario():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     if request.method == 'POST':
         username = request.form['username']
         if Usuario.query.filter_by(username=username).first():
@@ -1174,12 +1174,12 @@ def cadastrar_funcionario():
         db.session.commit()
         flash('Funcionário cadastrado!', 'success')
         return redirect(url_for('listar_funcionarios'))
-    return render_template('funcionarios/cadastrar.html', config=config)
+    return render_template('funcionarios/cadastrar.html')
 
 @app.route('/funcionarios/editar/<int:id>', methods=['GET', 'POST'])
 @requer_permissao('funcionarios')
 def editar_funcionario(id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     funcionario = db.session.get(Usuario, id)
     if not funcionario:
         flash('Funcionário não encontrado!', 'error')
@@ -1197,7 +1197,7 @@ def editar_funcionario(id):
         db.session.commit()
         flash('Funcionário atualizado!', 'success')
         return redirect(url_for('listar_funcionarios'))
-    return render_template('funcionarios/editar.html', config=config, funcionario=funcionario)
+    return render_template('funcionarios/editar.html', funcionario=funcionario)
 
 @app.route('/funcionarios/deletar/<int:id>')
 @requer_permissao('funcionarios')
@@ -1212,7 +1212,7 @@ def deletar_funcionario(id):
 @app.route('/relatorio/comissoes')
 @requer_permissao('comissoes')
 def relatorio_comissoes():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     profissionais = Usuario.query.filter_by(ativo=True).all()
     dados = []
     for prof in profissionais:
@@ -1226,20 +1226,20 @@ def relatorio_comissoes():
             'comissao_percentual': prof.comissao_percentual, 'comissao_valor': comissao,
             'total_tratamentos': len(tratamentos)
         })
-    return render_template('funcionarios/comissoes.html', config=config, dados=dados)
+    return render_template('funcionarios/comissoes.html', dados=dados)
 
 # ==================== ROTAS DE ARQUIVOS ====================
 
 @app.route('/arquivos/<int:paciente_id>')
 @requer_permissao('arquivos')
 def arquivos_paciente(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+   
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
     arquivos = ArquivoPaciente.query.filter_by(paciente_id=paciente_id).order_by(ArquivoPaciente.data_upload.desc()).all()
-    return render_template('arquivos.html', config=config, paciente=paciente, arquivos=arquivos)
+    return render_template('arquivos.html', paciente=paciente, arquivos=arquivos)
 
 @app.route('/arquivos/upload/<int:paciente_id>', methods=['POST'])
 @login_required
@@ -1292,8 +1292,8 @@ def deletar_arquivo(id):
 @app.route('/relatorios')
 @requer_permissao('ver_financeiro')
 def relatorios():
-    config = ConfiguracaoClinica.get_configuracao()
-    return render_template('relatorios/index.html', config=config)
+    
+    return render_template('relatorios/index.html')
 
 @app.route('/api/relatorio/financeiro')
 @requer_permissao('ver_financeiro')
@@ -1581,9 +1581,9 @@ def api_relatorio_dentista(profissional_id):
 @app.route('/despesas')
 @requer_permissao('ver_financeiro')
 def despesas():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     categorias = CategoriaDespesa.query.all()
-    return render_template('despesas/index.html', config=config, categorias=categorias)
+    return render_template('despesas/index.html', categorias=categorias)
 
 @app.route('/api/despesas')
 @requer_permissao('ver_financeiro')
@@ -1822,14 +1822,14 @@ def gerar_despesas_recorrentes():
 @app.route('/recibos')
 @requer_permissao('ver_financeiro')
 def recibos():
-    config = ConfiguracaoClinica.get_configuracao()
+    
     recibos = Recibo.query.order_by(Recibo.data_emissao.desc()).limit(50).all()
-    return render_template('recibos/index.html', config=config, recibos=recibos)
+    return render_template('recibos/index.html', recibos=recibos)
 
 @app.route('/recibos/novo/<int:paciente_id>', methods=['GET', 'POST'])
 @requer_permissao('ficha_tratamento')
 def novo_recibo(paciente_id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     paciente = db.session.get(Paciente, paciente_id)
     
     if not paciente:
@@ -1898,19 +1898,19 @@ def novo_recibo(paciente_id):
             db.session.rollback()
             flash(f'Erro ao emitir recibo: {str(e)}', 'error')
     
-    return render_template('recibos/novo.html', config=config, paciente=paciente, tratamentos=tratamentos)
+    return render_template('recibos/novo.html', paciente=paciente, tratamentos=tratamentos)
 
 @app.route('/recibos/ver/<int:id>')
 @requer_permissao('ver_financeiro')
 def ver_recibo(id):
-    config = ConfiguracaoClinica.get_configuracao()
+    
     recibo = db.session.get(Recibo, id)
     
     if not recibo:
         flash('Recibo não encontrado!', 'error')
         return redirect(url_for('recibos'))
     
-    return render_template('recibos/ver.html', config=config, recibo=recibo)
+    return render_template('recibos/ver.html', recibo=recibo)
 
 @app.route('/recibos/cancelar/<int:id>')
 @requer_permissao('ver_financeiro')
