@@ -13,6 +13,16 @@ from flask import jsonify, send_file # Certifique-se de ter esses imports no top
 from io import BytesIO
 from datetime import datetime
 #from app import db, Paciente, Usuario, Agendamento
+from zoneinfo import ZoneInfo
+
+# Fuso horário do Brasil
+FUSO_BRASIL = ZoneInfo("America/Sao_Paulo")
+
+def agora_brasil():
+    return datetime.now(FUSO_BRASIL)
+
+def hoje_brasil():
+    return date.today()
 
 # Inicialização do app
 app = Flask(__name__)
@@ -67,7 +77,7 @@ class Usuario(UserMixin, db.Model):
     especialidade = db.Column(db.String(100))
     comissao_percentual = db.Column(db.Float, default=0.0)
     ativo = db.Column(db.Boolean, default=True)
-    data_cadastro = db.Column(db.DateTime, default=datetime.utcnow)
+    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
     
     agendamentos = db.relationship('Agendamento', backref='profissional', lazy=True)
     tratamentos = db.relationship('FichaTratamento', backref='profissional', lazy=True)
@@ -152,7 +162,7 @@ class Paciente(db.Model):
     endereco = db.Column(db.String(300))
     celular = db.Column(db.String(20))
     email = db.Column(db.String(120))
-    data_cadastro = db.Column(db.DateTime, default=datetime.utcnow)
+    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
     observacoes = db.Column(db.Text)
     ativo = db.Column(db.Boolean, default=True)
     
@@ -247,7 +257,7 @@ class HistoricoPaciente(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'), nullable=False)
-    data = db.Column(db.DateTime, default=datetime.utcnow)
+    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
     acao = db.Column(db.String(50))
     descricao = db.Column(db.Text)
     profissional = db.Column(db.String(200))
@@ -301,7 +311,7 @@ class ArquivoPaciente(db.Model):
     tipo = db.Column(db.String(50))
     categoria = db.Column(db.String(50))
     descricao = db.Column(db.Text)
-    data_upload = db.Column(db.DateTime, default=datetime.utcnow)
+    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
     paciente = db.relationship('Paciente', backref=db.backref('arquivos', lazy=True))
 
 class CategoriaDespesa(db.Model):
@@ -327,7 +337,7 @@ class Despesa(db.Model):
     recorrente = db.Column(db.Boolean, default=False)  # despesa fixa mensal
     pago = db.Column(db.Boolean, default=True)
     observacoes = db.Column(db.Text)
-    data_cadastro = db.Column(db.DateTime, default=datetime.utcnow)
+    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
     
 class Recibo(db.Model):
     __tablename__ = 'recibos'
