@@ -257,7 +257,7 @@ class HistoricoPaciente(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'), nullable=False)
-    data_cadastro = db.Column(db.DateTime, default=agora_brasil)
+    data = db.Column(db.DateTime, default=agora_brasil)
     acao = db.Column(db.String(50))
     descricao = db.Column(db.Text)
     profissional = db.Column(db.String(200))
@@ -1102,7 +1102,6 @@ def gerar_atestado():
 @app.route('/historico/<int:paciente_id>')
 @requer_permissao('historico')
 def historico_paciente(paciente_id):
-    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
