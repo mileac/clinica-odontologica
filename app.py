@@ -2132,3 +2132,8 @@ if __name__ == '__main__':
     print("   • Admin: admin / admin123")
     print("="*60 + "\n")
     app.run(debug=True, port=5000, host='0.0.0.0')
+    
+with app.app_context():
+    db.drop_all()
+    db.create_all()
+    inicializar_banco()    
