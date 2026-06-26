@@ -116,4 +116,30 @@ function calcularParcelas() {
 
 document.addEventListener('DOMContentLoaded', atualizarTotal);
 </script>
+
+{% if paciente.fichas_tratamento %}
+<div class="card mt-3">
+    <div class="card-header"><h6>Tratamentos do Paciente (clique para adicionar)</h6></div>
+    <div class="card-body">
+        {% for t in paciente.fichas_tratamento %}
+        <button type="button" class="btn btn-outline-secondary btn-sm m-1" 
+                onclick="adicionarTratamento('{{ t.procedimento }}', '{{ t.dente or '' }}', {{ t.valor }})">
+            {{ t.procedimento }} ({{ t.dente or 'N/A' }}) - R$ {{ "%.2f"|format(t.valor) }}
+        </button>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function adicionarTratamento(procedimento, dente, valor) {
+    adicionarItem();
+    const itens = document.querySelectorAll('.item-orcamento');
+    const ultimo = itens[itens.length - 1];
+    ultimo.querySelector('input[name="dente[]"]').value = dente;
+    ultimo.querySelector('input[name="procedimento[]"]').value = procedimento;
+    ultimo.querySelector('input[name="valor[]"]').value = valor;
+    atualizarTotal();
+}
+</script>
+{% endif %}
 {% endblock %}

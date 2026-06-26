@@ -837,11 +837,11 @@ def orcamento(paciente_id):
 @app.route('/orcamento/novo/<int:paciente_id>', methods=['GET', 'POST'])
 @login_required
 def novo_orcamento(paciente_id):
-    
     paciente = db.session.get(Paciente, paciente_id)
     if not paciente:
         flash('Paciente não encontrado!', 'error')
         return redirect(url_for('listar_pacientes'))
+    tratamentos = FichaTratamento.query.filter_by(paciente_id=paciente_id).order_by(FichaTratamento.data.desc()).all()    
     if request.method == 'POST':
         try:
             parcelas = int(request.form.get('parcelas', 1))
@@ -872,7 +872,7 @@ def novo_orcamento(paciente_id):
         except Exception as e:
             db.session.rollback()
             flash(f'Erro: {str(e)}', 'error')
-    return render_template('novo_orcamento.html', paciente=paciente)
+    return render_template('novo_orcamento.html', config=config, paciente=paciente, tratamentos=tratamentos)
 
 @app.route('/orcamento/ver/<int:id>')
 @login_required
