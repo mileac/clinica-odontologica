@@ -2151,6 +2151,27 @@ def backup_exportar():
         headers={'Content-Disposition': f'attachment;filename=backup_{tipo}_{date.today().strftime("%Y%m%d")}.csv'}
     )       
 
+# ==================== ROTAS DE ALTERAR A SENHA ====================
+
+@app.route('/funcionarios/redefinir-senha/<int:id>', methods=['POST'])
+@requer_permissao('funcionarios')
+def redefinir_senha_funcionario(id):
+    if current_user.cargo != 'Admin':
+        flash('Apenas o administrador pode redefinir senhas!', 'error')
+        return redirect(url_for('listar_funcionarios'))
+    
+    funcionario = db.session.get(Usuario, id)
+    if funcionario:
+        nova_senha = request.form.get('nova_senha')
+        if len(nova_senha) < 4:
+            flash('A senha deve ter pelo menos 4 caracteres!', 'error')
+        else:
+            funcionario.set_password(nova_senha)
+            db.session.commit()
+            flash(f'Senha de {funcionario.nome_completo} redefinida com sucesso!', 'success')
+    
+    return redirect(url_for('listar_funcionarios'))
+
 # ==================== INICIALIZAÇÃO ====================
 
 def inicializar_banco():

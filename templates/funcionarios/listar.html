@@ -21,6 +21,7 @@
                         <th>Especialidade</th>
                         <th>Comissão</th>
                         <th>Ações</th>
+						<th>Senha</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,17 @@
                             </button>
                             {% endif %}
                         </td>
+						<td>
+							<form method="POST" action="/funcionarios/redefinir-senha/{{ f.id }}" style="display:inline;">
+								<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+								<div class="input-group input-group-sm">
+									<input type="password" class="form-control" name="nova_senha" placeholder="Nova senha" required minlength="4" style="width:100px;">
+									<button type="submit" class="btn btn-outline-secondary" title="Redefinir Senha">
+										<i class="bi bi-key"></i>
+									</button>
+								</div>
+							</form>
+						</td>
                     </tr>
                     {% endfor %}
                 </tbody>
