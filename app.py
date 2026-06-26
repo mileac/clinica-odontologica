@@ -1477,48 +1477,6 @@ def api_relatorio_pacientes():
         'cadastros': {'labels': labels, 'valores': cadastros_mes}
     })
 
-@app.route('/api/relatorio/exportar')
-@requer_permissao('ver_financeiro')
-def exportar_relatorio():
-    import csv
-    from io import StringIO
-    
-    tipo = request.args.get('tipo', 'financeiro')
-    data_inicio = request.args.get('data_inicio', (date.today().replace(day=1)).strftime('%Y-%m-%d'))
-    data_fim = request.args.get('data_fim', date.today().strftime('%Y-%m-%d'))
-    
-    inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
-    fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
-    
-    si = StringIO()
-    writer = csv.writer(si)
-    
-    if tipo == 'financeiro':
-        writer.writerow(['Data', 'Paciente', 'Procedimento', 'Dente', 'Valor', 'Pago', 'Saldo', 'Status', 'Profissional'])
-        tratamentos = FichaTratamento.query.filter(
-            FichaTratamento.data >= inicio, FichaTratamento.data <= fim
-        ).order_by(FichaTratamento.data.desc()).all()
-        
-        for t in tratamentos:
-            writer.writerow([
-                t.data.strftime('%d/%m/%Y'),
-                t.paciente.nome,
-                t.procedimento,
-                t.dente or '',
-                f'R$ {t.valor:.2f}',
-                f'R$ {t.valor_pago:.2f}',
-                f'R$ {t.saldo_restante:.2f}',
-                t.status_pagamento,
-                t.profissional.nome_completo if t.profissional else ''
-            ])
-    
-    output = si.getvalue()
-    return Response(
-        output,
-        mimetype='text/csv',
-        headers={'Content-Disposition': f'attachment;filename=relatorio_{tipo}_{data_inicio}_{data_fim}.csv'}
-    )
-
 # ==================== ROTAS DE RELATÓRIOS POR DENTISTA ====================
 
 @app.route('/api/relatorio/dentista/<int:profissional_id>')
@@ -2129,7 +2087,6 @@ def backup_exportar():
     from io import StringIO
     
     tipo = request.args.get('tipo', 'completo')
-    
     si = StringIO()
     writer = csv.writer(si)
     
@@ -2137,12 +2094,17 @@ def backup_exportar():
         writer.writerow(['=== PACIENTES ==='])
         writer.writerow(['ID', 'Nome', 'CPF', 'Nascimento', 'Idade', 'Celular', 'Email', 'Endereço', 'Cadastro'])
         for p in Paciente.query.filter_by(ativo=True).all():
-            writer.writerow([p.id, p.nome, p.cpf, p.data_nascimento, p.calcular_idade(), p.celular, p.email, p.endereco, p.data_cadastro])
-        writer.writerow([])
-    
+            writer.writerow([p.id, p.nome, p.cpf, 
+                p.data_nascimento.strftime('%d/%m/%Y') if p.data_nascimento else '',
+                p.calcular_idade(), p.celular, p.email, p.endereco,
+                p.data_cadastro.strftime('%d/%m/%Y %H:%M') if p.data_cadastro else ''])
+                    writer.writerow([])    
     if tipo == 'tratamentos' or tipo == 'completo':
         writer.writerow(['=== TRATAMENTOS ==='])
-        writer.writerow(['ID', 'Paciente', 'Data', 'Dente', 'Procedimento', 'Valor', 'Pago', 'Saldo', 'Status', 'Profissional'])
+        writer.writerow([t.id, t.paciente.nome,
+            t.data.strftime('%d/%m/%Y') if t.data else '',
+            t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento,
+            t.profissional.nome_completo if t.profissional else ''])
         for t in FichaTratamento.query.order_by(FichaTratamento.data.desc()).all():
             writer.writerow([t.id, t.paciente.nome, t.data, t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento, t.profissional.nome_completo if t.profissional else ''])
         writer.writerow([])
@@ -2151,28 +2113,32 @@ def backup_exportar():
         writer.writerow(['=== ORÇAMENTOS ==='])
         writer.writerow(['ID', 'Paciente', 'Data', 'Valor Total', 'Parcelas', 'Valor Parcela', 'Acréscimo %', 'Status'])
         for o in Orcamento.query.order_by(Orcamento.data_criacao.desc()).all():
-            writer.writerow([o.id, o.paciente.nome, o.data_criacao, o.valor_total, o.parcelas, o.valor_parcela, o.acrescimo_percentual, o.status])
-        writer.writerow([])
+            writer.writerow([o.id, o.paciente.nome,
+                o.data_criacao.strftime('%d/%m/%Y') if o.data_criacao else '',
+                o.valor_total, o.parcelas, o.valor_parcela, o.acrescimo_percentual, o.status])
     
     if tipo == 'agendamentos' or tipo == 'completo':
         writer.writerow(['=== AGENDAMENTOS ==='])
         writer.writerow(['ID', 'Paciente', 'Data/Hora', 'Procedimento', 'Duração', 'Status', 'Profissional'])
         for a in Agendamento.query.order_by(Agendamento.data_hora.desc()).all():
-            writer.writerow([a.id, a.paciente.nome if a.paciente else 'N/A', a.data_hora, a.procedimento, a.duracao, a.status, a.profissional.nome_completo if a.profissional else ''])
-        writer.writerow([])
+            writer.writerow([a.id, a.paciente.nome if a.paciente else 'N/A',
+                a.data_hora.strftime('%d/%m/%Y %H:%M') if a.data_hora else '',
+                a.procedimento, a.duracao, a.status,
+                a.profissional.nome_completo if a.profissional else ''])
     
     if tipo == 'despesas' or tipo == 'completo':
         writer.writerow(['=== DESPESAS ==='])
         writer.writerow(['ID', 'Data', 'Categoria', 'Descrição', 'Valor', 'Pago', 'Recorrente'])
         for d in Despesa.query.order_by(Despesa.data.desc()).all():
             writer.writerow([d.id, d.data, d.categoria.nome if d.categoria else '', d.descricao, d.valor, d.pago, d.recorrente])
-        writer.writerow([])
     
     if tipo == 'recibos' or tipo == 'completo':
         writer.writerow(['=== RECIBOS ==='])
         writer.writerow(['ID', 'Número', 'Paciente', 'Data', 'Valor Total', 'ISS', 'Líquido', 'Status'])
         for r in Recibo.query.order_by(Recibo.data_emissao.desc()).all():
-            writer.writerow([r.id, r.numero, r.paciente.nome, r.data_emissao, r.valor_total, r.iss_valor, r.valor_liquido, r.status])
+            writer.writerow([r.id, r.numero, r.paciente.nome,
+                r.data_emissao.strftime('%d/%m/%Y') if r.data_emissao else '',
+                r.valor_total, r.iss_valor, r.valor_liquido, r.status])
     
     output = si.getvalue()
     
