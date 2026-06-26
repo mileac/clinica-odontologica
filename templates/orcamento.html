@@ -51,12 +51,20 @@
 								<a href="/orcamento/editar/{{ orc.id }}" class="btn btn-sm btn-warning">
 									<i class="bi bi-pencil"></i>
 								</a>
+								{% if orc.status != 'Aprovado' %}
 								<button class="btn btn-sm btn-success" onclick="mudarStatus({{ orc.id }}, 'Aprovado')">
 									<i class="bi bi-check-lg"></i>
 								</button>
+								{% endif %}
 								<button class="btn btn-sm btn-danger" onclick="mudarStatus({{ orc.id }}, 'Recusado')">
 									<i class="bi bi-x-lg"></i>
 								</button>
+								<a href="/orcamento/iniciar-tratamento/{{ orc.id }}" 
+								   class="btn btn-sm btn-primary" 
+								   onclick="return confirm('Iniciar tratamento com todos os itens deste orcamento?')"
+								   title="Iniciar Tratamento">
+									<i class="bi bi-play-fill"></i> Iniciar
+								</a>
 							</div>
 						</td>
                     </tr>

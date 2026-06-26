@@ -2068,6 +2068,56 @@ def api_procedimentos():
     procs = ProcedimentoPadrao.query.filter_by(ativo=True).order_by(ProcedimentoPadrao.nome).all()
     return jsonify([{'id': p.id, 'nome': p.nome, 'valor': p.valor, 'duracao': p.duracao_minutos} for p in procs])        
 
+# ==================== ROTA ORÇAMENTO ====================
+
+@app.route('/orcamento/iniciar-tratamento/<int:id>')
+@requer_permissao('ficha_tratamento')
+def iniciar_tratamento_orcamento(id):
+    orcamento = db.session.get(Orcamento, id)
+    
+    if not orcamento:
+        flash('Orçamento não encontrado!', 'error')
+        return redirect(url_for('listar_pacientes'))
+    
+    try:
+        for item in orcamento.itens:
+            tratamento = FichaTratamento(
+                paciente_id=orcamento.paciente_id,
+                profissional_id=current_user.id,
+                data=date.today(),
+                dente=item.dente or '',
+                procedimento=item.procedimento,
+                descricao=f'Conforme orçamento #{orcamento.id}',
+                valor=item.valor,
+                valor_pago=0,
+                status_pagamento='Pendente',
+                forma_pagamento='A definir'
+            )
+            db.session.add(tratamento)
+        
+        # Atualizar status do orçamento
+        orcamento.status = 'Aprovado'
+        orcamento.data_aprovacao = date.today()
+        
+        historico = HistoricoPaciente(
+            paciente_id=orcamento.paciente_id,
+            data=agora_brasil(),
+            acao='Tratamento Iniciado',
+            descricao=f'Tratamento iniciado do orçamento #{orcamento.id}',
+            profissional=current_user.nome_completo
+        )
+        db.session.add(historico)
+        db.session.commit()
+        
+        flash('Tratamento iniciado com sucesso! Todos os itens do orçamento foram copiados.', 'success')
+        return redirect(url_for('ficha_tratamento', paciente_id=orcamento.paciente_id))
+    
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Erro ao iniciar tratamento: {str(e)}', 'error')
+        return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
+
+
 # ==================== INICIALIZAÇÃO ====================
 
 def inicializar_banco():
@@ -2118,7 +2168,7 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
-    db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
+    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     db.create_all()
     inicializar_banco()
     print("✓ Banco de dados recriado!")
