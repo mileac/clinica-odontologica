@@ -46,8 +46,11 @@
 							<form method="POST" action="/funcionarios/redefinir-senha/{{ f.id }}" style="display:inline;">
 								<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 								<div class="input-group input-group-sm">
-									<input type="password" class="form-control" name="nova_senha" placeholder="Nova senha" required minlength="4" style="width:100px;">
-									<button type="submit" class="btn btn-outline-secondary" title="Redefinir Senha">
+									<input type="password" class="form-control" name="nova_senha" id="senha_{{ f.id }}" placeholder="Nova senha" required minlength="4" style="width:100px;">
+									<button type="button" class="btn btn-outline-secondary" onclick="toggleSenha('senha_{{ f.id }}')" title="Ver senha">
+										<i class="bi bi-eye"></i>
+									</button>
+									<button type="submit" class="btn btn-outline-primary" title="Redefinir Senha">
 										<i class="bi bi-key"></i>
 									</button>
 								</div>
@@ -62,5 +65,19 @@
 </div>
 <script>
 function deletar(id) { if(confirm('Remover este funcionário?')) window.location.href='/funcionarios/deletar/'+id; }
+
+function toggleSenha(id) {
+    const input = document.getElementById(id);
+    const icon = event.target.closest('button').querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('bi-eye');
+        icon.classList.add('bi-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('bi-eye-slash');
+        icon.classList.add('bi-eye');
+    }
+}
 </script>
 {% endblock %}
