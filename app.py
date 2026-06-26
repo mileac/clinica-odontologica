@@ -2023,9 +2023,8 @@ def baixar_backup():
 @app.route('/procedimentos')
 @requer_permissao('ficha_tratamento')
 def procedimentos():
-    config = ConfiguracaoClinica.get_configuracao()
     procedimentos = ProcedimentoPadrao.query.filter_by(ativo=True).order_by(ProcedimentoPadrao.nome).all()
-    return render_template('procedimentos.html', config=config, procedimentos=procedimentos)
+    return render_template('procedimentos.html', procedimentos=procedimentos)
 
 @app.route('/procedimentos/salvar', methods=['POST'])
 @requer_permissao('ficha_tratamento')
