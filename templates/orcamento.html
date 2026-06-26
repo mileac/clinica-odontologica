@@ -86,18 +86,25 @@
 
 <script>
     function mudarStatus(id, status) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/orcamento/status/' + id;
-
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'status';
-        input.value = status;
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
-    }
+		const form = document.createElement('form');
+		form.method = 'POST';
+		form.action = '/orcamento/status/' + id;
+		
+		// Token CSRF
+		const csrfInput = document.createElement('input');
+		csrfInput.type = 'hidden';
+		csrfInput.name = 'csrf_token';
+		csrfInput.value = '{{ csrf_token() }}';
+		form.appendChild(csrfInput);
+		
+		const input = document.createElement('input');
+		input.type = 'hidden';
+		input.name = 'status';
+		input.value = status;
+		
+		form.appendChild(input);
+		document.body.appendChild(form);
+		form.submit();
+}
 </script>
 {% endblock %}
