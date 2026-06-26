@@ -14,6 +14,7 @@ from io import BytesIO
 from datetime import datetime
 #from app import db, Paciente, Usuario, Agendamento
 from zoneinfo import ZoneInfo
+from flask_wtf.csrf import CSRFProtect
 
 # Fuso horário do Brasil
 FUSO_BRASIL = ZoneInfo("America/Sao_Paulo")
@@ -27,6 +28,8 @@ def hoje_brasil():
 # Inicialização do app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sua_chave_secreta_aqui_123456')
+csrf = CSRFProtect(app)
+
 DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
 if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
     DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
