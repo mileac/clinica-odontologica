@@ -872,12 +872,11 @@ def novo_orcamento(paciente_id):
         except Exception as e:
             db.session.rollback()
             flash(f'Erro: {str(e)}', 'error')
-    return render_template('novo_orcamento.html', config=config, paciente=paciente, tratamentos=tratamentos)
+    return render_template('novo_orcamento.html', paciente=paciente, tratamentos=tratamentos)
 
 @app.route('/orcamento/ver/<int:id>')
 @login_required
 def ver_orcamento(id):
-    
     orcamento = db.session.get(Orcamento, id)
     if not orcamento:
         flash('Orçamento não encontrado!', 'error')
