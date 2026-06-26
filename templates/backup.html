@@ -1,0 +1,68 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Backup - {{ config.nome_clinica }}{% endblock %}
+{% block header_title %}Backup do Sistema{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5><i class="bi bi-download"></i> Exportar Dados</h5></div>
+            <div class="card-body">
+                <p class="text-muted">Selecione o que deseja exportar. O arquivo será baixado em formato CSV (abre no Excel).</p>
+                
+                <div class="list-group">
+                    <a href="/backup/exportar?tipo=pacientes" class="list-group-item list-group-item-action">
+                        <i class="bi bi-people"></i> <strong>Pacientes</strong>
+                        <small class="text-muted d-block">Nome, CPF, telefone, endereço</small>
+                    </a>
+                    <a href="/backup/exportar?tipo=tratamentos" class="list-group-item list-group-item-action">
+                        <i class="bi bi-clipboard2-pulse"></i> <strong>Tratamentos</strong>
+                        <small class="text-muted d-block">Procedimentos, valores, status</small>
+                    </a>
+                    <a href="/backup/exportar?tipo=orcamentos" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-earmark-text"></i> <strong>Orçamentos</strong>
+                        <small class="text-muted d-block">Valores, parcelas, status</small>
+                    </a>
+                    <a href="/backup/exportar?tipo=agendamentos" class="list-group-item list-group-item-action">
+                        <i class="bi bi-calendar3"></i> <strong>Agendamentos</strong>
+                        <small class="text-muted d-block">Consultas, horários, status</small>
+                    </a>
+                    <a href="/backup/exportar?tipo=despesas" class="list-group-item list-group-item-action">
+                        <i class="bi bi-cash-stack"></i> <strong>Despesas</strong>
+                        <small class="text-muted d-block">Gastos da clínica</small>
+                    </a>
+                    <a href="/backup/exportar?tipo=recibos" class="list-group-item list-group-item-action">
+                        <i class="bi bi-receipt"></i> <strong>Recibos</strong>
+                        <small class="text-muted d-block">Recibos emitidos</small>
+                    </a>
+                </div>
+                
+                <hr>
+                
+                <a href="/backup/exportar?tipo=completo" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-file-earmark-zip"></i> Backup Completo (Tudo)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5><i class="bi bi-info-circle"></i> Instruções</h5></div>
+            <div class="card-body">
+                <ul>
+                    <li>O arquivo é salvo no formato <strong>CSV</strong></li>
+                    <li>Abre no <strong>Excel, Google Planilhas ou LibreOffice</strong></li>
+                    <li>Recomenda-se fazer backup <strong>semanalmente</strong></li>
+                    <li>Guarde o arquivo em local seguro</li>
+                </ul>
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> 
+                    Este backup é para segurança dos dados. Em caso de perda, os dados podem ser recuperados.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

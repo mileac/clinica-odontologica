@@ -2114,7 +2114,73 @@ def iniciar_tratamento_orcamento(id):
         db.session.rollback()
         flash(f'Erro ao iniciar tratamento: {str(e)}', 'error')
         return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
+        
+# ==================== ROTAS BACKUP SELECIONADO ==================== 
 
+@app.route('/backup')
+@requer_permissao('ver_financeiro')
+def backup():
+    return render_template('backup.html')
+
+@app.route('/backup/exportar')
+@requer_permissao('ver_financeiro')
+def backup_exportar():
+    import csv
+    from io import StringIO
+    
+    tipo = request.args.get('tipo', 'completo')
+    
+    si = StringIO()
+    writer = csv.writer(si)
+    
+    if tipo == 'pacientes' or tipo == 'completo':
+        writer.writerow(['=== PACIENTES ==='])
+        writer.writerow(['ID', 'Nome', 'CPF', 'Nascimento', 'Idade', 'Celular', 'Email', 'Endereço', 'Cadastro'])
+        for p in Paciente.query.filter_by(ativo=True).all():
+            writer.writerow([p.id, p.nome, p.cpf, p.data_nascimento, p.calcular_idade(), p.celular, p.email, p.endereco, p.data_cadastro])
+        writer.writerow([])
+    
+    if tipo == 'tratamentos' or tipo == 'completo':
+        writer.writerow(['=== TRATAMENTOS ==='])
+        writer.writerow(['ID', 'Paciente', 'Data', 'Dente', 'Procedimento', 'Valor', 'Pago', 'Saldo', 'Status', 'Profissional'])
+        for t in FichaTratamento.query.order_by(FichaTratamento.data.desc()).all():
+            writer.writerow([t.id, t.paciente.nome, t.data, t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento, t.profissional.nome_completo if t.profissional else ''])
+        writer.writerow([])
+    
+    if tipo == 'orcamentos' or tipo == 'completo':
+        writer.writerow(['=== ORÇAMENTOS ==='])
+        writer.writerow(['ID', 'Paciente', 'Data', 'Valor Total', 'Parcelas', 'Valor Parcela', 'Acréscimo %', 'Status'])
+        for o in Orcamento.query.order_by(Orcamento.data_criacao.desc()).all():
+            writer.writerow([o.id, o.paciente.nome, o.data_criacao, o.valor_total, o.parcelas, o.valor_parcela, o.acrescimo_percentual, o.status])
+        writer.writerow([])
+    
+    if tipo == 'agendamentos' or tipo == 'completo':
+        writer.writerow(['=== AGENDAMENTOS ==='])
+        writer.writerow(['ID', 'Paciente', 'Data/Hora', 'Procedimento', 'Duração', 'Status', 'Profissional'])
+        for a in Agendamento.query.order_by(Agendamento.data_hora.desc()).all():
+            writer.writerow([a.id, a.paciente.nome if a.paciente else 'N/A', a.data_hora, a.procedimento, a.duracao, a.status, a.profissional.nome_completo if a.profissional else ''])
+        writer.writerow([])
+    
+    if tipo == 'despesas' or tipo == 'completo':
+        writer.writerow(['=== DESPESAS ==='])
+        writer.writerow(['ID', 'Data', 'Categoria', 'Descrição', 'Valor', 'Pago', 'Recorrente'])
+        for d in Despesa.query.order_by(Despesa.data.desc()).all():
+            writer.writerow([d.id, d.data, d.categoria.nome if d.categoria else '', d.descricao, d.valor, d.pago, d.recorrente])
+        writer.writerow([])
+    
+    if tipo == 'recibos' or tipo == 'completo':
+        writer.writerow(['=== RECIBOS ==='])
+        writer.writerow(['ID', 'Número', 'Paciente', 'Data', 'Valor Total', 'ISS', 'Líquido', 'Status'])
+        for r in Recibo.query.order_by(Recibo.data_emissao.desc()).all():
+            writer.writerow([r.id, r.numero, r.paciente.nome, r.data_emissao, r.valor_total, r.iss_valor, r.valor_liquido, r.status])
+    
+    output = si.getvalue()
+    
+    return Response(
+        output,
+        mimetype='text/csv',
+        headers={'Content-Disposition': f'attachment;filename=backup_{tipo}_{date.today().strftime("%Y%m%d")}.csv'}
+    )       
 
 # ==================== INICIALIZAÇÃO ====================
 

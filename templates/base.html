@@ -225,6 +225,12 @@
 				<i class="bi bi-journal-medical"></i> Procedimentos
 			</a>
 			{% endif %}
+			
+			{% if current_user.tem_permissao('ver_financeiro') %}
+			<a class="nav-link {{ 'active' if 'backup' in request.endpoint }}" href="{{ url_for('backup') }}">
+				<i class="bi bi-cloud-download"></i> Backup
+			</a>
+			{% endif %}
 
             <hr class="my-3" style="border-color: rgba(255,255,255,0.2);">
 
