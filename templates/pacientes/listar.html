@@ -12,13 +12,10 @@
         </a>
     </div>
     <div class="card-body">
-        <!-- Campo de busca -->
         <div class="mb-3">
-            <input type="text" class="form-control" id="buscar-paciente"
-                   placeholder="Buscar por nome ou CPF...">
+            <input type="text" class="form-control" id="buscar-paciente" placeholder="Buscar por nome ou CPF...">
         </div>
-
-        <!-- Tabela de pacientes -->
+        
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -32,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody id="tabela-pacientes">
-                    {% for paciente in pacientes %}
+                    {% for paciente in pacientes.items %}
                     <tr>
                         <td>{{ paciente.nome }}</td>
                         <td>{{ paciente.cpf }}</td>
@@ -41,83 +38,77 @@
                         <td>{{ paciente.data_cadastro.strftime('%d/%m/%Y') }}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="{{ url_for('visualizar_paciente', id=paciente.id) }}"
-                                   class="btn btn-sm btn-info" title="Visualizar">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="{{ url_for('editar_paciente', id=paciente.id) }}"
-                                   class="btn btn-sm btn-warning" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a href="{{ url_for('ficha_tratamento', paciente_id=paciente.id) }}"
-                                   class="btn btn-sm btn-success" title="Tratamento">
-                                    <i class="bi bi-clipboard2-pulse"></i>
-                                </a>
-                                <button onclick="confirmarExclusao({{ paciente.id }})"
-                                        class="btn btn-sm btn-danger" title="Excluir">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <a href="/pacientes/{{ paciente.id }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                                <a href="/pacientes/editar/{{ paciente.id }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                                <a href="/ficha-tratamento/{{ paciente.id }}" class="btn btn-sm btn-success"><i class="bi bi-clipboard2-pulse"></i></a>
+                                <button onclick="if(confirm('Excluir?'))window.location.href='/pacientes/deletar/{{ paciente.id }}'" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                             </div>
                         </td>
                     </tr>
                     {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">Nenhum paciente cadastrado</td>
-                    </tr>
+                    <tr><td colspan="6" class="text-center">Nenhum paciente cadastrado</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+        
+        <!-- Paginação -->
+        {% if pacientes.pages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if pacientes.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('listar_pacientes', page=pacientes.prev_num) }}">Anterior</a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in pacientes.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                    {% if page_num %}
+                        <li class="page-item {{ 'active' if page_num == pacientes.page }}">
+                            <a class="page-link" href="{{ url_for('listar_pacientes', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if pacientes.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('listar_pacientes', page=pacientes.next_num) }}">Próximo</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <p class="text-center text-muted">
+            Mostrando {{ pacientes.items|length }} de {{ pacientes.total }} pacientes
+        </p>
+        {% endif %}
     </div>
 </div>
 
 <script>
-// Busca em tempo real
 document.getElementById('buscar-paciente').addEventListener('keyup', function() {
     const termo = this.value;
-
     if (termo.length >= 2) {
         fetch(`/pacientes/buscar?termo=${termo}`)
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
                 const tbody = document.getElementById('tabela-pacientes');
                 tbody.innerHTML = '';
-
-                data.forEach(paciente => {
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${paciente.nome}</td>
-                            <td>${paciente.cpf}</td>
-                            <td>${paciente.idade} anos</td>
-                            <td>${paciente.celular}</td>
-                            <td>Hoje</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="/pacientes/${paciente.id}" class="btn btn-sm btn-info">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="/pacientes/editar/${paciente.id}" class="btn btn-sm btn-warning">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="/ficha-tratamento/${paciente.id}" class="btn btn-sm btn-success">
-                                        <i class="bi bi-clipboard2-pulse"></i>
-                                    </a>
-                                    <button onclick="confirmarExclusao(${paciente.id})" class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum paciente encontrado</td></tr>';
+                }
+                data.forEach(p => {
+                    tbody.innerHTML += `<tr>
+                        <td>${p.nome}</td><td>${p.cpf}</td><td>${p.idade} anos</td><td>${p.celular}</td><td>-</td>
+                        <td>
+                            <a href="/pacientes/${p.id}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                            <a href="/pacientes/editar/${p.id}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
+                            <a href="/ficha-tratamento/${p.id}" class="btn btn-sm btn-success"><i class="bi bi-clipboard2-pulse"></i></a>
+                        </td></tr>`;
                 });
             });
     }
 });
-
-function confirmarExclusao(id) {
-    if (confirm('Tem certeza que deseja excluir este paciente?')) {
-        window.location.href = `/pacientes/deletar/${id}`;
-    }
-}
 </script>
 {% endblock %}

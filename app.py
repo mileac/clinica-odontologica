@@ -526,7 +526,10 @@ def configuracao():
 @app.route('/pacientes')
 @requer_permissao('pacientes')
 def listar_pacientes():
-    pacientes = Paciente.query.filter_by(ativo=True).all()
+    page = request.args.get('page', 1, type=int)
+    pacientes = Paciente.query.filter_by(ativo=True).order_by(Paciente.nome).paginate(
+        page=page, per_page=20, error_out=False
+    )
     return render_template('pacientes/listar.html', pacientes=pacientes)
 
 @app.route('/pacientes/buscar')
