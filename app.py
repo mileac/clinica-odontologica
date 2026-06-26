@@ -2098,7 +2098,7 @@ def backup_exportar():
                 p.data_nascimento.strftime('%d/%m/%Y') if p.data_nascimento else '',
                 p.calcular_idade(), p.celular, p.email, p.endereco,
                 p.data_cadastro.strftime('%d/%m/%Y %H:%M') if p.data_cadastro else ''])
-                    writer.writerow([])    
+        writer.writerow([])    
     if tipo == 'tratamentos' or tipo == 'completo':
         writer.writerow(['=== TRATAMENTOS ==='])
         writer.writerow([t.id, t.paciente.nome,
