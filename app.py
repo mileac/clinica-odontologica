@@ -14,7 +14,7 @@ from io import BytesIO
 from datetime import datetime
 #from app import db, Paciente, Usuario, Agendamento
 from zoneinfo import ZoneInfo
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 
 # Fuso horário do Brasil
 FUSO_BRASIL = ZoneInfo("America/Sao_Paulo")
