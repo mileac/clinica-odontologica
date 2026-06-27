@@ -402,6 +402,11 @@ def requer_permissao(modulo):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
+    
+# Tratamento de erro CSRF para APIs
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return jsonify({'error': 'CSRF token inválido'}), 400    
 
 # ==================== ROTAS PRINCIPAIS ====================
 
@@ -1032,6 +1037,7 @@ def api_agendamentos():
 
 @app.route('/agendamento/cancelar/<int:id>', methods=['POST'])
 @login_required
+@csrf.exempt          # ← ADICIONE ESTA LINHA AQUI
 def cancelar_agendamento(id):
     agendamento = db.session.get(Agendamento, id)
     if agendamento:
@@ -1042,6 +1048,7 @@ def cancelar_agendamento(id):
 
 @app.route('/agendamento/novo', methods=['POST'])
 @login_required
+@csrf.exempt          # ← ADICIONE ESTA LINHA AQUI
 def novo_agendamento():
     data = request.json
     try:
