@@ -504,7 +504,8 @@ def api_profissionais():
 @app.route('/configuracao', methods=['GET', 'POST'])
 @requer_permissao('editar_configuracao')
 def configuracao():
-        
+    config = ConfiguracaoClinica.get_configuracao()
+    
     if request.method == 'POST':
         config.nome_clinica = request.form['nome_clinica']
         config.endereco = request.form['endereco']
@@ -2232,7 +2233,7 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
-    db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
+    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     db.create_all()
     inicializar_banco()
     print("✓ Banco de dados recriado!")
