@@ -406,8 +406,32 @@ def requer_permissao(modulo):
 # Tratamento de erro CSRF para APIs
 @app.errorhandler(CSRFError)
 def handle_csrf_error(e):
-    return jsonify({'error': 'CSRF token inválido'}), 400    
+    return jsonify({'error': 'CSRF token inválido'}), 400  
 
+# ==================== VALIDAR CPF ====================
+
+def validar_cpf(cpf):
+    """Valida CPF com cálculo dos dígitos verificadores"""
+    cpf = ''.join(filter(str.isdigit, cpf))
+    
+    if len(cpf) != 11:
+        return False
+    
+    if cpf == cpf[0] * 11:
+        return False
+    
+    soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
+    digito1 = (soma * 10) % 11
+    if digito1 == 10:
+        digito1 = 0
+    
+    soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
+    digito2 = (soma * 10) % 11
+    if digito2 == 10:
+        digito2 = 0
+    
+    return digito1 == int(cpf[9]) and digito2 == int(cpf[10])
+    
 # ==================== ROTAS PRINCIPAIS ====================
 
 @app.route('/')
@@ -571,10 +595,9 @@ def cadastrar_paciente():
                 flash(f'CPF {cpf} já está cadastrado para: {paciente_existente.nome}', 'error')
                 return redirect(url_for('cadastrar_paciente'))
             
-            # Validar formato básico (11 dígitos)
-            cpf_limpo = cpf.replace('.', '').replace('-', '')
-            if len(cpf_limpo) != 11:
-                flash('CPF inválido! Digite 11 números.', 'error')
+            # Validar CPF real (dígitos verificadores)
+            if not validar_cpf(cpf):
+                flash('CPF inválido! Digite um CPF válido.', 'error')
                 return redirect(url_for('cadastrar_paciente'))
         else:
             # CPF em branco - perguntar se deseja continuar
@@ -995,7 +1018,6 @@ def atualizar_status_orcamento(id):
         db.session.commit()
         flash('Status atualizado!', 'success')
     return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
-  
  
 # ==================== ROTAS DE AGENDA ====================
 
@@ -2199,6 +2221,27 @@ def redefinir_senha_funcionario(id):
             flash(f'Senha de {funcionario.nome_completo} redefinida com sucesso!', 'success')
     
     return redirect(url_for('listar_funcionarios'))
+    
+# ==================== ROTA DE VERIFICAÇÃO DE CPF ====================    
+
+@app.route('/api/validar-cpf')
+@login_required
+def api_validar_cpf():
+    cpf = request.args.get('cpf', '').strip()
+    
+    if not cpf:
+        return jsonify({'status': 'branco', 'mensagem': ''})
+    
+    # Verificar se já existe
+    existente = Paciente.query.filter_by(cpf=cpf, ativo=True).first()
+    if existente:
+        return jsonify({'status': 'existe', 'mensagem': f'CPF já cadastrado: {existente.nome}'})
+    
+    # Validar CPF
+    if not validar_cpf(cpf):
+        return jsonify({'status': 'invalido', 'mensagem': 'CPF inválido'})
+    
+    return jsonify({'status': 'valido', 'mensagem': 'CPF válido'})
 
 # ==================== INICIALIZAÇÃO ====================
 

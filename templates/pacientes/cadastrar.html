@@ -19,7 +19,8 @@
 
                 <div class="col-md-4 mb-3">
 					<label for="cpf" class="form-label">CPF (opcional)</label>
-					<input type="text" class="form-control cpf-mask" id="cpf" name="cpf">
+					<input type="text" class="form-control cpf-mask" id="cpf" name="cpf" onblur="verificarCPF()">
+					<div id="cpf-mensagem" class="mt-1"></div>
 				</div>
             </div>
 
@@ -59,4 +60,31 @@
         </form>
     </div>
 </div>
+
+<script>
+function verificarCPF() {
+    const cpf = document.getElementById('cpf').value;
+    const msgDiv = document.getElementById('cpf-mensagem');
+    
+    if (!cpf || cpf.replace(/[^0-9]/g, '').length < 11) {
+        msgDiv.innerHTML = '<small class="text-muted">CPF em branco - será aceito</small>';
+        return;
+    }
+    
+    fetch('/api/validar-cpf?cpf=' + encodeURIComponent(cpf))
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === 'valido') {
+                msgDiv.innerHTML = '<small class="text-success">✅ ' + data.mensagem + '</small>';
+            } else if (data.status === 'existe') {
+                msgDiv.innerHTML = '<small class="text-danger">❌ ' + data.mensagem + '</small>';
+            } else if (data.status === 'invalido') {
+                msgDiv.innerHTML = '<small class="text-danger">❌ ' + data.mensagem + '</small>';
+            } else {
+                msgDiv.innerHTML = '<small class="text-muted">CPF em branco - será aceito</small>';
+            }
+        });
+}
+</script>
+
 {% endblock %}
