@@ -160,7 +160,7 @@ class Paciente(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(200), nullable=False)
-    cpf = db.Column(db.String(14), unique=True, nullable=False)
+    cpf = db.Column(db.String(14), unique=True, nullable=True)#False
     data_nascimento = db.Column(db.Date, nullable=False)
     endereco = db.Column(db.String(300))
     celular = db.Column(db.String(20))
@@ -478,7 +478,7 @@ def dashboard():
     aniversariantes = Paciente.query.filter(
         db.extract('month', Paciente.data_nascimento) == hoje.month,
         Paciente.ativo == True
-    ).all()
+    ).order_by(db.extract('day', Paciente.data_nascimento)).all()
     
     return render_template('dashboard.html', 
                          total_pacientes=total_pacientes,
@@ -560,19 +560,35 @@ def buscar_pacientes():
 @app.route('/pacientes/cadastrar', methods=['GET', 'POST'])
 @requer_permissao('editar_pacientes')
 def cadastrar_paciente():
-    
     if request.method == 'POST':
-        cpf = request.form['cpf']
-        paciente_existente = Paciente.query.filter_by(cpf=cpf, ativo=True).first()
-        if paciente_existente:
-            flash(f'CPF {cpf} já cadastrado!', 'error')
-            return redirect(url_for('cadastrar_paciente'))
+        cpf = request.form.get('cpf', '').strip()
+        
+        # Se CPF foi preenchido, validar
+        if cpf:
+            # Verificar se já existe
+            paciente_existente = Paciente.query.filter_by(cpf=cpf, ativo=True).first()
+            if paciente_existente:
+                flash(f'CPF {cpf} já está cadastrado para: {paciente_existente.nome}', 'error')
+                return redirect(url_for('cadastrar_paciente'))
+            
+            # Validar formato básico (11 dígitos)
+            cpf_limpo = cpf.replace('.', '').replace('-', '')
+            if len(cpf_limpo) != 11:
+                flash('CPF inválido! Digite 11 números.', 'error')
+                return redirect(url_for('cadastrar_paciente'))
+        else:
+            # CPF em branco - perguntar se deseja continuar
+            cpf = None
+        
         try:
             paciente = Paciente(
-                nome=request.form['nome'], cpf=cpf,
+                nome=request.form['nome'],
+                cpf=cpf,
                 data_nascimento=datetime.strptime(request.form['data_nascimento'], '%Y-%m-%d').date(),
-                endereco=request.form['endereco'], celular=request.form['celular'],
-                email=request.form['email'], observacoes=request.form.get('observacoes', '')
+                endereco=request.form['endereco'],
+                celular=request.form['celular'],
+                email=request.form['email'],
+                observacoes=request.form.get('observacoes', '')
             )
             db.session.add(paciente)
             db.session.flush()
@@ -587,6 +603,7 @@ def cadastrar_paciente():
         except Exception as e:
             db.session.rollback()
             flash('Erro ao cadastrar.', 'error')
+    
     return render_template('pacientes/cadastrar.html')
 
 @app.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
