@@ -1,0 +1,20 @@
+=== PACIENTES ===
+ID,Nome,CPF,Nascimento,Idade,Celular,Email,Endereço,Cadastro
+1,Marco Antonio Martins Ferreira,627.032.343-68,19/06/1961,65,(98) 98818-9204,marcoantoniomf61@gmail.com,"RUA BOA ESPERANCA, 185, CONDOMINIO ZEUS 1, QD05, CASA 4",27/06/2026 02:00
+2,Leonardo Coelho Ferreira,656.625.123-53,05/06/1992,34,(98) 98504-5574,,,28/06/2026 13:07
+3,Amanda Pereira Rodrigues,605.352.083-75,06/09/1997,28,(15) 99786-0609,amandarodrigues0609@hotmail.com,,28/06/2026 13:09
+4,Isabella Adrienne Serra Santana Nunes dos Santos,029.109.733-28,22/06/1997,29,(98) 98751-8948,,,28/06/2026 13:27
+5,Ellen Adrienne Soares Serra,854.593.003-15,20/06/1979,47,,,,28/06/2026 13:30
+6,Carlos José Rodrigues Neto,605.463.153-56,19/11/1994,31,(98) 99150-1562,,,28/06/2026 13:36
+7,Jose da Cruz Saraiva,193.857.492-34,14/08/1958,67,(98) 98748-2988,,,28/06/2026 13:38
+8,Cleo Cisneiros,787.427.903-44,13/06/1971,55,(98) 98473-5598,,,28/06/2026 13:39
+9,Marcello Felipe,064.732.083-56,07/09/1998,27,(98) 98474-3250,,,28/06/2026 13:40
+11,Silvanir Fernandes da Silva,056.205.983-06,21/01/1995,31,(98) 99220-7518,,,28/06/2026 13:43
+13,Luciana Mochel Reis,000.000.000-02,26/04/1989,37,,,,28/06/2026 13:52
+14,Alexsandra Maria Pereira Rodrigues,508.274.803-34,17/03/1974,52,(98) 99993-6470,,,28/06/2026 13:56
+15,Maycon Wilson Silva da Paz,608.753.403-26,21/06/1994,32,(98) 98419-1781,,,28/06/2026 13:59
+16,José Carlos Rodrigues Silva,137.097.393-49,23/04/1957,69,(98) 98809-6375,,,28/06/2026 14:01
+17,Lazaro Oliveira,000.000.000-04,15/12/1988,37,(98) 98460-7098,,,28/06/2026 14:03
+12,Flavia Alexsandra Camelo Cabral,773.586.353-53,16/05/2026,0,(98) 99187-2954,,,28/06/2026 13:50
+10,Jaynara Camara Pinheiro,116.251.703-43,05/11/2005,20,(98) 98882-0456,,,28/06/2026 13:42
+

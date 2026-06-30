@@ -288,6 +288,7 @@ class Orcamento(db.Model):
     acrescimo_percentual = db.Column(db.Float, default=0.0)
     acrescimo_valor = db.Column(db.Float, default=0.0)
     valor_total_com_acrescimo = db.Column(db.Float, default=0.0)
+    desconto_valor = db.Column(db.Float, default=0.0) #Novo
     data_aprovacao = db.Column(db.Date)
     observacoes = db.Column(db.Text)
     paciente = db.relationship('Paciente', backref=db.backref('orcamentos', lazy=True))
@@ -913,6 +914,10 @@ def novo_orcamento(paciente_id):
             acrescimo_percentual = float(request.form.get('acrescimo_percentual', 0) or 0)
             acrescimo_valor = valor_total * (acrescimo_percentual / 100)
             valor_com_acrescimo = valor_total + acrescimo_valor
+            desconto = float(request.form.get('desconto_valor', 0) or 0) #novo
+            valor_com_desconto = valor_total - desconto #novo
+            orcamento.desconto_valor = desconto #novo
+            orcamento.valor_total = valor_com_desconto #novo
             orcamento.valor_total = valor_total
             orcamento.acrescimo_percentual = acrescimo_percentual
             orcamento.acrescimo_valor = acrescimo_valor
@@ -1723,6 +1728,7 @@ def api_despesas_resumo():
 
 @app.route('/despesas/editar/<int:id>', methods=['POST'])
 @requer_permissao('ver_financeiro')
+@csrf.exempt
 def editar_despesa(id):
     despesa = db.session.get(Despesa, id)
     
@@ -1767,6 +1773,7 @@ def editar_despesa(id):
 
 @app.route('/despesas/nova', methods=['POST'])
 @requer_permissao('ver_financeiro')
+@csrf.exempt
 def nova_despesa():
     try:
         despesa = Despesa(
@@ -2039,6 +2046,7 @@ def procedimentos():
 
 @app.route('/procedimentos/salvar', methods=['POST'])
 @requer_permissao('ficha_tratamento')
+@csrf.exempt
 def salvar_procedimento():
     nome = request.form.get('nome')
     valor = float(request.form.get('valor', 0) or 0)
@@ -2154,12 +2162,12 @@ def backup_exportar():
         writer.writerow([])    
     if tipo == 'tratamentos' or tipo == 'completo':
         writer.writerow(['=== TRATAMENTOS ==='])
-        writer.writerow([t.id, t.paciente.nome,
-            t.data.strftime('%d/%m/%Y') if t.data else '',
-            t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento,
-            t.profissional.nome_completo if t.profissional else ''])
+        writer.writerow(['ID', 'Paciente', 'Data', 'Dente', 'Procedimento', 'Valor', 'Pago', 'Saldo', 'Status', 'Profissional'])
         for t in FichaTratamento.query.order_by(FichaTratamento.data.desc()).all():
-            writer.writerow([t.id, t.paciente.nome, t.data, t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento, t.profissional.nome_completo if t.profissional else ''])
+            writer.writerow([t.id, t.paciente.nome,
+                t.data.strftime('%d/%m/%Y') if t.data else '',
+                t.dente, t.procedimento, t.valor, t.valor_pago, t.saldo_restante, t.status_pagamento,
+                t.profissional.nome_completo if t.profissional else ''])
         writer.writerow([])
     
     if tipo == 'orcamentos' or tipo == 'completo':
