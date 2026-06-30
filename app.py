@@ -230,7 +230,7 @@ class FichaTratamento(db.Model):
     paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'), nullable=False)
     profissional_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     data = db.Column(db.Date, default=date.today)
-    dente = db.Column(db.String(50))
+    dente = db.Column(db.String(100))
     procedimento = db.Column(db.String(200), nullable=False)
     descricao = db.Column(db.Text)
     valor = db.Column(db.Float, nullable=False)
@@ -288,7 +288,7 @@ class Orcamento(db.Model):
     acrescimo_percentual = db.Column(db.Float, default=0.0)
     acrescimo_valor = db.Column(db.Float, default=0.0)
     valor_total_com_acrescimo = db.Column(db.Float, default=0.0)
-    #desconto_valor = db.Column(db.Float, default=0.0) #Novo
+    desconto_valor = db.Column(db.Float, default=0.0) #Novo
     data_aprovacao = db.Column(db.Date)
     observacoes = db.Column(db.Text)
     paciente = db.relationship('Paciente', backref=db.backref('orcamentos', lazy=True))
@@ -299,7 +299,7 @@ class ItemOrcamento(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     orcamento_id = db.Column(db.Integer, db.ForeignKey('orcamentos.id'), nullable=False)
-    dente = db.Column(db.String(10))
+    dente = db.Column(db.String(100))
     procedimento = db.Column(db.String(200), nullable=False)
     descricao = db.Column(db.Text)
     valor = db.Column(db.Float, nullable=False)
@@ -366,7 +366,7 @@ class ItemRecibo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recibo_id = db.Column(db.Integer, db.ForeignKey('recibos.id'), nullable=False)
     procedimento = db.Column(db.String(200), nullable=False)
-    dente = db.Column(db.String(10))
+    dente = db.Column(db.String(100))
     valor = db.Column(db.Float, nullable=False)
     tratamento_id = db.Column(db.Integer, db.ForeignKey('fichas_tratamento.id'))  # Link com tratamento    
     
@@ -2302,8 +2302,15 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
-    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
+
+    try:
+        db.session.execute(db.text('ALTER TABLE orcamentos ADD COLUMN desconto_valor FLOAT DEFAULT 0.0'))
+        db.session.commit()
+        print("✓ Coluna desconto_valor adicionada!")               
+    except:
+        #pass    
     db.create_all()
+    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     inicializar_banco()
     print("✓ Banco de dados recriado!")
 
