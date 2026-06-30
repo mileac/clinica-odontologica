@@ -979,16 +979,24 @@ def editar_orcamento(id):
                     db.session.add(item)
                     valor_total += valor
             
-            # Recalcular acréscimo
+            # Calcular acréscimo
             acrescimo_percentual = float(request.form.get('acrescimo_percentual', 0) or 0)
             acrescimo_valor = valor_total * (acrescimo_percentual / 100)
             valor_com_acrescimo = valor_total + acrescimo_valor
             
+            # Desconto
+            desconto = float(request.form.get('desconto_valor', 0) or 0)
+            
+            # Valor final com desconto
+            valor_final = valor_com_acrescimo - desconto
+            
+            # Atualizar orçamento
             orcamento.valor_total = valor_total
             orcamento.acrescimo_percentual = acrescimo_percentual
             orcamento.acrescimo_valor = acrescimo_valor
+            orcamento.desconto_valor = desconto
             orcamento.valor_total_com_acrescimo = valor_com_acrescimo
-            orcamento.valor_parcela = valor_com_acrescimo / parcelas if parcelas > 0 else valor_com_acrescimo
+            orcamento.valor_parcela = valor_final / parcelas if parcelas > 0 else valor_final
             
             db.session.commit()
             
@@ -1010,7 +1018,7 @@ def editar_orcamento(id):
     
     return render_template('orcamento_editar.html',
                          orcamento=orcamento,
-                         paciente=orcamento.paciente)    
+                         paciente=orcamento.paciente)   
 
 @app.route('/orcamento/status/<int:id>', methods=['POST'])
 @login_required
@@ -2306,10 +2314,21 @@ with app.app_context():
     try:
         db.session.execute(db.text('ALTER TABLE orcamentos ADD COLUMN desconto_valor FLOAT DEFAULT 0.0'))
         db.session.commit()
-        print("✓ Coluna desconto_valor adicionada!")
     except Exception:
-        db.session.rollback()  # ← ADICIONE ESTA LINHA
-        print("✓ Coluna desconto_valor já existe")
+        db.session.rollback()
+    
+    # Aumentar tamanho dos campos dente
+    try:
+        db.session.execute(db.text('ALTER TABLE fichas_tratamento ALTER COLUMN dente TYPE VARCHAR(100)'))
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+    
+    try:
+        db.session.execute(db.text('ALTER TABLE itens_orcamento ALTER COLUMN dente TYPE VARCHAR(100)'))
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
     
     db.create_all()
     inicializar_banco()
