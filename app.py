@@ -2308,6 +2308,7 @@ with app.app_context():
         db.session.commit()
         print("✓ Coluna desconto_valor adicionada!")
     except Exception:
+        db.session.rollback()  # ← ADICIONE ESTA LINHA
         print("✓ Coluna desconto_valor já existe")
     
     db.create_all()
