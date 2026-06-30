@@ -230,7 +230,7 @@ class FichaTratamento(db.Model):
     paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'), nullable=False)
     profissional_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
     data = db.Column(db.Date, default=date.today)
-    dente = db.Column(db.String(10))
+    dente = db.Column(db.String(50))
     procedimento = db.Column(db.String(200), nullable=False)
     descricao = db.Column(db.Text)
     valor = db.Column(db.Float, nullable=False)
@@ -288,7 +288,7 @@ class Orcamento(db.Model):
     acrescimo_percentual = db.Column(db.Float, default=0.0)
     acrescimo_valor = db.Column(db.Float, default=0.0)
     valor_total_com_acrescimo = db.Column(db.Float, default=0.0)
-    desconto_valor = db.Column(db.Float, default=0.0) #Novo
+    #desconto_valor = db.Column(db.Float, default=0.0) #Novo
     data_aprovacao = db.Column(db.Date)
     observacoes = db.Column(db.Text)
     paciente = db.relationship('Paciente', backref=db.backref('orcamentos', lazy=True))
@@ -2177,6 +2177,7 @@ def backup_exportar():
             writer.writerow([o.id, o.paciente.nome,
                 o.data_criacao.strftime('%d/%m/%Y') if o.data_criacao else '',
                 o.valor_total, o.parcelas, o.valor_parcela, o.acrescimo_percentual, o.status])
+        writer.writerow([])
     
     if tipo == 'agendamentos' or tipo == 'completo':
         writer.writerow(['=== AGENDAMENTOS ==='])
