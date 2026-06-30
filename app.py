@@ -2306,13 +2306,13 @@ with app.app_context():
     try:
         db.session.execute(db.text('ALTER TABLE orcamentos ADD COLUMN desconto_valor FLOAT DEFAULT 0.0'))
         db.session.commit()
-        print("✓ Coluna desconto_valor adicionada!")               
-    except:
-        #pass    
+        print("✓ Coluna desconto_valor adicionada!")
+    except Exception:
+        print("✓ Coluna desconto_valor já existe")
+    
     db.create_all()
-    #db.drop_all()      # ← Adicionar esta linha PARA APAGAR O BANCO DE DADOS
     inicializar_banco()
-    print("✓ Banco de dados recriado!")
+    print("✓ Banco de dados pronto!")
 
 if __name__ == '__main__':
     print("\n" + "="*60)
