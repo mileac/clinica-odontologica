@@ -983,14 +983,11 @@ def editar_orcamento(id):
             acrescimo_percentual = float(request.form.get('acrescimo_percentual', 0) or 0)
             acrescimo_valor = valor_total * (acrescimo_percentual / 100)
             valor_com_acrescimo = valor_total + acrescimo_valor
-            
+
             # Desconto
             desconto = float(request.form.get('desconto_valor', 0) or 0)
-            
-            # Valor final com desconto
             valor_final = valor_com_acrescimo - desconto
-            
-            # Atualizar orçamento
+
             orcamento.valor_total = valor_total
             orcamento.acrescimo_percentual = acrescimo_percentual
             orcamento.acrescimo_valor = acrescimo_valor
