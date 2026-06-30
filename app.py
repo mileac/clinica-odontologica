@@ -2307,26 +2307,6 @@ def inicializar_banco():
 
 # Criar tabelas e inicializar (funciona local e no Render)
 with app.app_context():
-
-    try:
-        db.session.execute(db.text('ALTER TABLE orcamentos ADD COLUMN desconto_valor FLOAT DEFAULT 0.0'))
-        db.session.commit()
-    except Exception:
-        db.session.rollback()
-    
-    # Aumentar tamanho dos campos dente
-    try:
-        db.session.execute(db.text('ALTER TABLE fichas_tratamento ALTER COLUMN dente TYPE VARCHAR(100)'))
-        db.session.commit()
-    except Exception:
-        db.session.rollback()
-    
-    try:
-        db.session.execute(db.text('ALTER TABLE itens_orcamento ALTER COLUMN dente TYPE VARCHAR(100)'))
-        db.session.commit()
-    except Exception:
-        db.session.rollback()
-    
     db.create_all()
     inicializar_banco()
     print("✓ Banco de dados pronto!")
