@@ -30,14 +30,19 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sua_chave_secreta_aqui_123456')
 csrf = CSRFProtect(app)
 
-DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
-if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
-    DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
-if DATABASE_URL and 'postgresql://' in DATABASE_URL:
-    DATABASE_URL = DATABASE_URL + '?sslmode=require'
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+#------------------- USANDO O PostgreSQL ----------------------
+#DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///clinica.db')
+#if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
+#    DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+#if DATABASE_URL and 'postgresql://' in DATABASE_URL:
+#    DATABASE_URL = DATABASE_URL + '?sslmode=require'
+#app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#------------------- USANDO O SQLite ----------------------
+# Banco de dados Supabase (PostgreSQL grátis - São Paulo)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.qcwznzzxnxzaknqnmwnu:MarcoAntoniomf816@aws-1-sa-east-1.pooler.supabase.com:6543/postgres'
+
 
 # Configuração para upload de arquivos
 UPLOAD_FOLDER = 'static/uploads'
