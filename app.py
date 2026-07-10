@@ -1028,7 +1028,38 @@ def atualizar_status_orcamento(id):
         db.session.commit()
         flash('Status atualizado!', 'success')
     return redirect(url_for('orcamento', paciente_id=orcamento.paciente_id))
- 
+    
+# ==================== ROTAS DE DELETAR ORÇAMENTO ====================  
+
+@app.route('/orcamento/deletar/<int:orcamento_id>', methods=['POST'])
+@login_required
+def deletar_orcamento(orcamento_id):
+    orcamento = Orcamento.query.get_or_404(orcamento_id)
+    paciente_id = orcamento.paciente_id # Guarda o ID para redirecionar de volta depois
+    
+    try:
+        # Se você quiser registrar no histórico antes de deletar
+        historico = HistoricoPaciente(
+            paciente_id=paciente_id,
+            acao='Exclusão',
+            descricao=f"Orçamento #{orcamento.id} deletado definitivamente.",
+            profissional=current_user.nome_completo
+        )
+        db.session.add(historico)
+        
+        # Deleta o orçamento do banco de dados
+        db.session.delete(orcamento)
+        db.session.commit()
+        
+        flash('Orçamento excluído permanentemente!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Erro ao tentar deletar o orçamento.', 'error')
+        
+    # Redireciona de volta para a página onde estava (ex: ficha do paciente ou listagem)
+    #return redirect(url_for('ficha_tratamento', paciente_id=paciente_id))
+    return redirect(url_for('orcamento', paciente_id=paciente_id))
+  
 # ==================== ROTAS DE AGENDA ====================
 
 @app.route('/agenda')

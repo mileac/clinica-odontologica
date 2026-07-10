@@ -45,20 +45,29 @@
                         </td>
                         <td>
 							<div class="btn-group">
-								<a href="/orcamento/ver/{{ orc.id }}" class="btn btn-sm btn-info" target="_blank">
+								<a href="/orcamento/ver/{{ orc.id }}" class="btn btn-sm btn-info" target="_blank" title="Visualizar">
 									<i class="bi bi-eye"></i>
 								</a>
-								<a href="/orcamento/editar/{{ orc.id }}" class="btn btn-sm btn-warning">
+								<a href="/orcamento/editar/{{ orc.id }}" class="btn btn-sm btn-warning" title="Editar">
 									<i class="bi bi-pencil"></i>
 								</a>
 								{% if orc.status != 'Aprovado' %}
-								<button class="btn btn-sm btn-success" onclick="mudarStatus({{ orc.id }}, 'Aprovado')">
+								<button class="btn btn-sm btn-success" onclick="mudarStatus({{ orc.id }}, 'Aprovado')" title="Aprovar">
 									<i class="bi bi-check-lg"></i>
 								</button>
 								{% endif %}
-								<button class="btn btn-sm btn-danger" onclick="mudarStatus({{ orc.id }}, 'Recusado')">
+								<button class="btn btn-sm btn-secondary" onclick="mudarStatus({{ orc.id }}, 'Recusado')" title="Recusar">
 									<i class="bi bi-x-lg"></i>
 								</button>
+								
+								<!-- BOTÃO DA LIXEIRA PARA DELETAR DEFINITIVAMENTE -->
+								<form action="{{ url_for('deletar_orcamento', orcamento_id=orc.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza absoluta que deseja DELETAR este orçamento permanentemente do sistema? Esta ação não pode ser desfeita.');">
+									<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+									<button type="submit" class="btn btn-sm btn-danger" title="Deletar permanentemente">
+										<i class="bi bi-trash"></i>
+									</button>
+								</form>
+
 								<a href="/orcamento/iniciar-tratamento/{{ orc.id }}" 
 								   class="btn btn-sm btn-primary" 
 								   onclick="return confirm('Iniciar tratamento com todos os itens deste orcamento?')"
