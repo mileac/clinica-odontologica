@@ -1073,7 +1073,6 @@ def agenda():
 def api_agendamentos():
     query = Agendamento.query
     
-    # Por padrão, NÃO mostra cancelados (a menos que o filtro peça)
     if request.args.get('status') != 'Cancelado' and request.args.get('status') != 'Todos':
         query = query.filter(Agendamento.status != 'Cancelado')
     
@@ -1097,19 +1096,28 @@ def api_agendamentos():
         if agend.status == 'Bloqueado':
             cor = '#9E9E9E'
         
+        # SE O PACIENTE EXISTE, MOSTRA O NOME. SENÃO, MOSTRA O PROCEDIMENTO
+        if agend.paciente:
+            titulo = agend.paciente.nome
+        else:
+            titulo = '⛔ ' + agend.procedimento
+        
         eventos.append({
             'id': agend.id,
-            'title': agend.procedimento if agend.paciente else '⛔ ' + agend.procedimento,
+            'title': titulo,
             'start': agend.data_hora.isoformat(),
             'end': (agend.data_hora + timedelta(minutes=agend.duracao)).isoformat(),
             'backgroundColor': cor,
             'borderColor': cor,
             'textColor': '#fff',
             'paciente': agend.paciente.nome if agend.paciente else 'Bloqueado',
-            'paciente_id': agend.paciente_id,      
+            'paciente_id': agend.paciente_id,
+            'procedimento': agend.procedimento,
             'status': agend.status,
+            'profissional_id': agend.profissional_id or '',
             'profissional': agend.profissional.nome_completo if agend.profissional else '',
-            'observacoes': agend.observacoes or ''  
+            'observacoes': agend.observacoes or '',
+            'duracao': agend.duracao
         })
     
     return jsonify(eventos)
@@ -1165,6 +1173,30 @@ def novo_agendamento():
             'paciente_nome': paciente_nome
         })
     except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/agendamento/editar/<int:id>', methods=['POST'])
+@login_required
+@csrf.exempt
+def editar_agendamento(id):
+    agendamento = db.session.get(Agendamento, id)
+    
+    if not agendamento:
+        return jsonify({'success': False, 'error': 'Agendamento não encontrado'})
+    
+    try:
+        data = request.json
+        agendamento.paciente_id = data.get('paciente_id') or None
+        agendamento.profissional_id = data.get('profissional_id') or None
+        agendamento.data_hora = datetime.fromisoformat(data['data_hora'])
+        agendamento.duracao = data.get('duracao', 60)
+        agendamento.procedimento = data['procedimento']
+        agendamento.observacoes = data.get('observacoes', '')
+        
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        db.session.rollback()
         return jsonify({'success': False, 'error': str(e)})
 
 # ==================== ROTAS DE ATESTADOS ====================

@@ -6,11 +6,8 @@
 {% block content %}
 <div class="row">
     <div class="col-md-3">
-        <!-- Filtros e Ações -->
         <div class="card mb-3">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="bi bi-funnel"></i> Filtros</h6>
-            </div>
+            <div class="card-header"><h6 class="mb-0"><i class="bi bi-funnel"></i> Filtros</h6></div>
             <div class="card-body">
                 <div class="mb-2">
                     <label class="form-label small">Profissional</label>
@@ -21,22 +18,19 @@
                 <div class="mb-2">
                     <label class="form-label small">Status</label>
                     <select class="form-select form-select-sm" id="filtroStatus" onchange="filtrarAgenda()">
-						<option value="">Ativos</option>
-						<option value="Todos">Todos (inclui cancelados)</option>
-						<option value="Agendado">Agendado</option>
-						<option value="Confirmado">Confirmado</option>
-						<option value="Realizado">Realizado</option>
-						<option value="Cancelado">Cancelado</option>
-					</select>
+                        <option value="">Ativos</option>
+                        <option value="Todos">Todos (inclui cancelados)</option>
+                        <option value="Agendado">Agendado</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Realizado">Realizado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- Legenda -->
         <div class="card mb-3">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="bi bi-palette"></i> Cores</h6>
-            </div>
+            <div class="card-header"><h6 class="mb-0"><i class="bi bi-palette"></i> Legenda</h6></div>
             <div class="card-body">
                 <div class="mb-1"><span class="badge" style="background:#4CAF50;">&nbsp;&nbsp;&nbsp;</span> Consulta</div>
                 <div class="mb-1"><span class="badge" style="background:#2196F3;">&nbsp;&nbsp;&nbsp;</span> Limpeza</div>
@@ -44,25 +38,21 @@
                 <div class="mb-1"><span class="badge" style="background:#9C27B0;">&nbsp;&nbsp;&nbsp;</span> Canal</div>
                 <div class="mb-1"><span class="badge" style="background:#F44336;">&nbsp;&nbsp;&nbsp;</span> Cirurgia</div>
                 <div class="mb-1"><span class="badge" style="background:#00BCD4;">&nbsp;&nbsp;&nbsp;</span> Ortodontia</div>
-                <div class="mb-1"><span class="badge" style="background:#795548;">&nbsp;&nbsp;&nbsp;</span> Prótese</div>
-                <div class="mb-1"><span class="badge" style="background:#607D8B;">&nbsp;&nbsp;&nbsp;</span> Outro</div>
+                <div class="mb-1"><span class="badge" style="background:#9E9E9E;">&nbsp;&nbsp;&nbsp;</span> Bloqueado</div>
             </div>
         </div>
 
-        <!-- Ações Rápidas -->
         <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="bi bi-lightning-charge"></i> Ações</h6>
-            </div>
+            <div class="card-header"><h6 class="mb-0"><i class="bi bi-lightning-charge"></i> Ações</h6></div>
             <div class="card-body">
-                <button class="btn btn-primary btn-sm w-100 mb-2" onclick="abrirModalAgendamento()">
+                <button class="btn btn-primary btn-sm w-100 mb-2" onclick="abrirModalNovo()">
                     <i class="bi bi-plus-circle"></i> Novo Agendamento
                 </button>
                 <button class="btn btn-outline-secondary btn-sm w-100 mb-2" onclick="calendar.today()">
                     <i class="bi bi-calendar-check"></i> Hoje
                 </button>
                 <button class="btn btn-outline-danger btn-sm w-100" onclick="bloquearAlmoco()">
-                    <i class="bi bi-lock"></i> Bloquear Almoço (12h-14h)
+                    <i class="bi bi-lock"></i> Bloquear Almoço
                 </button>
             </div>
         </div>
@@ -82,16 +72,19 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="bi bi-calendar-plus"></i> Agendamento</h5>
+                <h5 class="modal-title" id="tituloModal"><i class="bi bi-calendar-plus"></i> Novo Agendamento</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="agendamento_id">
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Paciente *</label>
-                        <select class="form-select" id="paciente_id" required>
-                            <option value="">Selecione...</option>
-                        </select>
+                        <input type="text" class="form-control" id="paciente_busca" placeholder="Digite o nome do paciente..." autocomplete="off">
+                        <input type="hidden" id="paciente_id">
+                        <div id="sugestoes_paciente" class="list-group position-absolute" style="z-index: 9999; max-height: 200px; overflow-y: auto; width: 95%;"></div>
+                        <small class="text-muted">Digite o nome e selecione da lista</small>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Profissional</label>
@@ -100,38 +93,33 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Data e Hora *</label>
                         <input type="datetime-local" class="form-control" id="data_hora" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label class="form-label">Procedimento *</label>
-                        <select class="form-select" id="procedimento" required onchange="definirDuracao()">
-                            <option value="">Selecione...</option>
-                            <option value="Consulta">Consulta</option>
-                            <option value="Limpeza">Limpeza/Profilaxia</option>
-                            <option value="Restauracao">Restauração</option>
-                            <option value="Canal">Tratamento de Canal</option>
-                            <option value="Extracao">Extração</option>
-                            <option value="Ortodontia">Ortodontia (manutenção)</option>
-                            <option value="Protese">Prótese</option>
-                            <option value="Clareamento">Clareamento</option>
-                            <option value="Emergencia">Emergência</option>
-                            <option value="Outro">Outro</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-3">
                         <label class="form-label">Duração</label>
                         <select class="form-select" id="duracao">
-                            <option value="30">30 min</option>
+                            <option value="30">30 minutos</option>
                             <option value="60" selected>1 hora</option>
                             <option value="90">1h30min</option>
                             <option value="120">2 horas</option>
                             <option value="180">3 horas</option>
+                            <option value="240">4 horas</option>
+                            <option value="360">6 horas</option>
+                            <option value="480">8 horas</option>
+                            <option value="720">12 horas (dia inteiro)</option>
                         </select>
                     </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Procedimento *</label>
+                        <input type="text" class="form-control" id="procedimento_busca" placeholder="Digite ou selecione..." autocomplete="off">
+                        <div id="sugestoes_procedimento" class="list-group position-absolute" style="z-index: 9999; max-height: 200px; overflow-y: auto; width: 95%;"></div>
+                    </div>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label">Observações</label>
                     <textarea class="form-control" id="observacoes" rows="2"></textarea>
@@ -152,6 +140,8 @@
 
 <script>
     let calendar;
+    let pacientesLista = [];
+    let procedimentosLista = [];
 
     document.addEventListener('DOMContentLoaded', function () {
         calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
@@ -162,56 +152,35 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            buttonText: {
-                today: 'Hoje',
-                month: 'Mês',
-                week: 'Semana',
-                day: 'Dia'
-            },
+            buttonText: { today: 'Hoje', month: 'Mês', week: 'Semana', day: 'Dia' },
             slotMinTime: '07:00:00',
             slotMaxTime: '20:00:00',
-            allDaySlot: false,
+            allDaySlot: true,
             slotDuration: '00:30:00',
             height: 'auto',
             events: '/api/agendamentos',
-            eventDidMount: function (info) {
-                info.el.title = info.event.extendedProps.paciente;
+            eventClick: function (info) {
+                abrirModalEditar(info.event);
             },
             dateClick: function (info) {
-                document.getElementById('data_hora').value = info.dateStr.slice(0, 16);
-                carregarSelects();
-                new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
-            },
-            eventClick: function(info) {
-				const agendamento = info.event;
-				const opcao = prompt(
-					`Paciente: ${agendamento.extendedProps.paciente}\n` +
-					`Procedimento: ${agendamento.title}\n` +
-					`Data: ${agendamento.start.toLocaleString('pt-BR')}\n\n` +
-					`O que deseja fazer?\n\n` +
-					`1 - Editar (digite: editar)\n` +
-					`2 - Cancelar (digite: cancelar)\n` +
-					`3 - Fechar (digite: sair)`
-				);
-				
-				if (opcao === 'editar') {
-					abrirEdicaoAgendamento(agendamento);
-				} else if (opcao === 'cancelar') {
-					if (confirm('Tem certeza que deseja CANCELAR este agendamento?')) {
-						fetch('/agendamento/cancelar/' + agendamento.id, {method: 'POST'})
-							.then(r => r.json())
-							.then(data => {
-								if (data.success) {
-									calendar.refetchEvents();
-									alert('Agendamento cancelado!');
-								}
-							});
-					}
-				}
-			}
+                abrirModalNovo(info.dateStr.slice(0, 16));
+            }
         });
         calendar.render();
+
         carregarProfissionais();
+        carregarPacientes();
+        carregarProcedimentos();
+
+        // Autocomplete de pacientes
+        document.getElementById('paciente_busca').addEventListener('input', function () {
+            buscarSugestoesPaciente(this.value);
+        });
+
+        // Autocomplete de procedimentos
+        document.getElementById('procedimento_busca').addEventListener('input', function () {
+            buscarSugestoesProcedimento(this.value);
+        });
     });
 
     function carregarProfissionais() {
@@ -229,42 +198,145 @@
             });
     }
 
-    function carregarSelects() {
+    function carregarPacientes() {
         fetch('/pacientes/buscar?termo=')
             .then(r => r.json())
-            .then(data => {
-                const select = document.getElementById('paciente_id');
-                select.innerHTML = '<option value="">Selecione...</option>';
-                data.forEach(p => {
-                    select.innerHTML += `<option value="${p.id}">${p.nome} - ${p.celular || ''}</option>`;
-                });
-            });
+            .then(data => { pacientesLista = data; });
     }
 
-    function definirDuracao() {
-        const proc = document.getElementById('procedimento').value;
-        const duracoes = {
-            'Consulta': 30, 'Limpeza': 60, 'Restauracao': 60,
-            'Canal': 90, 'Extracao': 60, 'Ortodontia': 30,
-            'Protese': 90, 'Clareamento': 60, 'Emergencia': 30, 'Outro': 60
-        };
-        if (duracoes[proc]) {
-            document.getElementById('duracao').value = duracoes[proc];
+    function carregarProcedimentos() {
+        fetch('/api/procedimentos')
+            .then(r => r.json())
+            .then(data => { procedimentosLista = data; });
+    }
+
+    function buscarSugestoesPaciente(termo) {
+        const div = document.getElementById('sugestoes_paciente');
+
+        if (!termo || termo.length < 2) {
+            div.innerHTML = '';
+            return;
         }
+
+        const encontrados = pacientesLista.filter(p =>
+            p.nome.toLowerCase().includes(termo.toLowerCase()) ||
+            (p.cpf && p.cpf.includes(termo))
+        ).slice(0, 8);
+
+        if (encontrados.length === 0) {
+            div.innerHTML = '<div class="list-group-item text-muted">Nenhum paciente encontrado</div>';
+            return;
+        }
+
+        div.innerHTML = encontrados.map(p =>
+            `<button type="button" class="list-group-item list-group-item-action" onclick="selecionarPaciente(${p.id}, '${p.nome.replace(/'/g, "\\'")}')">
+            <strong>${p.nome}</strong> <small class="text-muted">${p.cpf || ''} - ${p.celular || ''}</small>
+        </button>`
+        ).join('');
+    }
+
+    function selecionarPaciente(id, nome) {
+        document.getElementById('paciente_id').value = id;
+        document.getElementById('paciente_busca').value = nome;
+        document.getElementById('sugestoes_paciente').innerHTML = '';
+    }
+
+    function buscarSugestoesProcedimento(termo) {
+        const div = document.getElementById('sugestoes_procedimento');
+
+        if (!termo || termo.length < 1) {
+            div.innerHTML = '';
+            return;
+        }
+
+        const encontrados = procedimentosLista.filter(p =>
+            p.nome.toLowerCase().includes(termo.toLowerCase())
+        ).slice(0, 8);
+
+        let html = '';
+        if (encontrados.length > 0) {
+            html = encontrados.map(p =>
+                `<button type="button" class="list-group-item list-group-item-action" onclick="selecionarProcedimento('${p.nome.replace(/'/g, "\\'")}')">
+                ${p.nome} <small class="text-muted">- R$ ${p.valor.toFixed(2)}</small>
+            </button>`
+            ).join('');
+        }
+
+        // Sempre permite texto livre
+        html += `<button type="button" class="list-group-item list-group-item-action list-group-item-info" onclick="selecionarProcedimento('${termo.replace(/'/g, "\\'")}')">
+        <i class="bi bi-pencil"></i> Usar: <strong>${termo}</strong>
+    </button>`;
+
+        div.innerHTML = html;
+    }
+
+    function selecionarProcedimento(nome) {
+        document.getElementById('procedimento_busca').value = nome;
+        document.getElementById('sugestoes_procedimento').innerHTML = '';
+    }
+
+    function abrirModalNovo(dataHora = null) {
+        document.getElementById('tituloModal').innerHTML = '<i class="bi bi-calendar-plus"></i> Novo Agendamento';
+        document.getElementById('agendamento_id').value = '';
+        document.getElementById('paciente_busca').value = '';
+        document.getElementById('paciente_id').value = '';
+        document.getElementById('procedimento_busca').value = '';
+        document.getElementById('observacoes').value = '';
+        document.getElementById('duracao').value = '60';
+        document.getElementById('data_hora').value = dataHora || '';
+        new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
+    }
+
+    function abrirModalEditar(evento) {
+        document.getElementById('tituloModal').innerHTML = '<i class="bi bi-pencil"></i> Editar Agendamento';
+        document.getElementById('agendamento_id').value = evento.id;
+        document.getElementById('paciente_id').value = evento.extendedProps.paciente_id || '';
+        document.getElementById('paciente_busca').value = evento.extendedProps.paciente || '';
+        document.getElementById('procedimento_busca').value = evento.extendedProps.procedimento || '';
+        document.getElementById('observacoes').value = evento.extendedProps.observacoes || '';
+        document.getElementById('duracao').value = evento.extendedProps.duracao || 60;
+
+        // Formatar data para o input
+        const data = new Date(evento.start);
+        const dataFormatada = data.getFullYear() + '-' +
+            String(data.getMonth() + 1).padStart(2, '0') + '-' +
+            String(data.getDate()).padStart(2, '0') + 'T' +
+            String(data.getHours()).padStart(2, '0') + ':' +
+            String(data.getMinutes()).padStart(2, '0');
+        document.getElementById('data_hora').value = dataFormatada;
+
+        if (evento.extendedProps.profissional_id) {
+            document.getElementById('profissional_id').value = evento.extendedProps.profissional_id;
+        }
+
+        // Adicionar botões de ação no rodapé
+        const footer = document.querySelector('#modalAgendamento .modal-footer');
+        footer.innerHTML = `
+        <button type="button" class="btn btn-danger me-auto" onclick="cancelarAgendamento(${evento.id})">
+            <i class="bi bi-x-circle"></i> Cancelar Consulta
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" onclick="salvarAgendamento()">
+            <i class="bi bi-check-circle"></i> Salvar Alterações
+        </button>
+    `;
+
+        new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
     }
 
     function salvarAgendamento() {
+        const id = document.getElementById('agendamento_id').value;
         const paciente_id = document.getElementById('paciente_id').value;
         const data_hora = document.getElementById('data_hora').value;
-        const procedimento = document.getElementById('procedimento').value;
+        const procedimento = document.getElementById('procedimento_busca').value;
 
-        if (!paciente_id || !data_hora || !procedimento) {
-            alert('Preencha todos os campos obrigatórios!');
+        if (!data_hora || !procedimento) {
+            alert('Preencha a data/hora e o procedimento!');
             return;
         }
 
         const dados = {
-            paciente_id: paciente_id,
+            paciente_id: paciente_id || null,
             profissional_id: document.getElementById('profissional_id').value || null,
             data_hora: data_hora,
             duracao: document.getElementById('duracao').value,
@@ -272,7 +344,9 @@
             observacoes: document.getElementById('observacoes').value
         };
 
-        fetch('/agendamento/novo', {
+        const url = id ? `/agendamento/editar/${id}` : '/agendamento/novo';
+
+        fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dados)
@@ -282,65 +356,58 @@
                 if (data.success) {
                     bootstrap.Modal.getInstance(document.getElementById('modalAgendamento')).hide();
                     calendar.refetchEvents();
-                    if (data.whatsapp_link && confirm('Deseja enviar confirmação via WhatsApp?')) {
+
+                    // Se for novo e tiver WhatsApp
+                    if (!id && data.whatsapp_link && confirm('Deseja enviar confirmação via WhatsApp?')) {
                         window.open(data.whatsapp_link, '_blank');
                     }
                 } else {
-                    alert('Erro: ' + data.error);
+                    alert('Erro: ' + (data.error || 'Erro desconhecido'));
+                }
+            })
+            .catch(e => alert('Erro: ' + e));
+    }
+
+    function cancelarAgendamento(id) {
+        if (!confirm('Tem certeza que deseja CANCELAR esta consulta?')) return;
+
+        fetch(`/agendamento/cancelar/${id}`, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    bootstrap.Modal.getInstance(document.getElementById('modalAgendamento')).hide();
+                    calendar.refetchEvents();
+                    alert('Agendamento cancelado!');
                 }
             });
     }
 
-    function abrirModalAgendamento() {
-        document.getElementById('data_hora').value = '';
-        document.getElementById('observacoes').value = '';
-        carregarSelects();
-        new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
+    function filtrarAgenda() {
+        const profissional = document.getElementById('filtroProfissional').value;
+        const status = document.getElementById('filtroStatus').value;
+        let url = '/api/agendamentos?';
+        if (profissional) url += 'profissional_id=' + profissional + '&';
+        if (status) url += 'status=' + status;
+        calendar.setOption('events', url);
+        calendar.refetchEvents();
     }
 
-    function filtrarAgenda() {
-		const profissional = document.getElementById('filtroProfissional').value;
-		const status = document.getElementById('filtroStatus').value;
-		let url = '/api/agendamentos?';
-		if (profissional) url += 'profissional_id=' + profissional + '&';
-		if (status) url += 'status=' + status;
-		calendar.setOption('events', url);
-		calendar.refetchEvents();
-	}
-	
-	function abrirEdicaoAgendamento(agendamento) {
-		document.getElementById('paciente_id').value = agendamento.extendedProps.paciente_id || '';
-		document.getElementById('data_hora').value = agendamento.start.toISOString().slice(0, 16);
-		document.getElementById('procedimento').value = agendamento.title;
-		document.getElementById('duracao').value = (agendamento.end - agendamento.start) / 60000;
-		document.getElementById('observacoes').value = agendamento.extendedProps.observacoes || '';
-		
-		carregarSelects();
-		new bootstrap.Modal(document.getElementById('modalAgendamento')).show();
-	}
-
     function bloquearAlmoco() {
-		const hoje = new Date().toISOString().slice(0, 10);
-		if (confirm('Deseja bloquear o horário de almoço (12h-14h) de hoje?')) {
-			const dados = {
-				data_hora: hoje + 'T12:00',
-				duracao: 120,
-				procedimento: 'Horário Bloqueado - Almoço'
-			};
-			fetch('/agendamento/novo', {
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'},
-				body: JSON.stringify(dados)
-			})
-			.then(r => r.json())
-			.then(data => {
-				if (data.success) {
-					calendar.refetchEvents();
-				} else {
-					alert('Erro: ' + (data.error || 'Tente novamente'));
-				}
-			});
-		}
-	}
+        const hoje = new Date().toISOString().slice(0, 10);
+        if (confirm('Deseja bloquear o horário de almoço (12h-14h) de hoje?')) {
+            const dados = {
+                data_hora: hoje + 'T12:00',
+                duracao: 120,
+                procedimento: 'Horário Bloqueado - Almoço'
+            };
+            fetch('/agendamento/novo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            }).then(r => r.json()).then(data => {
+                if (data.success) calendar.refetchEvents();
+            });
+        }
+    }
 </script>
 {% endblock %}
