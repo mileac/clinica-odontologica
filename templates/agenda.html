@@ -166,10 +166,18 @@
             slotMaxTime: '24:00:00',
             allDaySlot: true,
             slotDuration: '00:30:00',
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                omitZeroMinute: false,
+                meridiem: false
+            },
             height: 700,
             scrollTime: '07:00:00',
             contentHeight: 'auto',
             expandRows: true,
+            slotEventOverlap: false, // Faz os eventos ficarem lado a lado
+            eventMaxStack: 2,        // Empilha até 2 eventos
             events: '/api/agendamentos',
             eventClick: function (info) {
                 abrirModalEditar(info.event);

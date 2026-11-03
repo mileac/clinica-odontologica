@@ -1106,7 +1106,7 @@ def api_agendamentos():
             'id': agend.id,
             'title': titulo,
             'start': agend.data_hora.isoformat(),
-            'end': (agend.data_hora + timedelta(minutes=agend.duracao)).isoformat(),
+            'end': (agend.data_hora + timedelta(minutes=int(agend.duracao or 60))).isoformat(),
             'backgroundColor': cor,
             'borderColor': cor,
             'textColor': '#fff',
