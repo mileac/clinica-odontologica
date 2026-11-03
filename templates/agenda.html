@@ -429,5 +429,10 @@
             });
         }
     }
+    // Limpar sugestões quando o modal fechar
+    document.getElementById('modalAgendamento').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('sugestoes_paciente').innerHTML = '';
+        document.getElementById('sugestoes_procedimento').innerHTML = '';
+    });
 </script>
 {% endblock %}
